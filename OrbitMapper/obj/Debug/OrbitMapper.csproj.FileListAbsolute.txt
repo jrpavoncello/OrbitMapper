@@ -42,5 +42,15 @@ C:\Users\Josh\Documents\GitHub\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Pro
 C:\Users\Josh\Documents\GitHub\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Tessellation.resources
 C:\Users\Josh\Documents\GitHub\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.csproj.GenerateResource.Cache
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\bin\Debug\OrbitMapper.exe.config
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\bin\Debug\OrbitMapper.exe
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\bin\Debug\OrbitMapper.pdb
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.About.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.VersionBox1.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.Form1.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.Form2.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.Form3.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.Properties.Resources.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.Tessellation.resources
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.csproj.GenerateResource.Cache
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.exe
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.pdb

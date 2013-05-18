@@ -27,20 +27,20 @@ namespace OrbitMapper
 
         private void resetPanels()
         {
-            EquiPanel.BackColor = SystemColors.Control;
-            EquiLabel.BackColor = SystemColors.Control;
-            IsosTri90Panel.BackColor = SystemColors.Control;
-            IsosTri90Label.BackColor = SystemColors.Control;
-            IsosTri120Panel.BackColor = SystemColors.Control;
-            IsosTri120Label.BackColor = SystemColors.Control;
-            Rhom60Panel.BackColor = SystemColors.Control;
-            Rhom60Label.BackColor = SystemColors.Control;
-            Tri3060Panel.BackColor = SystemColors.Control;
-            Tri3060Label.BackColor = SystemColors.Control;
-            Kite6090120Panel.BackColor = SystemColors.Control;
-            Kite6090120Label.BackColor = SystemColors.Control;
-            HexagonPanel.BackColor = SystemColors.Control;
-            HexagonLabel.BackColor = SystemColors.Control;
+            EquiPanel.BackColor = SystemColors.ButtonFace;
+            EquiLabel.BackColor = SystemColors.ButtonFace;
+            IsosTri90Panel.BackColor = SystemColors.ButtonFace;
+            IsosTri90Label.BackColor = SystemColors.ButtonFace;
+            IsosTri120Panel.BackColor = SystemColors.ButtonFace;
+            IsosTri120Label.BackColor = SystemColors.ButtonFace;
+            Rhom60Panel.BackColor = SystemColors.ButtonFace;
+            Rhom60Label.BackColor = SystemColors.ButtonFace;
+            Tri3060Panel.BackColor = SystemColors.ButtonFace;
+            Tri3060Label.BackColor = SystemColors.ButtonFace;
+            Kite6090120Panel.BackColor = SystemColors.ButtonFace;
+            Kite6090120Label.BackColor = SystemColors.ButtonFace;
+            HexagonPanel.BackColor = SystemColors.ButtonFace;
+            HexagonLabel.BackColor = SystemColors.ButtonFace;
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
@@ -52,16 +52,22 @@ namespace OrbitMapper
                     temp = "Equilateral ";
                     break;
                 case 1:
-                    temp = "Isosceles ";
+                    temp = "90 Isosceles Triangle ";
                     break;
                 case 2:
-                    temp = "60-120 Rhombus ";
+                    temp = "120 Isosceles Triangle ";
                     break;
                 case 3:
-                    temp = "60-90-120 Kite ";
+                    temp = "30-60-90 Triangle ";
                     break;
                 case 4:
                     temp = "120 Hexagon ";
+                    break;
+                case 5:
+                    temp = "60-120 Rhombus ";
+                    break;
+                case 6:
+                    temp = "60-90-120 Kite ";
                     break;
                 default:
                     temp = "No ";
@@ -107,8 +113,8 @@ namespace OrbitMapper
             EventSource.output("EquiTri was selected.");
             resetPanels();
             shape = 0;
-            this.EquiPanel.BackColor = SystemColors.WindowFrame;
-            this.EquiLabel.BackColor = SystemColors.WindowFrame;
+            this.EquiPanel.BackColor = SystemColors.MenuHighlight;
+            this.EquiLabel.BackColor = SystemColors.MenuHighlight;
         }
 
         private void IsosTri90_Click(object sender, EventArgs e)
@@ -116,8 +122,8 @@ namespace OrbitMapper
             EventSource.output("IsosTri90 was selected.");
             resetPanels();
             shape = 1;
-            this.IsosTri90Panel.BackColor = SystemColors.WindowFrame;
-            this.IsosTri90Label.BackColor = SystemColors.WindowFrame;
+            this.IsosTri90Panel.BackColor = SystemColors.MenuHighlight;
+            this.IsosTri90Label.BackColor = SystemColors.MenuHighlight;
         }
 
         private void IsosTri120_Click(object sender, EventArgs e)
@@ -125,8 +131,8 @@ namespace OrbitMapper
             EventSource.output("IsosTri120 was selected.");
             resetPanels();
             shape = 2;
-            this.IsosTri120Panel.BackColor = SystemColors.WindowFrame;
-            this.IsosTri120Label.BackColor = SystemColors.WindowFrame;
+            this.IsosTri120Panel.BackColor = SystemColors.MenuHighlight;
+            this.IsosTri120Label.BackColor = SystemColors.MenuHighlight;
         }
 
         private void Tri3060_Click(object sender, EventArgs e)
@@ -134,8 +140,8 @@ namespace OrbitMapper
             EventSource.output("Tri3060 was selected.");
             resetPanels();
             shape = 3;
-            this.Tri3060Panel.BackColor = SystemColors.WindowFrame;
-            this.Tri3060Label.BackColor = SystemColors.WindowFrame;
+            this.Tri3060Panel.BackColor = SystemColors.MenuHighlight;
+            this.Tri3060Label.BackColor = SystemColors.MenuHighlight;
         }
 
         private void Hexagon_Click(object sender, EventArgs e)
@@ -143,8 +149,8 @@ namespace OrbitMapper
             EventSource.output("Hexagon was selected.");
             resetPanels();
             shape = 4;
-            this.HexagonPanel.BackColor = SystemColors.WindowFrame;
-            this.HexagonLabel.BackColor = SystemColors.WindowFrame;
+            this.HexagonPanel.BackColor = SystemColors.MenuHighlight;
+            this.HexagonLabel.BackColor = SystemColors.MenuHighlight;
         }
 
         private void Rhom60_Click(object sender, EventArgs e)
@@ -152,8 +158,8 @@ namespace OrbitMapper
             EventSource.output("Rhom60 was selected.");
             resetPanels();
             shape = 5;
-            this.Rhom60Panel.BackColor = SystemColors.WindowFrame;
-            this.Rhom60Label.BackColor = SystemColors.WindowFrame;
+            this.Rhom60Panel.BackColor = SystemColors.MenuHighlight;
+            this.Rhom60Label.BackColor = SystemColors.MenuHighlight;
         }
 
         private void Kite6090120_Click(object sender, EventArgs e)
@@ -161,8 +167,8 @@ namespace OrbitMapper
             EventSource.output("Kite6090120 was selected.");
             resetPanels();
             shape = 6;
-            this.Kite6090120Panel.BackColor = SystemColors.WindowFrame;
-            this.Kite6090120Label.BackColor = SystemColors.WindowFrame;
+            this.Kite6090120Panel.BackColor = SystemColors.MenuHighlight;
+            this.Kite6090120Label.BackColor = SystemColors.MenuHighlight;
         }
 
         private void EquiTri_DoubleClick(object sender, EventArgs e)
