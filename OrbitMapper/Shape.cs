@@ -31,20 +31,21 @@ namespace OrbitMapper
         private double tessShapeHeight;
         private double distance = 0;
         private bool isNotScaled = true;
+        public bool undefCollision = false;
         public ContextMenu cm;
+        //isResizable is reserved for only the rectangle to be true
+        public bool isResizable = false;
 
         public Shape(){
             collisions = new List<Intersect>();
             walls = new List<doublePoint>();
             this.CausesValidation = true;
             tabNum = tabCount;
-
             cm = new ContextMenu();
             cm.MenuItems.Add("Remove", new EventHandler(removeThisTab));
         }
 
         public string getShapeData(){
-
             string data = "";
             if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180)
                 return null;
@@ -350,6 +351,11 @@ namespace OrbitMapper
                         }
                     }
                 }
+                for (int j = 0; j < numWalls; j++)
+                {
+                    if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
+                        undefCollision = true;
+                }
                 double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
                 tempIntersects[leastDistance].wall = leastDistance;
@@ -465,6 +471,11 @@ namespace OrbitMapper
                             }
                         }
                     }
+                }
+                for (int j = 0; j < numWalls; j++)
+                {
+                    if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
+                        undefCollision = true;
                 }
                 double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
@@ -596,7 +607,7 @@ namespace OrbitMapper
                 Point[] collisions = getCollisions();
                 EventSource.output("Drawing " + shape.Length + " vertices.");
                 g.DrawPolygon(System.Drawing.Pens.Black, shape);
-                if (collisions != null)
+                if (collisions != null && !undefCollision)
                 {
                     EventSource.output("Intersections detected: " + collisions.Length);
                     for (int i = 0; i < collisions.Length - 1; i++)

@@ -23,7 +23,7 @@ namespace OrbitMapper
             Pattern pat = new Pattern(60, totalHeight, 30);
             List<doublePoint> tri1 = new List<doublePoint>();
             List<doublePoint> tri2 = new List<doublePoint>();
-            addStartZone(new Point(0, 0), new Point(60, 0));
+            addStartZone(new Point(30, 0), new Point(60, 0));
             addReflectedStartZone(new Point(0, 0), new Point(30, 0));
             setShapeHeight(heightOnSide);
 

@@ -25,36 +25,22 @@ namespace OrbitMapper
             return shape;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (shape != -1)
-            {
-                cancelled = false;
-                this.Close();
-            }
-        }
-
-        private void panel1_Click(object sender, EventArgs e)
-        {
-            EventSource.output("Panel1 was selected.");
-            resetPanels();
-            shape = 0;
-            this.panel1.BackColor = SystemColors.GradientActiveCaption;
-            label1.BackColor = SystemColors.GradientActiveCaption;
-        }
-
         private void resetPanels()
         {
-            panel1.BackColor = SystemColors.Control;
-            label1.BackColor = SystemColors.Control;
-            panel2.BackColor = SystemColors.Control;
-            label2.BackColor = SystemColors.Control;
-            panel3.BackColor = SystemColors.Control;
-            label3.BackColor = SystemColors.Control;
-            panel4.BackColor = SystemColors.Control;
-            label4.BackColor = SystemColors.Control;
-            panel5.BackColor = SystemColors.Control;
-            label5.BackColor = SystemColors.Control;
+            EquiPanel.BackColor = SystemColors.Control;
+            EquiLabel.BackColor = SystemColors.Control;
+            IsosTri90Panel.BackColor = SystemColors.Control;
+            IsosTri90Label.BackColor = SystemColors.Control;
+            IsosTri120Panel.BackColor = SystemColors.Control;
+            IsosTri120Label.BackColor = SystemColors.Control;
+            Rhom60Panel.BackColor = SystemColors.Control;
+            Rhom60Label.BackColor = SystemColors.Control;
+            Tri3060Panel.BackColor = SystemColors.Control;
+            Tri3060Label.BackColor = SystemColors.Control;
+            Kite6090120Panel.BackColor = SystemColors.Control;
+            Kite6090120Label.BackColor = SystemColors.Control;
+            HexagonPanel.BackColor = SystemColors.Control;
+            HexagonLabel.BackColor = SystemColors.Control;
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
@@ -101,85 +87,8 @@ namespace OrbitMapper
             resetPanels();
         }
 
-        private void panel2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            EventSource.output("Panel2 was selected.");
-            resetPanels();
-            shape = 1;
-            this.panel2.BackColor = SystemColors.GradientActiveCaption;
-            label2.BackColor = SystemColors.GradientActiveCaption;
-        }
-
-        private void panel3_Click(object sender, EventArgs e)
-        {
-            EventSource.output("Panel3 was selected.");
-            resetPanels();
-            shape = 2;
-            this.panel3.BackColor = SystemColors.GradientActiveCaption;
-            label3.BackColor = SystemColors.GradientActiveCaption;
-        }
-
-        private void panel4_Click(object sender, EventArgs e)
-        {
-            EventSource.output("Panel4 was selected.");
-            resetPanels();
-            shape = 3;
-            this.panel4.BackColor = SystemColors.GradientActiveCaption;
-            label4.BackColor = SystemColors.GradientActiveCaption;
-        }
-
-        private void panel5_Click(object sender, EventArgs e)
-        {
-            EventSource.output("Panel5 was selected.");
-            resetPanels();
-            shape = 4;
-            this.panel5.BackColor = SystemColors.GradientActiveCaption;
-            label5.BackColor = SystemColors.GradientActiveCaption;
-        }
-
-        private void panel1_DoubleClick(object sender, EventArgs e)
-        {
-            panel1_Click(sender, e);
-            if (shape != -1)
-            {
-                cancelled = false;
-                this.Close();
-            }
-        }
-
-        private void panel2_DoubleClick(object sender, EventArgs e)
-        {
-            panel2_Click(sender, e);
-            if (shape != -1)
-            {
-                cancelled = false;
-                this.Close();
-            }
-        }
-
-        private void panel3_DoubleClick(object sender, EventArgs e)
-        {
-            panel3_Click(sender, e);
-            if (shape != -1)
-            {
-                cancelled = false;
-                this.Close();
-            }
-        }
-
-        private void panel4_DoubleClick(object sender, EventArgs e)
-        {
-            panel4_Click(sender, e);
-            if (shape != -1)
-            {
-                cancelled = false;
-                this.Close();
-            }
-        }
-
-        private void panel5_DoubleClick(object sender, EventArgs e)
-        {
-            panel5_Click(sender, e);
             if (shape != -1)
             {
                 cancelled = false;
@@ -191,6 +100,139 @@ namespace OrbitMapper
         {
             Point p = tableLayoutPanel1.AutoScrollPosition;
             this.tableLayoutPanel1.AutoScrollPosition = new Point(tableLayoutPanel1.AutoScrollPosition.X, Math.Abs(tableLayoutPanel1.AutoScrollPosition.Y) - (e.Delta / 10));
+        }
+
+        private void EquiTri_Click(object sender, EventArgs e)
+        {
+            EventSource.output("EquiTri was selected.");
+            resetPanels();
+            shape = 0;
+            this.EquiPanel.BackColor = SystemColors.WindowFrame;
+            this.EquiLabel.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void IsosTri90_Click(object sender, EventArgs e)
+        {
+            EventSource.output("IsosTri90 was selected.");
+            resetPanels();
+            shape = 1;
+            this.IsosTri90Panel.BackColor = SystemColors.WindowFrame;
+            this.IsosTri90Label.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void IsosTri120_Click(object sender, EventArgs e)
+        {
+            EventSource.output("IsosTri120 was selected.");
+            resetPanels();
+            shape = 2;
+            this.IsosTri120Panel.BackColor = SystemColors.WindowFrame;
+            this.IsosTri120Label.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void Tri3060_Click(object sender, EventArgs e)
+        {
+            EventSource.output("Tri3060 was selected.");
+            resetPanels();
+            shape = 3;
+            this.Tri3060Panel.BackColor = SystemColors.WindowFrame;
+            this.Tri3060Label.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void Hexagon_Click(object sender, EventArgs e)
+        {
+            EventSource.output("Hexagon was selected.");
+            resetPanels();
+            shape = 4;
+            this.HexagonPanel.BackColor = SystemColors.WindowFrame;
+            this.HexagonLabel.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void Rhom60_Click(object sender, EventArgs e)
+        {
+            EventSource.output("Rhom60 was selected.");
+            resetPanels();
+            shape = 5;
+            this.Rhom60Panel.BackColor = SystemColors.WindowFrame;
+            this.Rhom60Label.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void Kite6090120_Click(object sender, EventArgs e)
+        {
+            EventSource.output("Kite6090120 was selected.");
+            resetPanels();
+            shape = 6;
+            this.Kite6090120Panel.BackColor = SystemColors.WindowFrame;
+            this.Kite6090120Label.BackColor = SystemColors.WindowFrame;
+        }
+
+        private void EquiTri_DoubleClick(object sender, EventArgs e)
+        {
+            EquiTri_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void IsosTri90_DoubleClick(object sender, EventArgs e)
+        {
+            IsosTri90_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void IsosTri120_DoubleClick(object sender, EventArgs e)
+        {
+            IsosTri120_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void Tri3060_DoubleClick(object sender, EventArgs e)
+        {
+            Tri3060_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void Hexagon_DoubleClick(object sender, EventArgs e)
+        {
+            Hexagon_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void Kite6090120_DoubleClick(object sender, EventArgs e)
+        {
+            Kite6090120_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void Rhom60_DoubleClick(object sender, EventArgs e)
+        {
+            Rhom60_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
         }
     }
 }

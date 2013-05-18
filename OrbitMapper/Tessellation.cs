@@ -19,7 +19,7 @@ namespace OrbitMapper
         private Point lastPictureBoxState = new Point();
         private List<Point[]> startZones = new List<Point[]>();
         private List<Point[]> reflectedStartZones = new List<Point[]>();
-        private bool baseIsGood = false;
+        public bool baseIsGood = false;
         private bool hasReflectedZones = false;
         private double startingPoint;
         private double startingAngle;
@@ -70,10 +70,17 @@ namespace OrbitMapper
             pictureBox1.Update();
         }
 
-        private bool betweenStartZones(int x){
+        private bool betweenStartZones(int x)
+        {
             bool isBetween = false;
-            for(int i = 0; i < startZones.Count(); i++){
-                if(x > startZones.ElementAt<Point[]>(i)[0].X && x < startZones.ElementAt<Point[]>(i)[1].X) 
+            for (int i = 0; i < startZones.Count(); i++)
+            {
+                if (x > startZones.ElementAt<Point[]>(i)[0].X && x < startZones.ElementAt<Point[]>(i)[1].X)
+                    isBetween = true;
+            }
+            for (int i = 0; i < reflectedStartZones.Count(); i++)
+            {
+                if (x > reflectedStartZones.ElementAt<Point[]>(i)[0].X && x < reflectedStartZones.ElementAt<Point[]>(i)[1].X)
                     isBetween = true;
             }
             return isBetween;
@@ -198,6 +205,7 @@ namespace OrbitMapper
                         }
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);
                     }
+                    #region Logic for getting data from mouse click
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) && 
                     (endClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 && 
                     endClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
@@ -209,23 +217,28 @@ namespace OrbitMapper
                     baseClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
                     {
                         baseClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
-                        if(betweenStartZones(baseClick.X - (int)(i * getPattern().getWidth()))){
+                        if (betweenStartZones(baseClick.X - (int)(i * getPattern().getWidth())))
+                        {
                             int zone;
-                            if((zone = betweenReflectedStartZones(baseClick.X - (int)(i * getPattern().getWidth()))) > -1){
-                                startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - (i * getPattern().getWidth())))/ (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X);
+                            if ((zone = betweenReflectedStartZones(baseClick.X - (int)(i * getPattern().getWidth()))) > -1)
+                            {
+                                startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - (i * getPattern().getWidth()))) / (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X);
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                 startingAngle = mod(startingAngle, 180);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                             }
-                            else{
-                                try{
+                            else
+                            {
+                                try
+                                {
                                     startingPoint = (double)(baseClick.X - (i * getPattern().getWidth()) - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
                                     startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                     if (baseClick.X > endClick.X)
                                         startingAngle = 180 - startingAngle;
                                     startingAngle = Math.Abs(startingAngle);
                                 }
-                                catch(Exception ex){
+                                catch (Exception ex)
+                                {
                                     Console.Out.WriteLine(ex.GetBaseException().StackTrace);
                                 }
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
@@ -233,6 +246,7 @@ namespace OrbitMapper
                             baseIsCorrect = true;
                         }
                     }
+                    #endregion
                 }
             }
             baseIsGood = baseIsCorrect;

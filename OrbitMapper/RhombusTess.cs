@@ -20,7 +20,7 @@ namespace OrbitMapper
             double height = Math.Sin(Math.PI / 3d) * 30d;
             double lengthLong = Math.Cos(Math.PI / 6d) * 60d;
             double lengthShort = Math.Sin(Math.PI / 6d) * 60d;
-            addStartZone(new Point((int)smallSegment, 0), new Point((int)smallSegment + 60, 0));
+            addStartZone(new Point((int)smallSegment + 30, 0), new Point((int)smallSegment + 60, 0));
             addReflectedStartZone(new Point((int)smallSegment, 0), new Point((int)smallSegment + 30, 0));
             setShapeHeight(height);
 

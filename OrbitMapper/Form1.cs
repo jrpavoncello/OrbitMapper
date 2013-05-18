@@ -34,6 +34,9 @@ namespace OrbitMapper
             EventSource.tessellate += new Tessellate(updateFields);
             EventSource.finishedTessellate += new FinishedDraw(updateBounces);
             EventSource.tabRemove += new RemoveTab(removeThisTab);
+
+            //To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
+            //I check if they are placed incorrectly, if so, then I place them in the intended positions.
             TableLayoutPanelCellPosition box = tableLayoutPanel2.GetCellPosition(angleBox);
             if(box.Column != 1 || box.Row != 1){
                 tableLayoutPanel2.Controls.Remove(label3);
@@ -70,7 +73,6 @@ namespace OrbitMapper
                         EventSource.output("Equilateral tab created.");
                         Tessellation equiTemp = new EquilateralTess();
                         equiTemp.Name = "Equilateral" + (equiTri.getTabCount() - 1);
-                        tableLayoutPanel1.SetRowSpan(equiTemp, 2);
                         equiTemp.Dock = DockStyle.Fill;
                         tessellations.Add(equiTemp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -84,7 +86,6 @@ namespace OrbitMapper
                         EventSource.output("Isosceles tab created.");
                         Tessellation isoscTemp = new IsoscelesTess();
                         isoscTemp.Name = "Isosceles" + (isosTri.getTabCount() - 1);
-                        tableLayoutPanel1.SetRowSpan(isoscTemp, 2);
                         isoscTemp.Dock = DockStyle.Fill;
                         tessellations.Add(isoscTemp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -98,7 +99,6 @@ namespace OrbitMapper
                         EventSource.output("Rhombus tab created.");
                         Tessellation rhomTemp = new RhombusTess();
                         rhomTemp.Name = "Rhombus" + (rhomb.getTabCount() - 1);
-                        tableLayoutPanel1.SetRowSpan(rhomTemp, 2);
                         rhomTemp.Dock = DockStyle.Fill;
                         tessellations.Add(rhomTemp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -112,7 +112,6 @@ namespace OrbitMapper
                         EventSource.output("Kite tab created.");
                         Tessellation kiteTemp = new KiteTess();
                         kiteTemp.Name = "Kite" + (kite.getTabCount() - 1);
-                        tableLayoutPanel1.SetRowSpan(kiteTemp, 2);
                         kiteTemp.Dock = DockStyle.Fill;
                         tessellations.Add(kiteTemp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -126,7 +125,6 @@ namespace OrbitMapper
                         EventSource.output("Hexagon tab created.");
                         Tessellation hexTemp = new HexagonTess();
                         hexTemp.Name = "Hexagon" + (hex.getTabCount() - 1);
-                        tableLayoutPanel1.SetRowSpan(hexTemp, 2);
                         hexTemp.Dock = DockStyle.Fill;
                         tessellations.Add(hexTemp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -170,11 +168,15 @@ namespace OrbitMapper
             if(!source.Equals(tabPage1)){
                 string name = (string)source;
                 Shape shapeTemp = (Shape)tabControl1.Controls.Find(name, true)[0];
-                tableLayoutPanel1.Controls.RemoveByKey(name);
+                Tessellation tessTemp = (Tessellation)splitContainer1.Panel2.Controls.Find(name, true)[0];
+                splitContainer1.Panel2.Controls.RemoveByKey(name);
                 tabControl1.Controls.RemoveByKey(name);
                 if(tabControl1.TabCount == 0){
                     tabControl1.Controls.Add(tabPage1);
                 }
+                tessellations.Remove(tessTemp);
+                shapes.Remove(shapeTemp);
+                shapeTemp.decTabCount();
             }
         }
 
@@ -185,29 +187,39 @@ namespace OrbitMapper
         }
 
         private void updateFields(object source, Events e){
+            Shape selectedShape = (Shape)tabControl1.SelectedTab;
+            if(tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).populateByTess){
+                if (tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).baseIsGood && !selectedShape.undefCollision)
+                {
+                    double startingPoint = ((Tessellation)source).getStartingPoint();
+                    double startingAngle = ((Tessellation)source).getStartingAngle();
+                    double distance = ((Tessellation)source).getDistance();
+                    double tessHeight = ((Tessellation)source).getShapeHeight();
 
-            if(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess){
-                double startingPoint = ((Tessellation)source).getStartingPoint();
-                double startingAngle = ((Tessellation)source).getStartingAngle();
-                double distance = ((Tessellation)source).getDistance();
-                double tessHeight = ((Tessellation)source).getShapeHeight();
+                    Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+                    tempShape.setFromTessellation(true);
+                    tempShape.setStartPoint(startingPoint);
+                    tempShape.setStartAngle(startingAngle);
+                    tempShape.setDistance(distance);
+                    tempShape.setTessShapeHeight(tessHeight);
 
-                Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-                tempShape.setFromTessellation(true);
-                tempShape.setStartPoint(startingPoint);
-                tempShape.setStartAngle(startingAngle);
-                tempShape.setDistance(distance);
-                tempShape.setTessShapeHeight(tessHeight);
+                    angleBox.Text = "" + startingAngle;
+                    bouncesBox.Text = "" + 0;
+                    pointBox.Text = "" + startingPoint;
+                    if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
+                        trackBar4.Value = (int)tempShape.getStartAngle();
+                    if (tempShape.getStartPoint() > 0 && tempShape.getStartPoint() < 1)
+                        trackBar2.Value = (int)(tempShape.getStartPoint() * 100);
 
-                angleBox.Text = "" + startingAngle;
-                bouncesBox.Text = "" + 0;
-                pointBox.Text = "" + startingPoint;
-                if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
-                    trackBar4.Value = (int)tempShape.getStartAngle();
-                if (tempShape.getStartPoint() > 0 && tempShape.getStartPoint() < 1)
-                    trackBar2.Value = (int)(tempShape.getStartPoint() * 100);
-
-                tempShape.Invalidate();
+                    tempShape.Invalidate();
+                }
+                else
+                {
+                    angleBox.Text = "Undefined";
+                    bouncesBox.Text = "Undefined";
+                    pointBox.Text = "Undefined";
+                    selectedShape.undefCollision = false;
+                }
             }
         }
 
@@ -218,25 +230,38 @@ namespace OrbitMapper
                 try
                 {
                     if (shapes.Count() == 0)
+                    {
                         return true;
-                    tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
-                    Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+                    }
+                    else
+                    {
+                        Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+                        tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
 
-                    int tempBounces = int.Parse(bouncesBox.Text);
-                    tempShape.setBounces(tempBounces);
+                        if (tempShape.undefCollision)
+                        {
+                            angleBox.Text = "Undefined";
+                            bouncesBox.Text = "Undefined";
+                            pointBox.Text = "Undefined";
+                            return true;
+                        }
 
-                    double tempPoint = double.Parse(pointBox.Text);
-                    tempShape.setStartPoint(tempPoint);
-                    if (tempPoint > 0 && tempPoint < 1)
-                        trackBar2.Value = (int)(tempPoint * 100);
+                        int tempBounces = int.Parse(bouncesBox.Text);
+                        tempShape.setBounces(tempBounces);
 
-                    double tempAngle = double.Parse(angleBox.Text);
-                    tempShape.setStartAngle(tempAngle);
-                    if (tempAngle > 0 && tempAngle < 180)
-                        trackBar4.Value = (int)(180 - tempAngle);
+                        double tempPoint = double.Parse(pointBox.Text);
+                        tempShape.setStartPoint(tempPoint);
+                        if (tempPoint > 0 && tempPoint < 1)
+                            trackBar2.Value = (int)(tempPoint * 100);
 
-                    tempShape.setFromTessellation(false);
-                    tempShape.Invalidate();
+                        double tempAngle = double.Parse(angleBox.Text);
+                        tempShape.setStartAngle(tempAngle);
+                        if (tempAngle > 0 && tempAngle < 180)
+                            trackBar4.Value = (int)(180 - tempAngle);
+
+                        tempShape.setFromTessellation(false);
+                        tempShape.Invalidate();
+                    }
                 }
                 catch (System.ArgumentNullException ane)
                 {
@@ -343,6 +368,34 @@ namespace OrbitMapper
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (shapes.Count() == 0)
+                return;
+            tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+            for (int i = 0; i < tessellations.Count; i++)
+            {
+                if (tessellations.ElementAt<Tessellation>(i).Visible)
+                {
+                    if (i == 0)
+                    {
+                        this.Width -= tessellations.ElementAt<Tessellation>(i).Width;
+                        splitContainer1.Panel2Collapsed = true;
+                    }
+                    tessellations.ElementAt<Tessellation>(i).Hide();
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        splitContainer1.Panel2Collapsed = false;
+                        this.Width += tessellations.ElementAt<Tessellation>(i).Width + splitContainer1.Panel2.Width;
+                    }
+                    tessellations.ElementAt<Tessellation>(i).Show();
+                }
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -407,64 +460,6 @@ namespace OrbitMapper
             tempShape.Invalidate();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (shapes.Count() == 0)
-                return;
-            tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
-            for(int i = 0; i < tessellations.Count; i++){
-                if (tessellations.ElementAt<Tessellation>(i).Visible)
-                {
-                    if(i==0)
-                        this.Width -= tessellations.ElementAt<Tessellation>(i).Width;
-                    tessellations.ElementAt<Tessellation>(i).Hide();
-                }
-                else
-                {
-                    if (i == 0)
-                        this.Width += tessellations.ElementAt<Tessellation>(i).Width;
-                    tessellations.ElementAt<Tessellation>(i).Show();
-                }
-            }
-        }
-
-        private void button2_Paint(object sender, PaintEventArgs e)
-        {
-            int width = button2.Width / 2;
-            int height = width*2;
-            int offsetX = (button2.Width / 2) - (width / 2) + 1;
-            int offsetY = (button2.Height / 2) - (height / 2);
-            int vertices = 3;
-            Point[] go = new Point[vertices];
-            go[0] = new Point(offsetX, offsetY);
-            go[1] = new Point(offsetX, offsetY + height);
-            go[2] = new Point(offsetX + width, offsetY + (height / 2));
-
-            Graphics g = e.Graphics;
-            g.FillPolygon(new SolidBrush(Color.Teal), go);
-        }
-
-        private void button1_Paint(object sender, PaintEventArgs e)
-        {
-            int size = button1.Height/8;
-            int offsetX = button1.Width / 2;
-            int offsetY = (button1.Height / 2) - (size / 2);
-            int vertices = 2;
-            Point[] go = new Point[vertices];
-            Graphics g = e.Graphics;
-            go[0] = new Point(offsetX - 2, offsetY);
-            go[1] = new Point(offsetX - 2, offsetY + size);
-            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
-
-            go[0] = new Point(offsetX, offsetY);
-            go[1] = new Point(offsetX, offsetY + size);
-            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
-
-            go[0] = new Point(offsetX + 2, offsetY);
-            go[1] = new Point(offsetX + 2, offsetY + size);
-            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
-        }
-
         private void tabControl1_Selected_1(object sender, TabControlEventArgs e)
         {
             if (!tabControl1.Controls.Contains(tabPage1))
@@ -482,8 +477,8 @@ namespace OrbitMapper
                         trackBar2.Value = (int)(tab.getStartPoint() * 100);
 
                     if(this.shapes.Count > 1 && !((Shape)tabControl1.SelectedTab).Equals(lastTab)){
-                        tableLayoutPanel1.Controls.RemoveByKey(lastTab.Name);
-                        tableLayoutPanel1.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()), 3, 0);
+                        splitContainer1.Panel2.Controls.RemoveByKey(lastTab.Name);
+                        splitContainer1.Panel2.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()));
                         lastTab = (Shape)tabControl1.SelectedTab;
                     }
                 }
@@ -495,7 +490,9 @@ namespace OrbitMapper
             if(!tabControl1.Controls.Contains(tabPage1)){
                 if (this.shapes.Count == 1)
                 {
-                    tableLayoutPanel1.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()), 3, 0);
+                    splitContainer1.Panel2.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()));
+                    splitContainer1.Panel2Collapsed = false;
+                    splitContainer1.SplitterDistance = this.Width / 2;
                     lastTab = (Shape)tabControl1.SelectedTab;
                 }
             }
@@ -616,7 +613,6 @@ namespace OrbitMapper
                                 EventSource.output("Equilateral tab created.");
                                 tess = new EquilateralTess();
                                 tess.Name = "Equilateral" + (shape.getTabCount() - 1);
-                                tableLayoutPanel1.SetRowSpan(tess, 2);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
@@ -630,7 +626,6 @@ namespace OrbitMapper
                                 EventSource.output("Isosceles tab created.");
                                 tess = new IsoscelesTess();
                                 tess.Name = "Isosceles" + (shape.getTabCount() - 1);
-                                tableLayoutPanel1.SetRowSpan(tess, 2);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
@@ -644,7 +639,6 @@ namespace OrbitMapper
                                 EventSource.output("Rhombus tab created.");
                                 tess = new RhombusTess();
                                 tess.Name = "Rhombus" + (shape.getTabCount() - 1);
-                                tableLayoutPanel1.SetRowSpan(tess, 2);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
@@ -658,7 +652,6 @@ namespace OrbitMapper
                                 EventSource.output("Kite tab created.");
                                 tess = new KiteTess();
                                 tess.Name = "Kite" + (shape.getTabCount() - 1);
-                                tableLayoutPanel1.SetRowSpan(tess, 2);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
@@ -672,7 +665,6 @@ namespace OrbitMapper
                                 EventSource.output("Hexagon tab created.");
                                 tess = new HexagonTess();
                                 tess.Name = "Hexagon" + (shape.getTabCount() - 1);
-                                tableLayoutPanel1.SetRowSpan(tess, 2);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
@@ -705,6 +697,51 @@ namespace OrbitMapper
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new About(OMVersion).ShowDialog();
+        }
+
+        private void button1_Paint(object sender, PaintEventArgs e)
+        {
+            int size = button1.Height / 8;
+            int offsetX = button1.Width / 2;
+            int offsetY = (button1.Height / 2) - (size / 2);
+            int vertices = 2;
+            Point[] go = new Point[vertices];
+            Graphics g = e.Graphics;
+            go[0] = new Point(offsetX - 2, offsetY);
+            go[1] = new Point(offsetX - 2, offsetY + size);
+            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
+
+            go[0] = new Point(offsetX, offsetY);
+            go[1] = new Point(offsetX, offsetY + size);
+            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
+
+            go[0] = new Point(offsetX + 2, offsetY);
+            go[1] = new Point(offsetX + 2, offsetY + size);
+            g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
+        }
+
+        private void button2_Paint(object sender, PaintEventArgs e)
+        {
+            int width = button2.Width / 2;
+            int height = width * 2;
+            int offsetX = (button2.Width / 2) - (width / 2) + 1;
+            int offsetY = (button2.Height / 2) - (height / 2);
+            int vertices = 3;
+            Point[] go = new Point[vertices];
+            go[0] = new Point(offsetX, offsetY);
+            go[1] = new Point(offsetX, offsetY + height);
+            go[2] = new Point(offsetX + width, offsetY + (height / 2));
+
+            Graphics g = e.Graphics;
+            g.FillPolygon(new SolidBrush(Color.Teal), go);
+        }
+
+        private void splitContainer1_Paint(object sender, PaintEventArgs e)
+        {
+            int offsetX = splitContainer1.SplitterDistance;
+            Graphics g = e.Graphics;
+            Pen pen = new Pen(System.Drawing.Brushes.DimGray, 4);
+            g.DrawLine(pen, new Point(offsetX, 0), new Point(offsetX, splitContainer1.Height));
         }
     }
 }
