@@ -225,6 +225,12 @@
   <ItemGroup>
     <None Include="Resources\OrbitMapperLogo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4590.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\306090.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
