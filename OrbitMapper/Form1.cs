@@ -159,10 +159,6 @@ namespace OrbitMapper
                     default:
                         break;
                 }
-                if (this.Width < 650 && this.WindowState != FormWindowState.Maximized)
-                {
-                    this.Width += tessellations.ElementAt<Tessellation>(shapes.Count - 1).Width;
-                }
                 EventSource.output("New tab number: " + shapes.Count + " was added.");
             }
         }
@@ -398,26 +394,28 @@ namespace OrbitMapper
         {
             if (shapes.Count() == 0)
                 return;
-            tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+            Tessellation tempTess = tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum());
+            tempTess.populateByTess = false;
             for (int i = 0; i < tessellations.Count; i++)
             {
                 if (tessellations.ElementAt<Tessellation>(i).Visible)
                 {
                     if (i == 0)
                     {
-                        this.Width -= tessellations.ElementAt<Tessellation>(i).Width;
+                        Tessellation.lastWidth = tempTess.Width;
+                        this.Width -= tempTess.Width + splitContainer1.SplitterWidth;
                         splitContainer1.Panel2Collapsed = true;
+                        tessellations.ElementAt<Tessellation>(i).Visible = false;
                     }
-                    tessellations.ElementAt<Tessellation>(i).Hide();
                 }
                 else
                 {
                     if (i == 0)
                     {
                         splitContainer1.Panel2Collapsed = false;
-                        this.Width += tessellations.ElementAt<Tessellation>(i).Width + splitContainer1.Panel2.Width;
+                        this.Width += Tessellation.lastWidth + splitContainer1.SplitterWidth;
+                        tessellations.ElementAt<Tessellation>(i).Visible = true;
                     }
-                    tessellations.ElementAt<Tessellation>(i).Show();
                 }
             }
         }
@@ -695,10 +693,6 @@ namespace OrbitMapper
                                 tessellations.Add(tess);
                                 tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
                                 tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
-                            }
-                            if (this.Width < 650 && this.WindowState != FormWindowState.Maximized)
-                            {
-                                this.Width += tessellations.ElementAt<Tessellation>(this.shapes.Count - 1).Width;
                             }
                             shape.setStartPoint(double.Parse(point.InnerText));
                             shape.setStartAngle(double.Parse(angle.InnerText));

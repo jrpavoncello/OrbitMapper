@@ -27,6 +27,7 @@ namespace OrbitMapper
         private int lastScrollValue = -1;
         private double shapeHeight;
         public bool populateByTess = false;
+        public static int lastWidth = 0;
 
         public Tessellation()
         {
