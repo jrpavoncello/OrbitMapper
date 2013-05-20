@@ -55,3 +55,17 @@ F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.exe
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.pdb
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.csprojResolveAssemblyReference.cache
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Debug\OrbitMapper.exe.config
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.exe
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.pdb
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Debug\OrbitMapper.exe
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Debug\OrbitMapper.pdb
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.csprojResolveAssemblyReference.cache
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.About.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.VersionBox1.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form1.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form2.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form3.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Properties.Resources.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Tessellation.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.csproj.GenerateResource.Cache
