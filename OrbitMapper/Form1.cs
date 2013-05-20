@@ -81,23 +81,23 @@ namespace OrbitMapper
                     case 1:
                         if (shapes.Count() != 0)
                             lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape isosTri90 = new Isosceles();
+                        Shape isosTri90 = new IsosTri90();
                         shapes.Add(isosTri90);
                         EventSource.output("90 Isosceles Triangle tab created.");
-                        Tessellation isoscTemp90 = new IsoscelesTess();
-                        isoscTemp90.Name = "Isosceles" + (isosTri90.getTabCount() - 1);
-                        isoscTemp90.Dock = DockStyle.Fill;
-                        tessellations.Add(isoscTemp90);
+                        Tessellation IsosTri90Temp = new IsosTri90Tess();
+                        IsosTri90Temp.Name = "Isosceles" + (isosTri90.getTabCount() - 1);
+                        IsosTri90Temp.Dock = DockStyle.Fill;
+                        tessellations.Add(IsosTri90Temp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
                         tabControl1.Controls.Find(isosTri90.Name, true)[0].ContextMenu = isosTri90.cm;
                         break;
                     case 2:
                         if (shapes.Count() != 0)
                             lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape isosTri120 = new Isosceles();
+                        Shape isosTri120 = new IsosTri120();
                         shapes.Add(isosTri120);
                         EventSource.output("120 Isosceles Triangle tab created.");
-                        Tessellation isosc120Temp = new IsoscelesTess();
+                        Tessellation isosc120Temp = new IsosTri120Tess();
                         isosc120Temp.Name = "Isosceles" + (isosTri120.getTabCount() - 1);
                         isosc120Temp.Dock = DockStyle.Fill;
                         tessellations.Add(isosc120Temp);
@@ -107,10 +107,10 @@ namespace OrbitMapper
                     case 3:
                         if (shapes.Count() != 0)
                             lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape tri3060 = new Isosceles();
+                        Shape tri3060 = new IsosTri120();
                         shapes.Add(tri3060);
                         EventSource.output("30-60-90 Triangle tab created.");
-                        Tessellation tri3060Temp = new IsoscelesTess();
+                        Tessellation tri3060Temp = new IsosTri120Tess();
                         tri3060Temp.Name = "Isosceles" + (tri3060.getTabCount() - 1);
                         tri3060Temp.Dock = DockStyle.Fill;
                         tessellations.Add(tri3060Temp);
@@ -645,10 +645,10 @@ namespace OrbitMapper
                             else if(type == "Isosceles"){
                                 if (this.shapes.Count() != 0)
                                     lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new Isosceles();
+                                shape = new IsosTri120();
                                 this.shapes.Add(shape);
                                 EventSource.output("Isosceles tab created.");
-                                tess = new IsoscelesTess();
+                                tess = new IsosTri120Tess();
                                 tess.Name = "Isosceles" + (shape.getTabCount() - 1);
                                 tess.Dock = DockStyle.Fill;
                                 tessellations.Add(tess);

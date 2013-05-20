@@ -65,6 +65,15 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shapes\IsosTri90.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tessellations\IsosTri90Tess.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tessellations\IsosTri90Tess.Designer.cs">
+      <DependentUpon>IsosTri90Tess.cs</DependentUpon>
+    </Compile>
     <Compile Include="VersionBox1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,43 +82,43 @@
     </Compile>
     <Compile Include="EventSource.cs" />
     <Compile Include="doublePoint.cs" />
-    <Compile Include="Equilateral.cs">
+    <Compile Include="Shapes\Equilateral.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Events.cs" />
-    <Compile Include="Hexagon.cs">
+    <Compile Include="Shapes\Hexagon.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HexagonTess.cs">
+    <Compile Include="Tessellations\HexagonTess.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HexagonTess.Designer.cs">
+    <Compile Include="Tessellations\HexagonTess.Designer.cs">
       <DependentUpon>HexagonTess.cs</DependentUpon>
     </Compile>
     <Compile Include="Intersect.cs" />
-    <Compile Include="IsoscelesTess.cs">
+    <Compile Include="Tessellations\IsosTri120Tess.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="IsoscelesTess.Designer.cs">
-      <DependentUpon>IsoscelesTess.cs</DependentUpon>
+    <Compile Include="Tessellations\IsosTri120Tess.Designer.cs">
+      <DependentUpon>IsosTri120Tess.cs</DependentUpon>
     </Compile>
-    <Compile Include="Kite.cs">
+    <Compile Include="Shapes\Kite.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="KiteTess.cs">
+    <Compile Include="Tessellations\KiteTess.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="KiteTess.Designer.cs">
+    <Compile Include="Tessellations\KiteTess.Designer.cs">
       <DependentUpon>KiteTess.cs</DependentUpon>
     </Compile>
     <Compile Include="Pattern.cs" />
-    <Compile Include="Rhombus.cs">
+    <Compile Include="Shapes\Rhombus.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RhombusTess.cs">
+    <Compile Include="Tessellations\RhombusTess.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RhombusTess.Designer.cs">
+    <Compile Include="Tessellations\RhombusTess.Designer.cs">
       <DependentUpon>RhombusTess.cs</DependentUpon>
     </Compile>
     <Compile Include="Shape.cs">
@@ -127,7 +136,7 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Isosceles.cs">
+    <Compile Include="Shapes\IsosTri120.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.cs">
@@ -144,10 +153,10 @@
     <Compile Include="Tessellation.Designer.cs">
       <DependentUpon>Tessellation.cs</DependentUpon>
     </Compile>
-    <Compile Include="EquilateralTess.cs">
+    <Compile Include="Tessellations\EquilateralTess.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EquilateralTess.Designer.cs">
+    <Compile Include="Tessellations\EquilateralTess.Designer.cs">
       <DependentUpon>EquilateralTess.cs</DependentUpon>
     </Compile>
     <Compile Include="Vertices.cs" />

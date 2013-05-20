@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
-    public class Isosceles : Shape
+    public class IsosTri120 : Shape
     {
-        public Isosceles(){
-            base.Text = "Isosceles";
-            base.Name = "Isosceles" + base.getTabCount();
+        public IsosTri120(){
+            base.Text = "IsosTri120";
+            base.Name = "IsosTri120" + base.getTabCount();
             base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 6) * (512d);

@@ -54,3 +54,4 @@ F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.csproj.GenerateResource.Cache
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.exe
 F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.pdb
+F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj\Debug\OrbitMapper.csprojResolveAssemblyReference.cache

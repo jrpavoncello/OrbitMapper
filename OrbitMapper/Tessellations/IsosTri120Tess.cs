@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
-    public partial class IsoscelesTess : Tessellation
+    public partial class IsosTri120Tess : Tessellation
     {
-        public IsoscelesTess()
+        public IsosTri120Tess()
         {
             InitializeComponent();
             double temp = Math.Tan(Math.PI / 6d) * 20;

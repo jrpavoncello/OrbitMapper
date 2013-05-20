@@ -1,6 +1,6 @@
 ﻿namespace OrbitMapper
 {
-    partial class IsoscelesTess
+    partial class IsosTri120Tess
     {
         /// <summary> 
         /// Required designer variable.
