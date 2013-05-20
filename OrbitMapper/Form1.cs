@@ -85,7 +85,7 @@ namespace OrbitMapper
                         shapes.Add(isosTri90);
                         EventSource.output("90 Isosceles Triangle tab created.");
                         Tessellation IsosTri90Temp = new IsosTri90Tess();
-                        IsosTri90Temp.Name = "Isosceles" + (isosTri90.getTabCount() - 1);
+                        IsosTri90Temp.Name = "IsosTri90" + (isosTri90.getTabCount() - 1);
                         IsosTri90Temp.Dock = DockStyle.Fill;
                         tessellations.Add(IsosTri90Temp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -98,7 +98,7 @@ namespace OrbitMapper
                         shapes.Add(isosTri120);
                         EventSource.output("120 Isosceles Triangle tab created.");
                         Tessellation isosc120Temp = new IsosTri120Tess();
-                        isosc120Temp.Name = "Isosceles" + (isosTri120.getTabCount() - 1);
+                        isosc120Temp.Name = "IsosTri120" + (isosTri120.getTabCount() - 1);
                         isosc120Temp.Dock = DockStyle.Fill;
                         tessellations.Add(isosc120Temp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -107,11 +107,11 @@ namespace OrbitMapper
                     case 3:
                         if (shapes.Count() != 0)
                             lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape tri3060 = new IsosTri120();
+                        Shape tri3060 = new Tri3060();
                         shapes.Add(tri3060);
                         EventSource.output("30-60-90 Triangle tab created.");
-                        Tessellation tri3060Temp = new IsosTri120Tess();
-                        tri3060Temp.Name = "Isosceles" + (tri3060.getTabCount() - 1);
+                        Tessellation tri3060Temp = new Tri3060Tess();
+                        tri3060Temp.Name = "Tri3060" + (tri3060.getTabCount() - 1);
                         tri3060Temp.Dock = DockStyle.Fill;
                         tessellations.Add(tri3060Temp);
                         tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));

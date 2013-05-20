@@ -68,11 +68,20 @@
     <Compile Include="Shapes\IsosTri90.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Shapes\Tri3060.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Tessellations\IsosTri90Tess.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Tessellations\IsosTri90Tess.Designer.cs">
       <DependentUpon>IsosTri90Tess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tessellations\Tri3060Tess.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tessellations\Tri3060Tess.Designer.cs">
+      <DependentUpon>Tri3060Tess.cs</DependentUpon>
     </Compile>
     <Compile Include="VersionBox1.cs">
       <SubType>Form</SubType>
