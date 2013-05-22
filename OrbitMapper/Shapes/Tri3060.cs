@@ -15,13 +15,11 @@ namespace OrbitMapper
             base.Text = "Tri3060";
             base.Name = "Tri3060" + base.getTabCount();
             base.setTabCount(base.getTabCount() + 1);
-            double leftWallLength = 1024d * Math.Cos(Math.PI / 3);
-            double height = Math.Sin(Math.PI / 3) * leftWallLength;
-            double smallBottomWallLength = leftWallLength * Math.Sin(Math.PI / 3);
+            double temp = Math.Tan(Math.PI / 6) * (1024d);
             addVertex(0, 0, 0);
-            addVertex(smallBottomWallLength, height, 60d);
-            addVertex(1024d, 0, 150d);
-            setScale(1024d, height);
+            addVertex(1024d, temp, 60d);
+            addVertex(1024d, 0, 90d);
+            setScale(1024d, temp);
             setStartArea(0d, 1024);
         }
     }

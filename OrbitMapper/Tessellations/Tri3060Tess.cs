@@ -45,6 +45,12 @@ namespace OrbitMapper
 
             tri2.Add(new doublePoint(60 - (Math.Cos(Math.PI / 3d) * 30d), totalHeight - heightOnSide));
             tri2.Add(new doublePoint(30, totalHeight - segmentHeight));
+            tri2.Add(new doublePoint(60, totalHeight));
+            tri2.Add(new doublePoint(60, segmentHeight));
+            tri2.Add(new doublePoint(60, totalHeight));
+            tri2.Add(new doublePoint(90, totalHeight - segmentHeight));
+            tri2.Add(new doublePoint(60, totalHeight));
+            tri2.Add(new doublePoint(30, totalHeight - segmentHeight));
             tri2.Add(new doublePoint(30, totalHeight));
             tri2.Add(new doublePoint(60, totalHeight));
             tri2.Add(new doublePoint(60 - (Math.Cos(Math.PI / 3d) * 30d), totalHeight - heightOnSide));
