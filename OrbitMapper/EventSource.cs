@@ -10,7 +10,8 @@ namespace OrbitMapper
     {
         public static event TextChanged textChanged;
         public static event Tessellate tessellate;
-        public static event FinishedDraw finishedTessellate;
+        public static event FinishedDrawTess finishedTessellate;
+        public static event FinishedDrawShape finishedShape;
         public static event RemoveTab tabRemove;
         private static string console = "";
         private static bool newText = false;
@@ -26,8 +27,13 @@ namespace OrbitMapper
             tessellate(newTess, new Events("Tessellation parameters have been changed."));
         }
 
-        public static void finishedDraw(int bounces){
+        public static void finishedDrawTess(int bounces){
             finishedTessellate(bounces, new Events("Draw finished with " + bounces + " bounces."));
+        }
+
+        public static void finishedDrawShape()
+        {
+            finishedShape("", new Events("Collision detection and Shape draw has finished."));
         }
 
         public static void removeTab(string name)

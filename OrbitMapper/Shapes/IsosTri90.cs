@@ -17,8 +17,8 @@ namespace OrbitMapper
             base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 4) * (512d);
-            addVertex(512d, temp, 30d);
-            addVertex(1024d, 0, 150d);
+            addVertex(512d, temp, 45d);
+            addVertex(1024d, 0, 135d);
             setScale(1024d, temp);
             setStartArea(0d, 1024);
         }

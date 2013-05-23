@@ -32,7 +32,8 @@ namespace OrbitMapper
         {
             InitializeComponent();
             EventSource.tessellate += new Tessellate(updateFields);
-            EventSource.finishedTessellate += new FinishedDraw(updateBounces);
+            EventSource.finishedTessellate += new FinishedDrawTess(updateBounces);
+            EventSource.finishedShape += new FinishedDrawShape(OnPostShapeCollisions);
             EventSource.tabRemove += new RemoveTab(removeThisTab);
 
             //To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
@@ -202,6 +203,16 @@ namespace OrbitMapper
             }
         }
 
+        private void OnPostShapeCollisions(object source, Events e)
+        {
+            Shape selectedShape = (Shape)tabControl1.SelectedTab;
+            if(selectedShape.undefCollision){
+                angleBox.Text = "Undefined";
+                bouncesBox.Text = "Undefined";
+                pointBox.Text = "Undefined";
+            }
+        }
+
         private void updateBounces(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
@@ -211,7 +222,7 @@ namespace OrbitMapper
         private void updateFields(object source, Events e){
             Shape selectedShape = (Shape)tabControl1.SelectedTab;
             if(tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).populateByTess){
-                if (tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).baseIsGood && !selectedShape.undefCollision)
+                if (tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).baseIsGood)
                 {
                     double startingPoint = ((Tessellation)source).getStartingPoint();
                     double startingAngle = ((Tessellation)source).getStartingAngle();
@@ -235,13 +246,6 @@ namespace OrbitMapper
 
                     tempShape.Invalidate();
                 }
-                else
-                {
-                    angleBox.Text = "Undefined";
-                    bouncesBox.Text = "Undefined";
-                    pointBox.Text = "Undefined";
-                    selectedShape.undefCollision = false;
-                }
             }
         }
 
@@ -259,15 +263,6 @@ namespace OrbitMapper
                     {
                         Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                         tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
-
-                        if (tempShape.undefCollision)
-                        {
-                            angleBox.Text = "Undefined";
-                            bouncesBox.Text = "Undefined";
-                            pointBox.Text = "Undefined";
-                            tempShape.undefCollision = false;
-                            return true;
-                        }
 
                         int tempBounces = int.Parse(bouncesBox.Text);
                         tempShape.setBounces(tempBounces);
@@ -444,7 +439,6 @@ namespace OrbitMapper
                 if(tempAngle > 0 && tempAngle < 180)
                     trackBar4.Value = (int)(180 - tempAngle);
                 tempShape.setFromTessellation(false);
-
                 tempShape.Invalidate();
             }
             catch (System.ArgumentNullException ane)

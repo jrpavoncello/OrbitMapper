@@ -202,7 +202,7 @@ namespace OrbitMapper
                             Point temp = new Point((int)(i * getPattern().getWidth()) + patterns[k][l].X, getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - patterns[k][l].Y);
                             if (j % 2 == 1)
                                 temp.X -= (int)getPattern().getOffset();
-                            temp.X -= (int)getPattern().getWidth() / 2;
+                            temp.X -= (int)getPattern().getWidth();
                             poly[l] = temp;
                         }
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);

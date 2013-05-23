@@ -8,7 +8,8 @@ namespace OrbitMapper
 {
     public delegate void TextChanged(object source, Events e);
     public delegate void Tessellate(object source, Events e);
-    public delegate void FinishedDraw(object source, Events e);
+    public delegate void FinishedDrawTess(object source, Events e);
+    public delegate void FinishedDrawShape(object source, Events e);
     public delegate void RemoveTab(object source, Events e);
 
     public class Events : EventArgs

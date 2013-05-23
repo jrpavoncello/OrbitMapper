@@ -251,126 +251,132 @@ namespace OrbitMapper
 
         private void findIntersectionsFromTess()
         {
-        try{
+            try{
 
-            if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180)
-                return;
+                if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180)
+                    return;
 
-            collisions.Clear();
+                collisions.Clear();
 
-            double startingPoint = startArea.x1 + (startPoint * Math.Abs(startArea.x1 - startArea.x2));
+                double startingPoint = startArea.x1 + (startPoint * Math.Abs(startArea.x1 - startArea.x2));
 
-            List<Intersect> intersects = new List<Intersect>();
-            double totalDistance = 0;
-            if(isNotScaled){
-                distance = (this.height / tessShapeHeight) * distance;
-                isNotScaled = false;
-            }
-            int i = 0;
-            bounces = 0;
-            intersects.Add(new Intersect());
-            intersects[0].x1 = startingPoint;
-            intersects[0].x2 = 0d;
-            intersects[0].wall = 0;
-            intersects[0].angle = startAngle;
-            //Perform the loop for each of the bounces
-            //At the end of the loop, set the values of intersect[] for i + 1
-            while(totalDistance <= distance - 0.000001d)
-            {
-                Intersect[] tempIntersects = new Intersect[numWalls];
-                for (int j = 0; j < tempIntersects.Length; j++)
-                {
-                    tempIntersects[j] = new Intersect();
+                this.undefCollision = false;
+                List<Intersect> intersects = new List<Intersect>();
+                double totalDistance = 0;
+                if(isNotScaled){
+                    distance = (this.height / tessShapeHeight) * distance;
+                    isNotScaled = false;
                 }
-                int leastDistance = -1;
-                doublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
-                double x3 = tempProjection.x1;
-                double x4 = tempProjection.x2;
-                for (int j = 0; j < numWalls; j++)
+                int i = 0;
+                bounces = 0;
+                intersects.Add(new Intersect());
+                intersects[0].x1 = startingPoint;
+                intersects[0].x2 = 0d;
+                intersects[0].wall = 0;
+                intersects[0].angle = startAngle;
+                //Perform the loop for each of the bounces
+                //At the end of the loop, set the values of intersect[] for i + 1
+                while(totalDistance <= distance - 0.000001d)
                 {
-                    if (intersects[i].wall != j)
+                    Intersect[] tempIntersects = new Intersect[numWalls];
+                    for (int j = 0; j < tempIntersects.Length; j++)
                     {
-                        int tempMod = (int)mod(j - 1, numWalls);
-                        doublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
-                        if (temp == null)
-                            continue;
-                        tempIntersects[j].x1 = temp.x1;
-                        tempIntersects[j].x2 = temp.x2;
-                        tempIntersects[j].wall = j;
-                        tempIntersects[j].distance = Math.Sqrt(Math.Pow(intersects[i].x1 - tempIntersects[j].x1, 2) + Math.Pow(intersects[i].x2 - tempIntersects[j].x2, 2));
+                        tempIntersects[j] = new Intersect();
+                    }
+                    int leastDistance = -1;
+                    doublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
+                    double x3 = tempProjection.x1;
+                    double x4 = tempProjection.x2;
+                    for (int j = 0; j < numWalls; j++)
+                    {
+                        if (intersects[i].wall != j)
+                        {
+                            int tempMod = (int)mod(j - 1, numWalls);
+                            doublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
+                            if (temp == null)
+                                continue;
+                            tempIntersects[j].x1 = temp.x1;
+                            tempIntersects[j].x2 = temp.x2;
+                            tempIntersects[j].wall = j;
+                            tempIntersects[j].distance = Math.Sqrt(Math.Pow(intersects[i].x1 - tempIntersects[j].x1, 2) + Math.Pow(intersects[i].x2 - tempIntersects[j].x2, 2));
 
-                        doublePoint minXPoint = new doublePoint();
-                        doublePoint maxXPoint = new doublePoint();
-                        doublePoint minYPoint = new doublePoint();
-                        doublePoint maxYPoint = new doublePoint();
-                        if (vertexAt(tempMod).x1 > vertexAt(j).x1)
-                        {
-                            minXPoint.x1 = vertexAt(j).x1;
-                            minXPoint.x2 = vertexAt(j).x2;
-                            maxXPoint.x1 = vertexAt(tempMod).x1;
-                            maxXPoint.x2 = vertexAt(tempMod).x2;
-                        }
-                        else
-                        {
-                            minXPoint.x1 = vertexAt(tempMod).x1;
-                            minXPoint.x2 = vertexAt(tempMod).x2;
-                            maxXPoint.x1 = vertexAt(j).x1;
-                            maxXPoint.x2 = vertexAt(j).x2;
-                        }
-
-                        if (vertexAt(tempMod).x2 > vertexAt(j).x2)
-                        {
-                            minYPoint.x1 = vertexAt(j).x1;
-                            minYPoint.x2 = vertexAt(j).x2;
-                            maxYPoint.x1 = vertexAt(tempMod).x1;
-                            maxYPoint.x2 = vertexAt(tempMod).x2;
-                        }
-                        else
-                        {
-                            minYPoint.x1 = vertexAt(tempMod).x1;
-                            minYPoint.x2 = vertexAt(tempMod).x2;
-                            maxYPoint.x1 = vertexAt(j).x1;
-                            maxYPoint.x2 = vertexAt(j).x2;
-                        }
-
-                        if (tempIntersects[j].distance > 0 &&
-                            tempIntersects[j].x1 >= minXPoint.x1 && tempIntersects[j].x1 <= maxXPoint.x1 &&
-                            tempIntersects[j].x2 >= minYPoint.x2 && tempIntersects[j].x2 <= maxYPoint.x2)
-                        {
-                            if (leastDistance == -1)
+                            doublePoint minXPoint = new doublePoint();
+                            doublePoint maxXPoint = new doublePoint();
+                            doublePoint minYPoint = new doublePoint();
+                            doublePoint maxYPoint = new doublePoint();
+                            if (vertexAt(tempMod).x1 > vertexAt(j).x1)
                             {
-                                leastDistance = j;
+                                minXPoint.x1 = vertexAt(j).x1;
+                                minXPoint.x2 = vertexAt(j).x2;
+                                maxXPoint.x1 = vertexAt(tempMod).x1;
+                                maxXPoint.x2 = vertexAt(tempMod).x2;
                             }
                             else
                             {
-                                if (tempIntersects[leastDistance].distance > tempIntersects[j].distance)
+                                minXPoint.x1 = vertexAt(tempMod).x1;
+                                minXPoint.x2 = vertexAt(tempMod).x2;
+                                maxXPoint.x1 = vertexAt(j).x1;
+                                maxXPoint.x2 = vertexAt(j).x2;
+                            }
+
+                            if (vertexAt(tempMod).x2 > vertexAt(j).x2)
+                            {
+                                minYPoint.x1 = vertexAt(j).x1;
+                                minYPoint.x2 = vertexAt(j).x2;
+                                maxYPoint.x1 = vertexAt(tempMod).x1;
+                                maxYPoint.x2 = vertexAt(tempMod).x2;
+                            }
+                            else
+                            {
+                                minYPoint.x1 = vertexAt(tempMod).x1;
+                                minYPoint.x2 = vertexAt(tempMod).x2;
+                                maxYPoint.x1 = vertexAt(j).x1;
+                                maxYPoint.x2 = vertexAt(j).x2;
+                            }
+
+                            if (tempIntersects[j].distance > 0 &&
+                                tempIntersects[j].x1 >= minXPoint.x1 && tempIntersects[j].x1 <= maxXPoint.x1 &&
+                                tempIntersects[j].x2 >= minYPoint.x2 && tempIntersects[j].x2 <= maxYPoint.x2)
+                            {
+                                if (leastDistance == -1)
                                 {
                                     leastDistance = j;
+                                }
+                                else
+                                {
+                                    if (tempIntersects[leastDistance].distance > tempIntersects[j].distance)
+                                    {
+                                        leastDistance = j;
+                                    }
                                 }
                             }
                         }
                     }
+                    for (int j = 0; j < numWalls; j++)
+                    {
+                        if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
+                            this.undefCollision = true;
+                    }
+                    if (this.undefCollision)
+                    {
+                        EventSource.finishedDrawShape();
+                        return;
+                    }
+                    double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
+                    tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
+                    tempIntersects[leastDistance].wall = leastDistance;
+                    intersects.Add(new Intersect());
+                    intersects[i + 1] = tempIntersects[leastDistance];
+                    totalDistance += tempIntersects[leastDistance].distance;
+                    bounces++;
+                    i++;
                 }
-                this.undefCollision = false;
-                for (int j = 0; j < numWalls; j++)
+                for (int j = 0; j < bounces + 1; j++)
                 {
-                    if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
-                        this.undefCollision = true;
+                    collisions.Add(intersects[j]);
                 }
-                double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
-                tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
-                tempIntersects[leastDistance].wall = leastDistance;
-                intersects.Add(new Intersect());
-                intersects[i + 1] = tempIntersects[leastDistance];
-                totalDistance += tempIntersects[leastDistance].distance;
-                bounces++;
-                i++;
-            }
-            for (int j = 0; j < bounces + 1; j++)
-            {
-                collisions.Add(intersects[j]);
-            }
-            EventSource.finishedDraw(bounces);
+                EventSource.finishedDrawTess(bounces);
+                EventSource.finishedDrawShape();
             }
             catch(Exception e){
                 Console.Out.WriteLine(e.StackTrace);
@@ -392,6 +398,7 @@ namespace OrbitMapper
 
             double startingPoint = startArea.x1 + (startPoint * Math.Abs(startArea.x1 - startArea.x2));
 
+            this.undefCollision = false;
             Intersect[] intersects = new Intersect[bounces + 1];
             for(int i = 0; i < intersects.Length; i++){
                 intersects[i] = new Intersect();
@@ -473,11 +480,15 @@ namespace OrbitMapper
                         }
                     }
                 }
-                this.undefCollision = false;
                 for (int j = 0; j < numWalls; j++)
                 {
                     if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
                         this.undefCollision = true;
+                }
+                if (this.undefCollision)
+                {
+                    EventSource.finishedDrawShape();
+                    return;
                 }
                 double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
@@ -487,6 +498,7 @@ namespace OrbitMapper
             for(int i = 0; i < bounces+1; i++){
                 collisions.Add(intersects[i]);
             }
+            EventSource.finishedDrawShape();
         }
 
         private double findReflection(double projection, double wallAngle){
@@ -599,7 +611,7 @@ namespace OrbitMapper
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (getVerticesCount() != 0 && !this.undefCollision)
+            if (getVerticesCount() != 0)
             {
                 Graphics g = e.Graphics;
                 g.Clear(SystemColors.Control);
@@ -609,7 +621,7 @@ namespace OrbitMapper
                 Point[] collisions = getCollisions();
                 EventSource.output("Drawing " + shape.Length + " vertices.");
                 g.DrawPolygon(System.Drawing.Pens.Black, shape);
-                if (collisions != null)
+                if (collisions != null && !this.undefCollision)
                 {
                     EventSource.output("Intersections detected: " + collisions.Length);
                     for (int i = 0; i < collisions.Length - 1; i++)
