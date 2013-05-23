@@ -351,10 +351,11 @@ namespace OrbitMapper
                         }
                     }
                 }
+                this.undefCollision = false;
                 for (int j = 0; j < numWalls; j++)
                 {
                     if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
-                        undefCollision = true;
+                        this.undefCollision = true;
                 }
                 double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
@@ -472,10 +473,11 @@ namespace OrbitMapper
                         }
                     }
                 }
+                this.undefCollision = false;
                 for (int j = 0; j < numWalls; j++)
                 {
                     if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
-                        undefCollision = true;
+                        this.undefCollision = true;
                 }
                 double projection = findAngle(intersects[i].x1, intersects[i].x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
@@ -597,7 +599,7 @@ namespace OrbitMapper
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (getVerticesCount() != 0)
+            if (getVerticesCount() != 0 && !this.undefCollision)
             {
                 Graphics g = e.Graphics;
                 g.Clear(SystemColors.Control);
@@ -607,7 +609,7 @@ namespace OrbitMapper
                 Point[] collisions = getCollisions();
                 EventSource.output("Drawing " + shape.Length + " vertices.");
                 g.DrawPolygon(System.Drawing.Pens.Black, shape);
-                if (collisions != null && !undefCollision)
+                if (collisions != null)
                 {
                     EventSource.output("Intersections detected: " + collisions.Length);
                     for (int i = 0; i < collisions.Length - 1; i++)

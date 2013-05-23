@@ -265,6 +265,7 @@ namespace OrbitMapper
                             angleBox.Text = "Undefined";
                             bouncesBox.Text = "Undefined";
                             pointBox.Text = "Undefined";
+                            tempShape.undefCollision = false;
                             return true;
                         }
 
