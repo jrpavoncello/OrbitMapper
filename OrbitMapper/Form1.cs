@@ -53,6 +53,117 @@ namespace OrbitMapper
             this.backgroundWorker1.RunWorkerAsync();
         }
 
+        private Control[] instantiateShapes(int shape)
+        {
+            if (tabControl1.TabPages.Contains(tabPage1))
+            {
+                tabControl1.TabPages.Remove(tabPage1);
+            }
+            Shape tempShape = null;
+            Tessellation tempTess = null;
+            switch (newShape.getShape())
+            {
+                case 0:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Equilateral();
+                    shapes.Add(tempShape);
+                    EventSource.output("Equilateral Triangle tab created.");
+                    tempTess = new EquilateralTess();
+                    tempTess.Name = "Equilateral" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 1:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new IsosTri90();
+                    shapes.Add(tempShape);
+                    EventSource.output("90 Isosceles Triangle tab created.");
+                    tempTess = new IsosTri90Tess();
+                    tempTess.Name = "IsosTri90" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 2:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new IsosTri120();
+                    shapes.Add(tempShape);
+                    EventSource.output("120 Isosceles Triangle tab created.");
+                    tempTess = new IsosTri120Tess();
+                    tempTess.Name = "IsosTri120" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 3:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Tri3060();
+                    shapes.Add(tempShape);
+                    EventSource.output("30-60-90 Triangle tab created.");
+                    tempTess = new Tri3060Tess();
+                    tempTess.Name = "Tri3060" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 4:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Hexagon();
+                    shapes.Add(tempShape);
+                    EventSource.output("120 Hexagon tab created.");
+                    tempTess = new HexagonTess();
+                    tempTess.Name = "Hexagon" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 5:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Rhombus();
+                    shapes.Add(tempShape);
+                    EventSource.output("60-120 Rhombus tab created.");
+                    tempTess = new RhombusTess();
+                    tempTess.Name = "Rhombus" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                case 6:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Kite();
+                    shapes.Add(tempShape);
+                    EventSource.output("60-90-120 Kite tab created.");
+                    tempTess = new KiteTess();
+                    tempTess.Name = "Kite" + (tempShape.getTabCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
+                default:
+                    break;
+            }
+            Control[] controls = new Control[2];
+            controls[0] = tempShape;
+            controls[1] = tempTess;
+
+            return controls;
+        }
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(newShape == null)
@@ -60,106 +171,7 @@ namespace OrbitMapper
             newShape.ShowDialog();
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {
-                if (tabControl1.TabPages.Contains(tabPage1))
-                {
-                    tabControl1.TabPages.Remove(tabPage1);
-                }
-                switch (newShape.getShape())
-                {
-                    case 0:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape equiTri = new Equilateral();
-                        shapes.Add(equiTri);
-                        EventSource.output("Equilateral Triangle tab created.");
-                        Tessellation equiTemp = new EquilateralTess();
-                        equiTemp.Name = "Equilateral" + (equiTri.getTabCount() - 1);
-                        equiTemp.Dock = DockStyle.Fill;
-                        tessellations.Add(equiTemp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(equiTri.Name, true)[0].ContextMenu = equiTri.cm;
-                        break;
-                    case 1:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape isosTri90 = new IsosTri90();
-                        shapes.Add(isosTri90);
-                        EventSource.output("90 Isosceles Triangle tab created.");
-                        Tessellation IsosTri90Temp = new IsosTri90Tess();
-                        IsosTri90Temp.Name = "IsosTri90" + (isosTri90.getTabCount() - 1);
-                        IsosTri90Temp.Dock = DockStyle.Fill;
-                        tessellations.Add(IsosTri90Temp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(isosTri90.Name, true)[0].ContextMenu = isosTri90.cm;
-                        break;
-                    case 2:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape isosTri120 = new IsosTri120();
-                        shapes.Add(isosTri120);
-                        EventSource.output("120 Isosceles Triangle tab created.");
-                        Tessellation isosc120Temp = new IsosTri120Tess();
-                        isosc120Temp.Name = "IsosTri120" + (isosTri120.getTabCount() - 1);
-                        isosc120Temp.Dock = DockStyle.Fill;
-                        tessellations.Add(isosc120Temp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(isosTri120.Name, true)[0].ContextMenu = isosTri120.cm;
-                        break;
-                    case 3:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape tri3060 = new Tri3060();
-                        shapes.Add(tri3060);
-                        EventSource.output("30-60-90 Triangle tab created.");
-                        Tessellation tri3060Temp = new Tri3060Tess();
-                        tri3060Temp.Name = "Tri3060" + (tri3060.getTabCount() - 1);
-                        tri3060Temp.Dock = DockStyle.Fill;
-                        tessellations.Add(tri3060Temp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(tri3060.Name, true)[0].ContextMenu = tri3060.cm;
-                        break;
-                    case 4:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape hex = new Hexagon();
-                        shapes.Add(hex);
-                        EventSource.output("120 Hexagon tab created.");
-                        Tessellation hexTemp = new HexagonTess();
-                        hexTemp.Name = "Hexagon" + (hex.getTabCount() - 1);
-                        hexTemp.Dock = DockStyle.Fill;
-                        tessellations.Add(hexTemp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(hex.Name, true)[0].ContextMenu = hex.cm;
-                        break;
-                    case 5:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape rhomb = new Rhombus();
-                        shapes.Add(rhomb);
-                        EventSource.output("60-120 Rhombus tab created.");
-                        Tessellation rhomTemp = new RhombusTess();
-                        rhomTemp.Name = "Rhombus" + (rhomb.getTabCount() - 1);
-                        rhomTemp.Dock = DockStyle.Fill;
-                        tessellations.Add(rhomTemp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(rhomb.Name, true)[0].ContextMenu = rhomb.cm;
-                        break;
-                    case 6:
-                        if (shapes.Count() != 0)
-                            lastTab = (Shape)tabControl1.SelectedTab;
-                        Shape kite = new Kite();
-                        shapes.Add(kite);
-                        EventSource.output("60-90-120 Kite tab created.");
-                        Tessellation kiteTemp = new KiteTess();
-                        kiteTemp.Name = "Kite" + (kite.getTabCount() - 1);
-                        kiteTemp.Dock = DockStyle.Fill;
-                        tessellations.Add(kiteTemp);
-                        tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                        tabControl1.Controls.Find(kite.Name, true)[0].ContextMenu = kite.cm;
-                        break;
-                    default:
-                        break;
-                }
+                Control[] controls = instantiateShapes(newShape.getShape());
                 EventSource.output("New tab number: " + shapes.Count + " was added.");
             }
         }
@@ -191,7 +203,19 @@ namespace OrbitMapper
             if(!source.Equals(tabPage1)){
                 string name = (string)source;
                 Shape shapeTemp = (Shape)tabControl1.Controls.Find(name, true)[0];
-                Tessellation tessTemp = (Tessellation)splitContainer1.Panel2.Controls.Find(name, true)[0];
+                Tessellation tessTemp = null;
+                for (int i = 0; i < tessellations.Count; i++)
+                {
+                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(name))
+                    {
+                        tessTemp = tessellations.ElementAt<Tessellation>(i);
+                        break;
+                    }
+                }
+                if (tessTemp == null)
+                {
+                    EventSource.output("The tessellation could not be found with name: " + name);
+                }
                 splitContainer1.Panel2.Controls.RemoveByKey(name);
                 tabControl1.Controls.RemoveByKey(name);
                 if(tabControl1.TabCount == 0){
@@ -617,6 +641,7 @@ namespace OrbitMapper
                         XmlNode attr = null;
                         if((attr = shapes[i].Attributes.GetNamedItem("type")) != null){
 
+                            Control[] controls = null;
                             string type = attr.Value;
                             if (tabControl1.TabPages.Contains(tabPage1))
                             {
@@ -625,69 +650,23 @@ namespace OrbitMapper
                             Shape shape = null;
                             Tessellation tess = null;
                             if(type == "Equilateral"){
-                                if (this.shapes.Count() != 0)
-                                    lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new Equilateral();
-                                this.shapes.Add(shape);
-                                EventSource.output("Equilateral tab created.");
-                                tess = new EquilateralTess();
-                                tess.Name = "Equilateral" + (shape.getTabCount() - 1);
-                                tess.Dock = DockStyle.Fill;
-                                tessellations.Add(tess);
-                                tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
-                                tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
+                                controls = instantiateShapes(0);
                             }
-                            else if(type == "Isosceles"){
-                                if (this.shapes.Count() != 0)
-                                    lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new IsosTri120();
-                                this.shapes.Add(shape);
-                                EventSource.output("Isosceles tab created.");
-                                tess = new IsosTri120Tess();
-                                tess.Name = "Isosceles" + (shape.getTabCount() - 1);
-                                tess.Dock = DockStyle.Fill;
-                                tessellations.Add(tess);
-                                tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
-                                tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
+                            else if (type == "Isosceles")
+                            {
+                                controls = instantiateShapes(1);
                             }
-                            else if(type == "Rhombus"){
-                                if (this.shapes.Count() != 0)
-                                    lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new Rhombus();
-                                this.shapes.Add(shape);
-                                EventSource.output("Rhombus tab created.");
-                                tess = new RhombusTess();
-                                tess.Name = "Rhombus" + (shape.getTabCount() - 1);
-                                tess.Dock = DockStyle.Fill;
-                                tessellations.Add(tess);
-                                tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
-                                tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
+                            else if (type == "Rhombus")
+                            {
+                                controls = instantiateShapes(2);
                             }
-                            else if(type == "Kite"){
-                                if (this.shapes.Count() != 0)
-                                    lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new Kite();
-                                this.shapes.Add(shape);
-                                EventSource.output("Kite tab created.");
-                                tess = new KiteTess();
-                                tess.Name = "Kite" + (shape.getTabCount() - 1);
-                                tess.Dock = DockStyle.Fill;
-                                tessellations.Add(tess);
-                                tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
-                                tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
+                            else if (type == "Kite")
+                            {
+                                controls = instantiateShapes(3);
                             }
-                            else if(type == "Hexagon"){
-                                if (this.shapes.Count() != 0)
-                                    lastTab = (Shape)tabControl1.SelectedTab;
-                                shape = new Hexagon();
-                                this.shapes.Add(shape);
-                                EventSource.output("Hexagon tab created.");
-                                tess = new HexagonTess();
-                                tess.Name = "Hexagon" + (shape.getTabCount() - 1);
-                                tess.Dock = DockStyle.Fill;
-                                tessellations.Add(tess);
-                                tabControl1.TabPages.Add(this.shapes.ElementAt<Shape>(this.shapes.Count - 1));
-                                tabControl1.Controls.Find(shape.Name, true)[0].ContextMenu = shape.cm;
+                            else if (type == "Hexagon")
+                            {
+                                controls = instantiateShapes(4);
                             }
                             shape.setStartPoint(double.Parse(point.InnerText));
                             shape.setStartAngle(double.Parse(angle.InnerText));

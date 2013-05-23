@@ -24,8 +24,8 @@ namespace OrbitMapper
             List<doublePoint> tri1 = new List<doublePoint>();
             List<doublePoint> tri2 = new List<doublePoint>();
             List<doublePoint> tri3 = new List<doublePoint>();
-            addStartZone(new Point(0, 0), new Point(30, 0));
-            addReflectedStartZone(new Point(30, 0), new Point(60, 0));
+            addStartZone(new Point(30, 0), new Point(60, 0));
+            addReflectedStartZone(new Point(0, 0), new Point(30, 0));
             setShapeHeight(heightOnSide);
 
             tri1.Add(new doublePoint(30 - (Math.Cos(Math.PI / 3d) * 30d), heightOnSide));
