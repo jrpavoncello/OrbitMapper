@@ -8,6 +8,7 @@ namespace OrbitMapper
 {
     public static class EventSource
     {
+        //Event handling method definitions for when an event is triggered
         public static event TextChanged textChanged;
         public static event Tessellate tessellate;
         public static event FinishedDrawTess finishedTessellate;
