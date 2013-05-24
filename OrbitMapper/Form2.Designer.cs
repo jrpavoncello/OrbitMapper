@@ -34,44 +34,44 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.Kite6090120Panel = new System.Windows.Forms.Panel();
             this.Kite6090120Label = new System.Windows.Forms.Label();
+            this.Kite6090120PictureBox = new System.Windows.Forms.PictureBox();
             this.HexagonPanel = new System.Windows.Forms.Panel();
             this.HexagonLabel = new System.Windows.Forms.Label();
+            this.HexagonPictureBox = new System.Windows.Forms.PictureBox();
             this.Rhom60Panel = new System.Windows.Forms.Panel();
             this.Rhom60Label = new System.Windows.Forms.Label();
+            this.Rhom60PictureBox = new System.Windows.Forms.PictureBox();
             this.EquiPanel = new System.Windows.Forms.Panel();
             this.EquiLabel = new System.Windows.Forms.Label();
+            this.EquiPictureBox = new System.Windows.Forms.PictureBox();
             this.IsosTri90Panel = new System.Windows.Forms.Panel();
+            this.IsosTri90PictureBox = new System.Windows.Forms.PictureBox();
             this.IsosTri90Label = new System.Windows.Forms.Label();
             this.IsosTri120Panel = new System.Windows.Forms.Panel();
             this.IsosTri120Label = new System.Windows.Forms.Label();
+            this.IsosTri120PictureBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Tri3060Panel = new System.Windows.Forms.Panel();
+            this.Tri3060PictureBox = new System.Windows.Forms.PictureBox();
             this.Tri3060Label = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Kite6090120PictureBox = new System.Windows.Forms.PictureBox();
-            this.HexagonPictureBox = new System.Windows.Forms.PictureBox();
-            this.Rhom60PictureBox = new System.Windows.Forms.PictureBox();
-            this.EquiPictureBox = new System.Windows.Forms.PictureBox();
-            this.IsosTri90PictureBox = new System.Windows.Forms.PictureBox();
-            this.IsosTri120PictureBox = new System.Windows.Forms.PictureBox();
-            this.Tri3060PictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.Kite6090120Panel.SuspendLayout();
-            this.HexagonPanel.SuspendLayout();
-            this.Rhom60Panel.SuspendLayout();
-            this.EquiPanel.SuspendLayout();
-            this.IsosTri90Panel.SuspendLayout();
-            this.IsosTri120Panel.SuspendLayout();
-            this.Tri3060Panel.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Kite6090120PictureBox)).BeginInit();
+            this.HexagonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HexagonPictureBox)).BeginInit();
+            this.Rhom60Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Rhom60PictureBox)).BeginInit();
+            this.EquiPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EquiPictureBox)).BeginInit();
+            this.IsosTri90Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IsosTri90PictureBox)).BeginInit();
+            this.IsosTri120Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IsosTri120PictureBox)).BeginInit();
+            this.Tri3060Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Tri3060PictureBox)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -124,10 +124,10 @@
             this.panel8.AutoSize = true;
             this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(305, 333);
+            this.panel8.Location = new System.Drawing.Point(312, 333);
             this.panel8.MinimumSize = new System.Drawing.Size(200, 100);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(297, 116);
+            this.panel8.Size = new System.Drawing.Size(304, 104);
             this.panel8.TabIndex = 16;
             // 
             // Kite6090120Panel
@@ -141,7 +141,7 @@
             this.Kite6090120Panel.Location = new System.Drawing.Point(3, 333);
             this.Kite6090120Panel.MinimumSize = new System.Drawing.Size(200, 100);
             this.Kite6090120Panel.Name = "Kite6090120Panel";
-            this.Kite6090120Panel.Size = new System.Drawing.Size(296, 116);
+            this.Kite6090120Panel.Size = new System.Drawing.Size(303, 104);
             this.Kite6090120Panel.TabIndex = 15;
             this.Kite6090120Panel.Click += new System.EventHandler(this.Kite6090120_Click);
             this.Kite6090120Panel.DoubleClick += new System.EventHandler(this.Kite6090120_DoubleClick);
@@ -158,6 +158,19 @@
             this.Kite6090120Label.Click += new System.EventHandler(this.Kite6090120_Click);
             this.Kite6090120Label.DoubleClick += new System.EventHandler(this.Kite6090120_DoubleClick);
             // 
+            // Kite6090120PictureBox
+            // 
+            this.Kite6090120PictureBox.Image = global::OrbitMapper.Properties.Resources.kite;
+            this.Kite6090120PictureBox.ImageLocation = "";
+            this.Kite6090120PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.kite;
+            this.Kite6090120PictureBox.Location = new System.Drawing.Point(1, -1);
+            this.Kite6090120PictureBox.Name = "Kite6090120PictureBox";
+            this.Kite6090120PictureBox.Size = new System.Drawing.Size(98, 100);
+            this.Kite6090120PictureBox.TabIndex = 11;
+            this.Kite6090120PictureBox.TabStop = false;
+            this.Kite6090120PictureBox.Click += new System.EventHandler(this.Kite6090120_Click);
+            this.Kite6090120PictureBox.DoubleClick += new System.EventHandler(this.Kite6090120_DoubleClick);
+            // 
             // HexagonPanel
             // 
             this.HexagonPanel.AutoSize = true;
@@ -169,7 +182,7 @@
             this.HexagonPanel.Location = new System.Drawing.Point(3, 223);
             this.HexagonPanel.MinimumSize = new System.Drawing.Size(200, 100);
             this.HexagonPanel.Name = "HexagonPanel";
-            this.HexagonPanel.Size = new System.Drawing.Size(296, 104);
+            this.HexagonPanel.Size = new System.Drawing.Size(303, 104);
             this.HexagonPanel.TabIndex = 14;
             this.HexagonPanel.Click += new System.EventHandler(this.Hexagon_Click);
             this.HexagonPanel.DoubleClick += new System.EventHandler(this.Hexagon_DoubleClick);
@@ -186,6 +199,19 @@
             this.HexagonLabel.Click += new System.EventHandler(this.Hexagon_Click);
             this.HexagonLabel.DoubleClick += new System.EventHandler(this.Hexagon_DoubleClick);
             // 
+            // HexagonPictureBox
+            // 
+            this.HexagonPictureBox.Image = global::OrbitMapper.Properties.Resources.hexagon;
+            this.HexagonPictureBox.ImageLocation = "";
+            this.HexagonPictureBox.InitialImage = global::OrbitMapper.Properties.Resources.hexagon;
+            this.HexagonPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.HexagonPictureBox.Name = "HexagonPictureBox";
+            this.HexagonPictureBox.Size = new System.Drawing.Size(98, 100);
+            this.HexagonPictureBox.TabIndex = 6;
+            this.HexagonPictureBox.TabStop = false;
+            this.HexagonPictureBox.Click += new System.EventHandler(this.Hexagon_Click);
+            this.HexagonPictureBox.DoubleClick += new System.EventHandler(this.Hexagon_DoubleClick);
+            // 
             // Rhom60Panel
             // 
             this.Rhom60Panel.AutoSize = true;
@@ -194,10 +220,10 @@
             this.Rhom60Panel.Controls.Add(this.Rhom60Label);
             this.Rhom60Panel.Controls.Add(this.Rhom60PictureBox);
             this.Rhom60Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Rhom60Panel.Location = new System.Drawing.Point(305, 223);
+            this.Rhom60Panel.Location = new System.Drawing.Point(312, 223);
             this.Rhom60Panel.MinimumSize = new System.Drawing.Size(200, 100);
             this.Rhom60Panel.Name = "Rhom60Panel";
-            this.Rhom60Panel.Size = new System.Drawing.Size(297, 104);
+            this.Rhom60Panel.Size = new System.Drawing.Size(304, 104);
             this.Rhom60Panel.TabIndex = 13;
             this.Rhom60Panel.Click += new System.EventHandler(this.Rhom60_Click);
             this.Rhom60Panel.DoubleClick += new System.EventHandler(this.Rhom60_DoubleClick);
@@ -214,6 +240,20 @@
             this.Rhom60Label.Click += new System.EventHandler(this.Rhom60_Click);
             this.Rhom60Label.DoubleClick += new System.EventHandler(this.Rhom60_DoubleClick);
             // 
+            // Rhom60PictureBox
+            // 
+            this.Rhom60PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Rhom60PictureBox.Image = global::OrbitMapper.Properties.Resources.rhombus;
+            this.Rhom60PictureBox.ImageLocation = "";
+            this.Rhom60PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.rhombus;
+            this.Rhom60PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.Rhom60PictureBox.Name = "Rhom60PictureBox";
+            this.Rhom60PictureBox.Size = new System.Drawing.Size(98, 100);
+            this.Rhom60PictureBox.TabIndex = 6;
+            this.Rhom60PictureBox.TabStop = false;
+            this.Rhom60PictureBox.Click += new System.EventHandler(this.Rhom60_Click);
+            this.Rhom60PictureBox.DoubleClick += new System.EventHandler(this.Rhom60_DoubleClick);
+            // 
             // EquiPanel
             // 
             this.EquiPanel.AutoSize = true;
@@ -225,7 +265,7 @@
             this.EquiPanel.Location = new System.Drawing.Point(3, 3);
             this.EquiPanel.MinimumSize = new System.Drawing.Size(200, 100);
             this.EquiPanel.Name = "EquiPanel";
-            this.EquiPanel.Size = new System.Drawing.Size(296, 104);
+            this.EquiPanel.Size = new System.Drawing.Size(303, 104);
             this.EquiPanel.TabIndex = 10;
             this.EquiPanel.Click += new System.EventHandler(this.EquiTri_Click);
             this.EquiPanel.DoubleClick += new System.EventHandler(this.EquiTri_DoubleClick);
@@ -242,6 +282,19 @@
             this.EquiLabel.Click += new System.EventHandler(this.EquiTri_Click);
             this.EquiLabel.DoubleClick += new System.EventHandler(this.EquiTri_DoubleClick);
             // 
+            // EquiPictureBox
+            // 
+            this.EquiPictureBox.Image = global::OrbitMapper.Properties.Resources.equilateral;
+            this.EquiPictureBox.ImageLocation = "";
+            this.EquiPictureBox.InitialImage = global::OrbitMapper.Properties.Resources.equilateral;
+            this.EquiPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.EquiPictureBox.Name = "EquiPictureBox";
+            this.EquiPictureBox.Size = new System.Drawing.Size(100, 100);
+            this.EquiPictureBox.TabIndex = 5;
+            this.EquiPictureBox.TabStop = false;
+            this.EquiPictureBox.Click += new System.EventHandler(this.EquiTri_Click);
+            this.EquiPictureBox.DoubleClick += new System.EventHandler(this.EquiTri_DoubleClick);
+            // 
             // IsosTri90Panel
             // 
             this.IsosTri90Panel.AutoSize = true;
@@ -250,13 +303,26 @@
             this.IsosTri90Panel.Controls.Add(this.IsosTri90PictureBox);
             this.IsosTri90Panel.Controls.Add(this.IsosTri90Label);
             this.IsosTri90Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IsosTri90Panel.Location = new System.Drawing.Point(305, 3);
+            this.IsosTri90Panel.Location = new System.Drawing.Point(312, 3);
             this.IsosTri90Panel.MinimumSize = new System.Drawing.Size(200, 100);
             this.IsosTri90Panel.Name = "IsosTri90Panel";
-            this.IsosTri90Panel.Size = new System.Drawing.Size(297, 104);
+            this.IsosTri90Panel.Size = new System.Drawing.Size(304, 104);
             this.IsosTri90Panel.TabIndex = 11;
             this.IsosTri90Panel.Click += new System.EventHandler(this.IsosTri90_Click);
             this.IsosTri90Panel.DoubleClick += new System.EventHandler(this.IsosTri90_DoubleClick);
+            // 
+            // IsosTri90PictureBox
+            // 
+            this.IsosTri90PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.IsosTri90PictureBox.Image = global::OrbitMapper.Properties.Resources._4590;
+            this.IsosTri90PictureBox.InitialImage = global::OrbitMapper.Properties.Resources._4590;
+            this.IsosTri90PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.IsosTri90PictureBox.Name = "IsosTri90PictureBox";
+            this.IsosTri90PictureBox.Size = new System.Drawing.Size(100, 100);
+            this.IsosTri90PictureBox.TabIndex = 8;
+            this.IsosTri90PictureBox.TabStop = false;
+            this.IsosTri90PictureBox.Click += new System.EventHandler(this.IsosTri90_Click);
+            this.IsosTri90PictureBox.DoubleClick += new System.EventHandler(this.IsosTri90_DoubleClick);
             // 
             // IsosTri90Label
             // 
@@ -282,7 +348,7 @@
             this.IsosTri120Panel.Location = new System.Drawing.Point(3, 113);
             this.IsosTri120Panel.MinimumSize = new System.Drawing.Size(200, 100);
             this.IsosTri120Panel.Name = "IsosTri120Panel";
-            this.IsosTri120Panel.Size = new System.Drawing.Size(296, 104);
+            this.IsosTri120Panel.Size = new System.Drawing.Size(303, 104);
             this.IsosTri120Panel.TabIndex = 12;
             this.IsosTri120Panel.Click += new System.EventHandler(this.IsosTri120_Click);
             this.IsosTri120Panel.DoubleClick += new System.EventHandler(this.IsosTri120_DoubleClick);
@@ -298,6 +364,18 @@
             this.IsosTri120Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.IsosTri120Label.Click += new System.EventHandler(this.IsosTri120_Click);
             this.IsosTri120Label.DoubleClick += new System.EventHandler(this.IsosTri120_DoubleClick);
+            // 
+            // IsosTri120PictureBox
+            // 
+            this.IsosTri120PictureBox.Image = global::OrbitMapper.Properties.Resources.isosceles;
+            this.IsosTri120PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.isosceles;
+            this.IsosTri120PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.IsosTri120PictureBox.Name = "IsosTri120PictureBox";
+            this.IsosTri120PictureBox.Size = new System.Drawing.Size(100, 100);
+            this.IsosTri120PictureBox.TabIndex = 4;
+            this.IsosTri120PictureBox.TabStop = false;
+            this.IsosTri120PictureBox.Click += new System.EventHandler(this.IsosTri120_Click);
+            this.IsosTri120PictureBox.DoubleClick += new System.EventHandler(this.IsosTri120_DoubleClick);
             // 
             // label2
             // 
@@ -320,13 +398,26 @@
             this.Tri3060Panel.Controls.Add(this.Tri3060PictureBox);
             this.Tri3060Panel.Controls.Add(this.Tri3060Label);
             this.Tri3060Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Tri3060Panel.Location = new System.Drawing.Point(305, 113);
+            this.Tri3060Panel.Location = new System.Drawing.Point(312, 113);
             this.Tri3060Panel.MinimumSize = new System.Drawing.Size(200, 100);
             this.Tri3060Panel.Name = "Tri3060Panel";
-            this.Tri3060Panel.Size = new System.Drawing.Size(297, 104);
+            this.Tri3060Panel.Size = new System.Drawing.Size(304, 104);
             this.Tri3060Panel.TabIndex = 12;
             this.Tri3060Panel.Click += new System.EventHandler(this.Tri3060_Click);
             this.Tri3060Panel.DoubleClick += new System.EventHandler(this.Tri3060_DoubleClick);
+            // 
+            // Tri3060PictureBox
+            // 
+            this.Tri3060PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Tri3060PictureBox.Image = global::OrbitMapper.Properties.Resources._306090;
+            this.Tri3060PictureBox.InitialImage = global::OrbitMapper.Properties.Resources._306090;
+            this.Tri3060PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.Tri3060PictureBox.Name = "Tri3060PictureBox";
+            this.Tri3060PictureBox.Size = new System.Drawing.Size(100, 100);
+            this.Tri3060PictureBox.TabIndex = 10;
+            this.Tri3060PictureBox.TabStop = false;
+            this.Tri3060PictureBox.Click += new System.EventHandler(this.Tri3060_Click);
+            this.Tri3060PictureBox.DoubleClick += new System.EventHandler(this.Tri3060_DoubleClick);
             // 
             // Tri3060Label
             // 
@@ -356,97 +447,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(625, 333);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
-            // Kite6090120PictureBox
-            // 
-            this.Kite6090120PictureBox.Image = global::OrbitMapper.Properties.Resources.kite;
-            this.Kite6090120PictureBox.ImageLocation = "";
-            this.Kite6090120PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.kite;
-            this.Kite6090120PictureBox.Location = new System.Drawing.Point(1, -1);
-            this.Kite6090120PictureBox.Name = "Kite6090120PictureBox";
-            this.Kite6090120PictureBox.Size = new System.Drawing.Size(98, 100);
-            this.Kite6090120PictureBox.TabIndex = 11;
-            this.Kite6090120PictureBox.TabStop = false;
-            this.Kite6090120PictureBox.Click += new System.EventHandler(this.Kite6090120_Click);
-            this.Kite6090120PictureBox.DoubleClick += new System.EventHandler(this.Kite6090120_DoubleClick);
-            // 
-            // HexagonPictureBox
-            // 
-            this.HexagonPictureBox.Image = global::OrbitMapper.Properties.Resources.hexagon;
-            this.HexagonPictureBox.ImageLocation = "";
-            this.HexagonPictureBox.InitialImage = global::OrbitMapper.Properties.Resources.hexagon;
-            this.HexagonPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.HexagonPictureBox.Name = "HexagonPictureBox";
-            this.HexagonPictureBox.Size = new System.Drawing.Size(98, 100);
-            this.HexagonPictureBox.TabIndex = 6;
-            this.HexagonPictureBox.TabStop = false;
-            this.HexagonPictureBox.Click += new System.EventHandler(this.Hexagon_Click);
-            this.HexagonPictureBox.DoubleClick += new System.EventHandler(this.Hexagon_DoubleClick);
-            // 
-            // Rhom60PictureBox
-            // 
-            this.Rhom60PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Rhom60PictureBox.Image = global::OrbitMapper.Properties.Resources.rhombus;
-            this.Rhom60PictureBox.ImageLocation = "";
-            this.Rhom60PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.rhombus;
-            this.Rhom60PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.Rhom60PictureBox.Name = "Rhom60PictureBox";
-            this.Rhom60PictureBox.Size = new System.Drawing.Size(98, 100);
-            this.Rhom60PictureBox.TabIndex = 6;
-            this.Rhom60PictureBox.TabStop = false;
-            this.Rhom60PictureBox.Click += new System.EventHandler(this.Rhom60_Click);
-            this.Rhom60PictureBox.DoubleClick += new System.EventHandler(this.Rhom60_DoubleClick);
-            // 
-            // EquiPictureBox
-            // 
-            this.EquiPictureBox.Image = global::OrbitMapper.Properties.Resources.equilateral;
-            this.EquiPictureBox.ImageLocation = "";
-            this.EquiPictureBox.InitialImage = global::OrbitMapper.Properties.Resources.equilateral;
-            this.EquiPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.EquiPictureBox.Name = "EquiPictureBox";
-            this.EquiPictureBox.Size = new System.Drawing.Size(100, 100);
-            this.EquiPictureBox.TabIndex = 5;
-            this.EquiPictureBox.TabStop = false;
-            this.EquiPictureBox.Click += new System.EventHandler(this.EquiTri_Click);
-            this.EquiPictureBox.DoubleClick += new System.EventHandler(this.EquiTri_DoubleClick);
-            // 
-            // IsosTri90PictureBox
-            // 
-            this.IsosTri90PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IsosTri90PictureBox.Image = global::OrbitMapper.Properties.Resources._4590;
-            this.IsosTri90PictureBox.InitialImage = global::OrbitMapper.Properties.Resources._4590;
-            this.IsosTri90PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.IsosTri90PictureBox.Name = "IsosTri90PictureBox";
-            this.IsosTri90PictureBox.Size = new System.Drawing.Size(100, 100);
-            this.IsosTri90PictureBox.TabIndex = 8;
-            this.IsosTri90PictureBox.TabStop = false;
-            this.IsosTri90PictureBox.Click += new System.EventHandler(this.IsosTri90_Click);
-            this.IsosTri90PictureBox.DoubleClick += new System.EventHandler(this.IsosTri90_DoubleClick);
-            // 
-            // IsosTri120PictureBox
-            // 
-            this.IsosTri120PictureBox.Image = global::OrbitMapper.Properties.Resources.isosceles;
-            this.IsosTri120PictureBox.InitialImage = global::OrbitMapper.Properties.Resources.isosceles;
-            this.IsosTri120PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.IsosTri120PictureBox.Name = "IsosTri120PictureBox";
-            this.IsosTri120PictureBox.Size = new System.Drawing.Size(100, 100);
-            this.IsosTri120PictureBox.TabIndex = 4;
-            this.IsosTri120PictureBox.TabStop = false;
-            this.IsosTri120PictureBox.Click += new System.EventHandler(this.IsosTri120_Click);
-            this.IsosTri120PictureBox.DoubleClick += new System.EventHandler(this.IsosTri120_DoubleClick);
-            // 
-            // Tri3060PictureBox
-            // 
-            this.Tri3060PictureBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Tri3060PictureBox.Image = global::OrbitMapper.Properties.Resources._306090;
-            this.Tri3060PictureBox.InitialImage = global::OrbitMapper.Properties.Resources._306090;
-            this.Tri3060PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.Tri3060PictureBox.Name = "Tri3060PictureBox";
-            this.Tri3060PictureBox.Size = new System.Drawing.Size(100, 100);
-            this.Tri3060PictureBox.TabIndex = 10;
-            this.Tri3060PictureBox.TabStop = false;
-            this.Tri3060PictureBox.Click += new System.EventHandler(this.Tri3060_Click);
-            this.Tri3060PictureBox.DoubleClick += new System.EventHandler(this.Tri3060_DoubleClick);
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,27 +466,27 @@
             this.tableLayoutPanel1.PerformLayout();
             this.Kite6090120Panel.ResumeLayout(false);
             this.Kite6090120Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Kite6090120PictureBox)).EndInit();
             this.HexagonPanel.ResumeLayout(false);
             this.HexagonPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HexagonPictureBox)).EndInit();
             this.Rhom60Panel.ResumeLayout(false);
             this.Rhom60Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Rhom60PictureBox)).EndInit();
             this.EquiPanel.ResumeLayout(false);
             this.EquiPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EquiPictureBox)).EndInit();
             this.IsosTri90Panel.ResumeLayout(false);
             this.IsosTri90Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IsosTri90PictureBox)).EndInit();
             this.IsosTri120Panel.ResumeLayout(false);
             this.IsosTri120Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IsosTri120PictureBox)).EndInit();
             this.Tri3060Panel.ResumeLayout(false);
             this.Tri3060Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Tri3060PictureBox)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Kite6090120PictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HexagonPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Rhom60PictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EquiPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IsosTri90PictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IsosTri120PictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Tri3060PictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
