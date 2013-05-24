@@ -1,6 +1,6 @@
 ﻿namespace OrbitMapper
 {
-    partial class Form3
+    partial class DebugForms
     {
         /// <summary>
         /// Required designer variable.

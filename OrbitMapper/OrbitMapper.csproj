@@ -59,10 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Shapes\IsosTri90.cs">
@@ -83,10 +83,10 @@
     <Compile Include="Tessellations\Tri3060Tess.Designer.cs">
       <DependentUpon>Tri3060Tess.cs</DependentUpon>
     </Compile>
-    <Compile Include="VersionBox1.cs">
+    <Compile Include="Forms\VersionBox1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VersionBox1.Designer.cs">
+    <Compile Include="Forms\VersionBox1.Designer.cs">
       <DependentUpon>VersionBox1.cs</DependentUpon>
     </Compile>
     <Compile Include="EventSource.cs" />
@@ -133,26 +133,26 @@
     <Compile Include="Shape.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="Forms\NewShapeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Forms\NewShapeForm.Designer.cs">
+      <DependentUpon>NewShapeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form3.cs">
+    <Compile Include="Forms\DebugForms.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <Compile Include="Forms\DebugForms.Designer.cs">
+      <DependentUpon>DebugForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Shapes\IsosTri120.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\MainForms.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\MainForms.Designer.cs">
+      <DependentUpon>MainForms.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,21 +169,21 @@
       <DependentUpon>EquilateralTess.cs</DependentUpon>
     </Compile>
     <Compile Include="Vertices.cs" />
-    <EmbeddedResource Include="About.resx">
+    <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="VersionBox1.resx">
+    <EmbeddedResource Include="Forms\VersionBox1.resx">
       <DependentUpon>VersionBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForms.resx">
+      <DependentUpon>MainForms.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\NewShapeForm.resx">
+      <DependentUpon>NewShapeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\DebugForms.resx">
+      <DependentUpon>DebugForms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

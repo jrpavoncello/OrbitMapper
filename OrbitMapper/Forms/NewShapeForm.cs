@@ -11,12 +11,12 @@ using System.Diagnostics;
 
 namespace OrbitMapper
 {
-    public partial class Form2 : Form
+    public partial class NewShapeForm : Form
     {
         private int shape = -1;
         private bool cancelled = true;
 
-        public Form2()
+        public NewShapeForm()
         {
             InitializeComponent();
         }
@@ -171,6 +171,15 @@ namespace OrbitMapper
             this.Kite6090120Label.BackColor = SystemColors.MenuHighlight;
         }
 
+        private void Rectangle_Click(object sender, EventArgs e)
+        {
+            EventSource.output("Rectangle was selected.");
+            resetPanels();
+            shape = 7;
+            this.RectanglePanel.BackColor = SystemColors.MenuHighlight;
+            this.RectangleLabel.BackColor = SystemColors.MenuHighlight;
+        }
+
         private void EquiTri_DoubleClick(object sender, EventArgs e)
         {
             EquiTri_Click(sender, e);
@@ -234,6 +243,16 @@ namespace OrbitMapper
         private void Rhom60_DoubleClick(object sender, EventArgs e)
         {
             Rhom60_Click(sender, e);
+            if (shape != -1)
+            {
+                cancelled = false;
+                this.Close();
+            }
+        }
+
+        private void Rectangle_DoubleClick(object sender, EventArgs e)
+        {
+            Rectangle_Click(sender, e);
             if (shape != -1)
             {
                 cancelled = false;

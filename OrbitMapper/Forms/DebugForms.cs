@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
-    public partial class Form3 : Form
+    public partial class DebugForms : Form
     {
 
-        public Form3()
+        public DebugForms()
         {
             InitializeComponent();
             EventSource.textChanged += new TextChanged(updateText);

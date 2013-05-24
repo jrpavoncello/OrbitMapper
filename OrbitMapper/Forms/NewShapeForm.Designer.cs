@@ -1,6 +1,6 @@
 ﻿namespace OrbitMapper
 {
-    partial class Form2
+    partial class NewShapeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,6 +32,9 @@
             this.eventLog1 = new System.Diagnostics.EventLog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.RectanglePanel = new System.Windows.Forms.Panel();
+            this.RectangleLabel = new System.Windows.Forms.Label();
+            this.RectanglePictureBox = new System.Windows.Forms.PictureBox();
             this.Kite6090120Panel = new System.Windows.Forms.Panel();
             this.Kite6090120Label = new System.Windows.Forms.Label();
             this.Kite6090120PictureBox = new System.Windows.Forms.PictureBox();
@@ -57,6 +60,9 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.RectanglePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RectanglePictureBox)).BeginInit();
             this.Kite6090120Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Kite6090120PictureBox)).BeginInit();
             this.HexagonPanel.SuspendLayout();
@@ -123,12 +129,54 @@
             // 
             this.panel8.AutoSize = true;
             this.panel8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panel8.Controls.Add(this.RectanglePanel);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel8.Location = new System.Drawing.Point(312, 333);
             this.panel8.MinimumSize = new System.Drawing.Size(200, 100);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(304, 104);
             this.panel8.TabIndex = 16;
+            // 
+            // RectanglePanel
+            // 
+            this.RectanglePanel.AutoSize = true;
+            this.RectanglePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.RectanglePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.RectanglePanel.Controls.Add(this.RectangleLabel);
+            this.RectanglePanel.Controls.Add(this.RectanglePictureBox);
+            this.RectanglePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RectanglePanel.Location = new System.Drawing.Point(0, 0);
+            this.RectanglePanel.MinimumSize = new System.Drawing.Size(200, 100);
+            this.RectanglePanel.Name = "RectanglePanel";
+            this.RectanglePanel.Size = new System.Drawing.Size(304, 104);
+            this.RectanglePanel.TabIndex = 16;
+            this.RectanglePanel.Click += new System.EventHandler(this.Rectangle_Click);
+            this.RectanglePanel.DoubleClick += new System.EventHandler(this.Rectangle_DoubleClick);
+            // 
+            // RectangleLabel
+            // 
+            this.RectangleLabel.AutoSize = true;
+            this.RectangleLabel.Location = new System.Drawing.Point(144, 37);
+            this.RectangleLabel.Name = "RectangleLabel";
+            this.RectangleLabel.Size = new System.Drawing.Size(56, 13);
+            this.RectangleLabel.TabIndex = 12;
+            this.RectangleLabel.Text = "Rectangle";
+            this.RectangleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RectangleLabel.Click += new System.EventHandler(this.Rectangle_Click);
+            this.RectangleLabel.DoubleClick += new System.EventHandler(this.Rectangle_DoubleClick);
+            // 
+            // RectanglePictureBox
+            // 
+            this.RectanglePictureBox.Image = global::OrbitMapper.Properties.Resources.kite;
+            this.RectanglePictureBox.ImageLocation = "";
+            this.RectanglePictureBox.InitialImage = global::OrbitMapper.Properties.Resources.kite;
+            this.RectanglePictureBox.Location = new System.Drawing.Point(1, -1);
+            this.RectanglePictureBox.Name = "RectanglePictureBox";
+            this.RectanglePictureBox.Size = new System.Drawing.Size(98, 100);
+            this.RectanglePictureBox.TabIndex = 11;
+            this.RectanglePictureBox.TabStop = false;
+            this.RectanglePictureBox.Click += new System.EventHandler(this.Rectangle_Click);
+            this.RectanglePictureBox.DoubleClick += new System.EventHandler(this.Rectangle_DoubleClick);
             // 
             // Kite6090120Panel
             // 
@@ -447,7 +495,7 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(625, 333);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
-            // Form2
+            // NewShapeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -456,7 +504,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximumSize = new System.Drawing.Size(1200, 800);
             this.MinimumSize = new System.Drawing.Size(500, 280);
-            this.Name = "Form2";
+            this.Name = "NewShapeForm";
             this.Text = "New Shape";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Shown += new System.EventHandler(this.Form2_Shown);
@@ -464,6 +512,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.RectanglePanel.ResumeLayout(false);
+            this.RectanglePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RectanglePictureBox)).EndInit();
             this.Kite6090120Panel.ResumeLayout(false);
             this.Kite6090120Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Kite6090120PictureBox)).EndInit();
@@ -520,5 +573,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox Tri3060PictureBox;
         private System.Windows.Forms.Label Tri3060Label;
+        private System.Windows.Forms.Panel RectanglePanel;
+        private System.Windows.Forms.Label RectangleLabel;
+        private System.Windows.Forms.PictureBox RectanglePictureBox;
     }
 }

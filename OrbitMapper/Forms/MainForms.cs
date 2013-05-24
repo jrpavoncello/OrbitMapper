@@ -16,18 +16,18 @@ using System.Xml;
 
 namespace OrbitMapper
 {
-    public partial class Form1 : Form
+    public partial class MainForms : Form
     {
         
         private const string OMVersion = "1.0.1";
 
-        private Form2 newShape;
+        private NewShapeForm newShape;
         private List<Shape> shapes = new List<Shape>();
         private List<Tessellation> tessellations = new List<Tessellation>();
         private Shape lastTab;
         private Point Position { get; set; }
         
-        public Form1()
+        public MainForms()
         {
             InitializeComponent();
             EventSource.tessellate += new Tessellate(updateFields);
@@ -166,7 +166,7 @@ namespace OrbitMapper
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(newShape == null)
-                newShape = new Form2();
+                newShape = new NewShapeForm();
             newShape.ShowDialog();
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {

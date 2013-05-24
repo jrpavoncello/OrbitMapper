@@ -21,12 +21,12 @@ namespace OrbitMapper
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try{
-                Application.Run(new Form1());
+                Application.Run(new MainForms());
             }
             catch(Exception e){
                 EventSource.output(e.StackTrace);
                 EventSource.output(e.Message);
-                new Form3().ShowDialog();
+                new DebugForms().ShowDialog();
             }
         }
     }
