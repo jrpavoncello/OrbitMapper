@@ -13,7 +13,7 @@ namespace OrbitMapper
         public Equilateral()
         {
             base.Text = "Equilateral";
-            base.Name = "Equilateral" + base.getTabCount();
+            base.Name = "Equilateral" + (base.getShapeCount() - 1);
             base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 3) * (256d);
