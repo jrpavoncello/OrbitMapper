@@ -13,7 +13,7 @@ namespace OrbitMapper
         public IsosTri90()
         {
             base.Text = "IsosTri90";
-            base.Name = "IsosTri90" + base.getTabCount();
+            base.Name = "IsosTri90" + (base.getShapeCount() - 1);
             base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 4) * (512d);

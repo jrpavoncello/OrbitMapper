@@ -15,7 +15,6 @@ namespace OrbitMapper
         public static event FinishedDrawShape finishedShape;
         public static event RemoveTab tabRemove;
         private static string console = "";
-        private static bool newText = false;
 
         public static void output(string output)
         {
@@ -44,7 +43,6 @@ namespace OrbitMapper
 
         public static string getText()
         {
-            newText = false;
             return console;
         }
     }

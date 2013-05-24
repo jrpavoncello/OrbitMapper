@@ -10,7 +10,7 @@ namespace OrbitMapper
     {
         public Hexagon(){
             base.Text = "Hexagon";
-            base.Name = "Hexagon" + base.getTabCount();
+            base.Name = "Hexagon" + (base.getShapeCount() - 1);
             base.setTabCount(base.getTabCount() + 1);
             double xSmallSegment = 256d;
             double xLargeSegment = 512d;

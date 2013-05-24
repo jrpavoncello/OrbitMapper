@@ -22,7 +22,6 @@ namespace OrbitMapper
         private const string OMVersion = "1.0.1";
 
         private Form2 newShape;
-        private Form3 debug;
         private List<Shape> shapes = new List<Shape>();
         private List<Tessellation> tessellations = new List<Tessellation>();
         private Shape lastTab;
@@ -61,7 +60,7 @@ namespace OrbitMapper
             }
             Shape tempShape = null;
             Tessellation tempTess = null;
-            switch (newShape.getShape())
+            switch (shape)
             {
                 case 0:
                     if (shapes.Count() != 0)
@@ -70,7 +69,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("Equilateral Triangle tab created.");
                     tempTess = new EquilateralTess();
-                    tempTess.Name = "Equilateral" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "Equilateral" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -83,7 +82,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("90 Isosceles Triangle tab created.");
                     tempTess = new IsosTri90Tess();
-                    tempTess.Name = "IsosTri90" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "IsosTri90" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -96,7 +95,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("120 Isosceles Triangle tab created.");
                     tempTess = new IsosTri120Tess();
-                    tempTess.Name = "IsosTri120" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "IsosTri120" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -109,7 +108,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("30-60-90 Triangle tab created.");
                     tempTess = new Tri3060Tess();
-                    tempTess.Name = "Tri3060" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "Tri3060" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -122,7 +121,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("120 Hexagon tab created.");
                     tempTess = new HexagonTess();
-                    tempTess.Name = "Hexagon" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "Hexagon" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -135,7 +134,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("60-120 Rhombus tab created.");
                     tempTess = new RhombusTess();
-                    tempTess.Name = "Rhombus" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "Rhombus" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -148,7 +147,7 @@ namespace OrbitMapper
                     shapes.Add(tempShape);
                     EventSource.output("60-90-120 Kite tab created.");
                     tempTess = new KiteTess();
-                    tempTess.Name = "Kite" + (tempShape.getTabCount() - 1);
+                    tempTess.Name = "Kite" + (tempShape.getShapeCount() - 1);
                     tempTess.Dock = DockStyle.Fill;
                     tessellations.Add(tempTess);
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
@@ -215,6 +214,7 @@ namespace OrbitMapper
                 if (tessTemp == null)
                 {
                     EventSource.output("The tessellation could not be found with name: " + name);
+                    return;
                 }
                 splitContainer1.Panel2.Controls.RemoveByKey(name);
                 tabControl1.Controls.RemoveByKey(name);
@@ -222,6 +222,7 @@ namespace OrbitMapper
                     tabControl1.Controls.Add(tabPage1);
                 }
                 tessellations.Remove(tessTemp);
+                tessTemp.decTabCount();
                 shapes.Remove(shapeTemp);
                 shapeTemp.decTabCount();
             }
@@ -240,36 +241,65 @@ namespace OrbitMapper
         private void updateBounces(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-            bouncesBox.Text = "" + tempShape.getBounces();
+            if(!tempShape.undefCollision)
+                bouncesBox.Text = "" + tempShape.getBounces();
         }
 
-        private void updateFields(object source, Events e){
-            Shape selectedShape = (Shape)tabControl1.SelectedTab;
-            if(tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).populateByTess){
-                if (tessellations.ElementAt<Tessellation>(selectedShape.getTabNum()).baseIsGood)
+        private void updateFields(object source, Events e)
+        {
+            Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+            Tessellation tessTemp = null;
+            for (int i = 0; i < tessellations.Count; i++)
+            {
+                if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
                 {
-                    double startingPoint = ((Tessellation)source).getStartingPoint();
-                    double startingAngle = ((Tessellation)source).getStartingAngle();
-                    double distance = ((Tessellation)source).getDistance();
-                    double tessHeight = ((Tessellation)source).getShapeHeight();
-
-                    Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-                    tempShape.setFromTessellation(true);
-                    tempShape.setStartPoint(startingPoint);
-                    tempShape.setStartAngle(startingAngle);
-                    tempShape.setDistance(distance);
-                    tempShape.setTessShapeHeight(tessHeight);
-
-                    angleBox.Text = "" + startingAngle;
-                    bouncesBox.Text = "" + 0;
-                    pointBox.Text = "" + startingPoint;
-                    if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
-                        trackBar4.Value = (int)tempShape.getStartAngle();
-                    if (tempShape.getStartPoint() > 0 && tempShape.getStartPoint() < 1)
-                        trackBar2.Value = (int)(tempShape.getStartPoint() * 100);
-
-                    tempShape.Invalidate();
+                    tessTemp = tessellations.ElementAt<Tessellation>(i);
+                    break;
                 }
+            }
+            if (tessTemp == null)
+            {
+                EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
+                return;
+            }
+            if (tessTemp.populateByTess)
+            {
+                double startingPoint = ((Tessellation)source).getStartingPoint();
+                double startingAngle = ((Tessellation)source).getStartingAngle();
+                double distance = ((Tessellation)source).getDistance();
+                double tessHeight = ((Tessellation)source).getShapeHeight();
+
+                tempShape.setFromTessellation(true);
+                tempShape.setStartPoint(startingPoint);
+                tempShape.setStartAngle(startingAngle);
+                tempShape.setDistance(distance);
+                tempShape.setTessShapeHeight(tessHeight);
+
+                angleBox.Text = "" + startingAngle;
+                bouncesBox.Text = "" + 0;
+                pointBox.Text = "" + startingPoint;
+                int val = 0;
+                if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
+                {
+                    val = 180 - (int)tempShape.getStartAngle();
+                    if (val > trackBar4.Minimum && val < trackBar4.Maximum)
+                    {
+                        trackBar4.Value = val;
+                    }
+                }
+                if (tempShape.getStartPoint() > 0 && tempShape.getStartPoint() < 1){
+                    val = (int)(tempShape.getStartPoint() * 100);
+                    if (val > trackBar2.Minimum && val < trackBar2.Maximum)
+                    {
+                        trackBar2.Value = val;
+                    }
+                }
+                tempShape.Invalidate();
+            }
+            if (!tessTemp.baseIsGood)
+            {
+                tempShape.undefCollision = true;
+                EventSource.finishedDrawShape();
             }
         }
 
@@ -286,20 +316,36 @@ namespace OrbitMapper
                     else
                     {
                         Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-                        tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+                        Tessellation tessTemp = null;
+                        for (int i = 0; i < tessellations.Count; i++)
+                        {
+                            if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                            {
+                                tessTemp = tessellations.ElementAt<Tessellation>(i);
+                                break;
+                            }
+                        }
+                        if (tessTemp == null)
+                        {
+                            EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
+                            return true;
+                        }
+                        tessTemp.populateByTess = false;
 
                         int tempBounces = int.Parse(bouncesBox.Text);
                         tempShape.setBounces(tempBounces);
 
                         double tempPoint = double.Parse(pointBox.Text);
                         tempShape.setStartPoint(tempPoint);
-                        if (tempPoint > 0 && tempPoint < 1)
-                            trackBar2.Value = (int)(tempPoint * 100);
+                        int val = (int)(tempPoint * 100);
+                        if (val > trackBar2.Minimum && val < trackBar2.Maximum)
+                            trackBar2.Value = val;
 
                         double tempAngle = double.Parse(angleBox.Text);
                         tempShape.setStartAngle(tempAngle);
-                        if (tempAngle > 0 && tempAngle < 180)
-                            trackBar4.Value = (int)(180 - tempAngle);
+                        val = (int)(180 - tempAngle);
+                        if (val > trackBar4.Minimum && val < trackBar4.Maximum)
+                            trackBar4.Value = val;
 
                         tempShape.setFromTessellation(false);
                         tempShape.Invalidate();
@@ -335,78 +381,129 @@ namespace OrbitMapper
         //Starting Point
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
+            if (shapes.Count() == 0)
+                return;
+            Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                if (shapes.Count() == 0)
+                Tessellation tessTemp = null;
+                for (int i = 0; i < tessellations.Count; i++)
+                {
+                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                    {
+                        tessTemp = tessellations.ElementAt<Tessellation>(i);
+                        break;
+                    }
+                }
+                if (tessTemp == null)
+                {
+                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
                     return;
-                tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+                }
+                tessTemp.populateByTess = false;
                 double temp = double.Parse(pointBox.Text);
-                Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                 tempShape.setStartPoint(temp);
 
             }
             catch(System.ArgumentNullException ane){
                 EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                tempShape.setStartPoint(0);
             }
             catch (System.FormatException fe)
             {
                 EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                tempShape.setStartPoint(0);
             }
             catch (System.OverflowException oe)
             {
                 EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                tempShape.setStartPoint(0);
             }
         }
 
         //Starting Angle
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if (shapes.Count() == 0)
+                return;
+            Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                if (shapes.Count() == 0)
+                Tessellation tessTemp = null;
+                for (int i = 0; i < tessellations.Count; i++)
+                {
+                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                    {
+                        tessTemp = tessellations.ElementAt<Tessellation>(i);
+                        break;
+                    }
+                }
+                if (tessTemp == null)
+                {
+                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
                     return;
-                tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+                }
+                tessTemp.populateByTess = false;
                 double temp = double.Parse(angleBox.Text);
-                Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                 tempShape.setStartAngle(temp);
             }
             catch (System.ArgumentNullException ane)
             {
                 EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                tempShape.setStartAngle(0);
             }
             catch (System.FormatException fe)
             {
                 EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                tempShape.setStartAngle(0);
             }
             catch (System.OverflowException oe)
             {
                 EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                tempShape.setStartAngle(0);
             }
         }
 
         //Bounces
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+            if (shapes.Count() == 0)
+                return;
+            Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                if (shapes.Count() == 0)
+                Tessellation tessTemp = null;
+                for (int i = 0; i < tessellations.Count; i++)
+                {
+                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                    {
+                        tessTemp = tessellations.ElementAt<Tessellation>(i);
+                        break;
+                    }
+                }
+                if (tessTemp == null)
+                {
+                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
                     return;
-                tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+                }
+                tessTemp.populateByTess = false;
                 int temp = int.Parse(bouncesBox.Text);
-                Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                 tempShape.setBounces(temp);
             }
             catch (System.ArgumentNullException ane)
             {
                 EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                tempShape.setBounces(0);
             }
             catch (System.FormatException fe)
             {
                 EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                tempShape.setBounces(0);
             }
             catch (System.OverflowException oe)
             {
                 EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                tempShape.setBounces(0);
             }
         }
 
@@ -414,16 +511,30 @@ namespace OrbitMapper
         {
             if (shapes.Count() == 0)
                 return;
-            Tessellation tempTess = tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum());
-            tempTess.populateByTess = false;
+            Shape tempShape = (Shape)tabControl1.SelectedTab;
+            Tessellation tessTemp = null;
+            for (int i = 0; i < tessellations.Count; i++)
+            {
+                if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                {
+                    tessTemp = tessellations.ElementAt<Tessellation>(i);
+                    break;
+                }
+            }
+            if (tessTemp == null)
+            {
+                EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
+                return;
+            }
+            tessTemp.populateByTess = false;
             for (int i = 0; i < tessellations.Count; i++)
             {
                 if (tessellations.ElementAt<Tessellation>(i).Visible)
                 {
                     if (i == 0)
                     {
-                        Tessellation.lastWidth = tempTess.Width;
-                        this.Width -= tempTess.Width + splitContainer1.SplitterWidth;
+                        Tessellation.lastWidth = tessTemp.Width;
+                        this.Width -= tessTemp.Width + splitContainer1.SplitterWidth;
                         splitContainer1.Panel2Collapsed = true;
                         tessellations.ElementAt<Tessellation>(i).Visible = false;
                     }
@@ -446,9 +557,22 @@ namespace OrbitMapper
             {
                 if (shapes.Count() == 0)
                     return;
-
-                tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
                 Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+                Tessellation tessTemp = null;
+                for (int i = 0; i < tessellations.Count; i++)
+                {
+                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
+                    {
+                        tessTemp = tessellations.ElementAt<Tessellation>(i);
+                        break;
+                    }
+                }
+                if (tessTemp == null)
+                {
+                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
+                    return;
+                }
+                tessTemp.populateByTess = false;
 
                 int tempBounces = int.Parse(bouncesBox.Text);
                 tempShape.setBounces(tempBounces);
@@ -521,7 +645,21 @@ namespace OrbitMapper
 
                     if(this.shapes.Count > 1 && !((Shape)tabControl1.SelectedTab).Equals(lastTab)){
                         splitContainer1.Panel2.Controls.RemoveByKey(lastTab.Name);
-                        splitContainer1.Panel2.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()));
+                        Tessellation tessTemp = null;
+                        for (int i = 0; i < tessellations.Count; i++)
+                        {
+                            if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tab.Name))
+                            {
+                                tessTemp = tessellations.ElementAt<Tessellation>(i);
+                                break;
+                            }
+                        }
+                        if (tessTemp == null)
+                        {
+                            EventSource.output("The tessellation could not be found with name: " + tab.Name);
+                            return;
+                        }
+                        splitContainer1.Panel2.Controls.Add(tessTemp);
                         lastTab = (Shape)tabControl1.SelectedTab;
                     }
                 }
@@ -533,7 +671,22 @@ namespace OrbitMapper
             if(!tabControl1.Controls.Contains(tabPage1)){
                 if (this.shapes.Count == 1)
                 {
-                    splitContainer1.Panel2.Controls.Add(tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()));
+                    Shape temp = (Shape)e.Control;
+                    Tessellation tessTemp = null;
+                    for (int i = 0; i < tessellations.Count; i++)
+                    {
+                        if (tessellations.ElementAt<Tessellation>(i).Name.Equals(temp.Name))
+                        {
+                            tessTemp = tessellations.ElementAt<Tessellation>(i);
+                            break;
+                        }
+                    }
+                    if (tessTemp == null)
+                    {
+                        EventSource.output("The tessellation could not be found with name: " + temp.Name);
+                        return;
+                    }
+                    splitContainer1.Panel2.Controls.Add(tessTemp);
                     splitContainer1.Panel2Collapsed = false;
                     splitContainer1.SplitterDistance = this.Width / 2;
                     lastTab = (Shape)tabControl1.SelectedTab;
@@ -543,24 +696,31 @@ namespace OrbitMapper
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://www.pragmaticparadigm.com/OrbitMapperGetLatest.php");
-            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
-            Stream responseStream = webResponse.GetResponseStream();
-            StreamReader response = new StreamReader(responseStream);
-            string tempVersion = response.ReadToEnd();
-            if (OMVersion != tempVersion)
+            try
             {
-                EventSource.output("New version detected!");
-                EventSource.output("Current Version: " + OMVersion);
-                EventSource.output("Latest Version: " + tempVersion);
-                new VersionBox1().ShowDialog();
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://www.pragmaticparadigm.com/OrbitMapperGetLatest.php");
+                HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                Stream responseStream = webResponse.GetResponseStream();
+                StreamReader response = new StreamReader(responseStream);
+                string tempVersion = response.ReadToEnd();
+                if (OMVersion != tempVersion)
+                {
+                    EventSource.output("New version detected!");
+                    EventSource.output("Current Version: " + OMVersion);
+                    EventSource.output("Latest Version: " + tempVersion);
+                    new VersionBox1().ShowDialog();
+                }
+                else
+                {
+                    EventSource.output("No new version detected!");
+                    EventSource.output("Current Version: " + OMVersion);
+                    EventSource.output("Latest Version: " + tempVersion);
+                }
+                webResponse.Close();
+                responseStream.Close();
+                response.Close();
             }
-            else
-            {
-                EventSource.output("No new version detected!");
-                EventSource.output("Current Version: " + OMVersion);
-                EventSource.output("Latest Version: " + tempVersion);
-            }
+            catch (WebException ex) { /* Ignore the exception, failure communication with server */ }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -619,7 +779,8 @@ namespace OrbitMapper
                 openFileDialog.Filter = "Orbit Mapper Data (*.omd)|*.omd";
                 openFileDialog.Title = "Open Orbit Mapper";
                 openFileDialog.ShowDialog();
-            
+
+                TabPage first = null;
                 // If the file name is not an empty string open it for saving.
                 if (openFileDialog.FileName != "" && openFileDialog.CheckFileExists && openFileDialog.CheckPathExists)
                 {
@@ -652,15 +813,15 @@ namespace OrbitMapper
                             if(type == "Equilateral"){
                                 controls = instantiateShapes(0);
                             }
-                            else if (type == "Isosceles")
+                            else if (type == "IsosTri90")
                             {
                                 controls = instantiateShapes(1);
                             }
-                            else if (type == "Rhombus")
+                            else if (type == "IsosTri120")
                             {
                                 controls = instantiateShapes(2);
                             }
-                            else if (type == "Kite")
+                            else if (type == "Tri3060")
                             {
                                 controls = instantiateShapes(3);
                             }
@@ -668,17 +829,55 @@ namespace OrbitMapper
                             {
                                 controls = instantiateShapes(4);
                             }
-                            shape.setStartPoint(double.Parse(point.InnerText));
-                            shape.setStartAngle(double.Parse(angle.InnerText));
-                            shape.setBounces(int.Parse(bounces.InnerText));
-                            tess.setBaseClick(new Point(int.Parse(baseClickX.InnerText), int.Parse(baseClickY.InnerText)));
-                            tess.setEndClick(new Point(int.Parse(endClickX.InnerText), int.Parse(endClickY.InnerText)));
-                            tess.populateByTess = bool.Parse(populateByTess.InnerText);
+                            else if (type == "Rhombus")
+                            {
+                                controls = instantiateShapes(5);
+                            }
+                            else if (type == "Kite")
+                            {
+                                controls = instantiateShapes(6);
+                            }
+                            shape = (Shape)controls[0];
+                            tess = (Tessellation)controls[1];
+                            double startingPoint = double.Parse(point.InnerText);
+                            double startingAngle = double.Parse(angle.InnerText);
+                            int startingBounces = int.Parse(bounces.InnerText);
+                            shape.setStartPoint(startingPoint);
+                            shape.setStartAngle(startingAngle);
+                            shape.setBounces(startingBounces);
                             tabControl1.SelectTab(shape);
+                            tess.setBasePos(new Point(int.Parse(baseClickX.InnerText), tess.Height - int.Parse(baseClickY.InnerText)));
+                            tess.setEndPos(new Point(int.Parse(endClickX.InnerText), tess.Height - int.Parse(endClickY.InnerText)));
+                            tess.populateByTess = bool.Parse(populateByTess.InnerText);
+
+                            angleBox.Text = "" + startingAngle;
+                            bouncesBox.Text = "" + startingBounces;
+                            pointBox.Text = "" + startingPoint;
+                            int val = 0;
+                            if (shape.getStartAngle() > 0 && shape.getStartAngle() < 180)
+                            {
+                                val = 180 - (int)shape.getStartAngle();
+                                if (val > trackBar4.Minimum && val < trackBar4.Maximum)
+                                {
+                                    trackBar4.Value = val;
+                                }
+                            }
+                            if (shape.getStartPoint() > 0 && shape.getStartPoint() < 1)
+                            {
+                                val = (int)(shape.getStartPoint() * 100);
+                                if (val > trackBar2.Minimum && val < trackBar2.Maximum)
+                                {
+                                    trackBar2.Value = val;
+                                }
+                            }
+                            if (i == 0)
+                                first = shape;
                             EventSource.output("New tab number: " + this.shapes.Count + " was added.");
                         }
                     }
                 }
+                if(first != null)
+                    tabControl1.SelectTab(first);
             }
             catch (Exception openE)
             {

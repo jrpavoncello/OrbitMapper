@@ -15,6 +15,7 @@ namespace OrbitMapper
     {
         private Vertices vertices = new Vertices();
         private static int tabCount = 0;
+        private static int shapeCount = 0;
         private List<Intersect> collisions;
         private int numWalls;
         private List<doublePoint> walls;
@@ -43,6 +44,7 @@ namespace OrbitMapper
             tabNum = tabCount;
             cm = new ContextMenu();
             cm.MenuItems.Add("Remove", new EventHandler(removeThisTab));
+            shapeCount++;
         }
 
         public string getShapeData(){
@@ -68,7 +70,13 @@ namespace OrbitMapper
             tabCount--;
         }
 
-        public void setStartArea(double x1, double x2){
+        public int getShapeCount()
+        {
+            return shapeCount;
+        }
+
+        public void setStartArea(double x1, double x2)
+        {
             startArea.x1 = x1;
             startArea.x2 = x2;
         }
@@ -359,6 +367,7 @@ namespace OrbitMapper
                     }
                     if (this.undefCollision)
                     {
+                        EventSource.finishedDrawTess(bounces);
                         EventSource.finishedDrawShape();
                         return;
                     }
@@ -544,8 +553,8 @@ namespace OrbitMapper
                 angle = 180;
             }
 
-            if(x13 >= 0 && x24 >= 0)
-                angle = angle;
+            //if(x13 >= 0 && x24 >= 0)
+                //angle = angle;
                 
             else if(x13 <= 0 && x24 >= 0)
                 angle = 180 - angle;

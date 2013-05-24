@@ -171,6 +171,7 @@
     <Compile Include="Vertices.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VersionBox1.resx">
       <DependentUpon>VersionBox1.cs</DependentUpon>

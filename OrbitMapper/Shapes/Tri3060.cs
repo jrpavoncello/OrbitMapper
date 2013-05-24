@@ -13,7 +13,7 @@ namespace OrbitMapper
         public Tri3060()
         {
             base.Text = "Tri3060";
-            base.Name = "Tri3060" + base.getTabCount();
+            base.Name = "Tri3060" + (base.getShapeCount() - 1);
             base.setTabCount(base.getTabCount() + 1);
             double temp = Math.Tan(Math.PI / 6) * (1024d);
             addVertex(0, 0, 0);

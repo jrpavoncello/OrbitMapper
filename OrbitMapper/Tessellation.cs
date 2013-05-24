@@ -19,7 +19,7 @@ namespace OrbitMapper
         private Point lastPictureBoxState = new Point();
         private List<Point[]> startZones = new List<Point[]>();
         private List<Point[]> reflectedStartZones = new List<Point[]>();
-        public bool baseIsGood = false;
+        public bool baseIsGood = true;
         private bool hasReflectedZones = false;
         private double startingPoint;
         private double startingAngle;
@@ -28,10 +28,14 @@ namespace OrbitMapper
         private double shapeHeight;
         public bool populateByTess = false;
         public static int lastWidth = 0;
+        private static int tabCount = 0;
+        public bool isInReflectedZone = false;
 
         public Tessellation()
         {
             InitializeComponent();
+            tabCount++;
+            this.TabStop = false;
         }
 
         public double getStartingPoint(){
@@ -52,6 +56,23 @@ namespace OrbitMapper
 
         public void addStartZone(Point p1, Point p2){
             startZones.Add(new Point[]{p1, p2});
+        }
+
+        public void decTabCount()
+        {
+            tabCount--;
+        }
+
+        public void setBasePos(Point pos)
+        {
+            baseClick.X = pos.X;
+            baseClick.Y = pos.Y;
+        }
+
+        public void setEndPos(Point pos)
+        {
+            endClick.X = pos.X;
+            endClick.Y = pos.Y;
         }
 
         public void setBaseClick(Point pos){
@@ -187,8 +208,8 @@ namespace OrbitMapper
             }
 
             Point[][] patterns = getPattern().getPatterns();
-            int iterX = (int)(this.Width / getPattern().getWidth()) + 1;
-            int iterY = (int)(this.Height / getPattern().getHeight()) + 1;
+            int iterX = (int)(this.Width / getPattern().getWidth()) + 2;
+            int iterY = (int)(this.Height / getPattern().getHeight()) + 2;
             bool baseIsCorrect = false;
             for (int i = 0; i < iterX; i++)
             {
@@ -228,6 +249,7 @@ namespace OrbitMapper
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                 startingAngle = mod(startingAngle, 180);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
+                                this.isInReflectedZone = true;
                             }
                             else
                             {
@@ -238,6 +260,7 @@ namespace OrbitMapper
                                     if (baseClick.X > endClick.X)
                                         startingAngle = 180 - startingAngle;
                                     startingAngle = Math.Abs(startingAngle);
+                                    this.isInReflectedZone = false;
                                 }
                                 catch (Exception ex)
                                 {
@@ -264,9 +287,9 @@ namespace OrbitMapper
         public string getTessData(){
             string ret = "";
             ret += "<baseclick_x>" + baseClick.X + "</baseclick_x>";
-            ret += "<baseclick_y>" + baseClick.Y + "</baseclick_y>";
+            ret += "<baseclick_y>" + (this.Height - baseClick.Y) + "</baseclick_y>";
             ret += "<endclick_x>" + endClick.X + "</endclick_x>";
-            ret += "<endclick_y>" + endClick.Y + "</endclick_y>";
+            ret += "<endclick_y>" + (this.Height - endClick.Y) + "</endclick_y>";
             ret += "<populateByTess>" + populateByTess.ToString() + "</populateByTess>";
             return ret;
         }
