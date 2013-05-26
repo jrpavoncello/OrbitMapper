@@ -15,6 +15,7 @@ namespace OrbitMapper
     {
         private int shape = -1;
         private bool cancelled = true;
+        private double rectSize = 0;
 
         public NewShapeForm()
         {
@@ -41,6 +42,8 @@ namespace OrbitMapper
             Kite6090120Label.BackColor = SystemColors.ButtonFace;
             HexagonPanel.BackColor = SystemColors.ButtonFace;
             HexagonLabel.BackColor = SystemColors.ButtonFace;
+            RectanglePanel.BackColor = SystemColors.ButtonFace;
+            RectangleLabel.BackColor = SystemColors.ButtonFace;
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
@@ -69,6 +72,9 @@ namespace OrbitMapper
                 case 6:
                     temp = "60-90-120 Kite ";
                     break;
+                case 7:
+                    temp = "Rectangle ";
+                    break;
                 default:
                     temp = "No ";
                     break;
@@ -95,10 +101,31 @@ namespace OrbitMapper
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (shape != -1)
+            try
             {
-                cancelled = false;
-                this.Close();
+                if (shape != -1)
+                {
+                    rectSize = double.Parse(textBox1.Text);
+                    cancelled = false;
+                    this.Close();
+                }
+            }
+            catch (System.ArgumentNullException ane)
+            {
+                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+            }
+            catch (System.FormatException fe)
+            {
+                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+            }
+            catch (System.OverflowException oe)
+            {
+                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+            }
+            finally
+            {
+                MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
