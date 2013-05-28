@@ -113,17 +113,18 @@ namespace OrbitMapper
             catch (System.ArgumentNullException ane)
             {
                 EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch (System.FormatException fe)
             {
                 EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch (System.OverflowException oe)
             {
                 EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
-            }
-            finally
-            {
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }

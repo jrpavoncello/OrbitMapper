@@ -77,6 +77,12 @@
     <Compile Include="Tessellations\IsosTri90Tess.Designer.cs">
       <DependentUpon>IsosTri90Tess.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tessellations\RectTess.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tessellations\RectTess.Designer.cs">
+      <DependentUpon>RectTess.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tessellations\Tri3060Tess.cs">
       <SubType>UserControl</SubType>
     </Compile>
