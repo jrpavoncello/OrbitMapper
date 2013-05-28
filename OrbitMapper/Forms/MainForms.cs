@@ -19,7 +19,7 @@ namespace OrbitMapper
     public partial class MainForms : Form
     {
         
-        private const string OMVersion = "1.0.1";
+        private const string OMVersion = "1.1.0";
 
         private NewShapeForm newShape;
         private List<Shape> shapes = new List<Shape>();
@@ -52,7 +52,7 @@ namespace OrbitMapper
             this.backgroundWorker1.RunWorkerAsync();
         }
 
-        private Control[] instantiateShapes(int shape)
+        private Control[] instantiateShapes(int shape, double ratio = 0d)
         {
             if (tabControl1.TabPages.Contains(tabPage1))
             {
@@ -153,6 +153,19 @@ namespace OrbitMapper
                     tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
                     tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
+                case 7:
+                    if (shapes.Count() != 0)
+                        lastTab = (Shape)tabControl1.SelectedTab;
+                    tempShape = new Rect(ratio);
+                    shapes.Add(tempShape);
+                    EventSource.output("Rectangle tab created.");
+                    tempTess = new RectTess(ratio);
+                    tempTess.Name = "Rectangle" + (tempShape.getShapeCount() - 1);
+                    tempTess.Dock = DockStyle.Fill;
+                    tessellations.Add(tempTess);
+                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
+                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
+                    break;
                 default:
                     break;
             }
@@ -170,7 +183,7 @@ namespace OrbitMapper
             newShape.ShowDialog();
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {
-                Control[] controls = instantiateShapes(newShape.getShape());
+                Control[] controls = instantiateShapes(newShape.getShape(), newShape.getRectSize());
                 EventSource.output("New tab number: " + shapes.Count + " was added.");
             }
         }
@@ -836,6 +849,11 @@ namespace OrbitMapper
                             else if (type == "Kite")
                             {
                                 controls = instantiateShapes(6);
+                            }
+                            else if (type == "Rectangle")
+                            {
+                                XmlElement ratio = shapes[i]["ratio"];
+                                controls = instantiateShapes(7, double.Parse(ratio.InnerText));
                             }
                             shape = (Shape)controls[0];
                             tess = (Tessellation)controls[1];

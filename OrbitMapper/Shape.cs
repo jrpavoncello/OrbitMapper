@@ -33,6 +33,7 @@ namespace OrbitMapper
         private double distance = 0;
         private bool isNotScaled = true;
         public bool undefCollision = false;
+        private double ratio = 0;
         public ContextMenu cm;
         //isResizable is reserved for only the rectangle to be true
         public bool isResizable = false;
@@ -47,6 +48,10 @@ namespace OrbitMapper
             shapeCount++;
         }
 
+        public void setRatio(double ratio){
+            this.ratio = ratio;
+        }
+
         public string getShapeData(){
             string data = "";
             if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180)
@@ -54,6 +59,7 @@ namespace OrbitMapper
             data += "<startpoint>" + startPoint + "</startpoint>";
             data += "<startangle>" + startAngle + "</startangle>";
             data += "<bounces>" + bounces + "</bounces>";
+            data += "<ratio>" + this.ratio + "</ratio>";
             return data;
         }
 

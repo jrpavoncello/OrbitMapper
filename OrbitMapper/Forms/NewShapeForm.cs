@@ -26,6 +26,8 @@ namespace OrbitMapper
             return shape;
         }
 
+        public double getRectSize(){ return rectSize; }
+
         private void resetPanels()
         {
             EquiPanel.BackColor = SystemColors.ButtonFace;
@@ -106,6 +108,12 @@ namespace OrbitMapper
                 if (shape != -1)
                 {
                     rectSize = double.Parse(textBox1.Text);
+                    if(rectSize == 0)
+                    {
+                        MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
+                            MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
+                    }
                     cancelled = false;
                     this.Close();
                 }

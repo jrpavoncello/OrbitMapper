@@ -65,6 +65,9 @@
     <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shapes\Rect.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Shapes\IsosTri90.cs">
       <SubType>Component</SubType>
     </Compile>

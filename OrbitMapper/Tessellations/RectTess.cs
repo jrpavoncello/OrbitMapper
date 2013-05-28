@@ -10,23 +10,27 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
-    public partial class RhombusTess : Tessellation
+    public partial class RectTess : Tessellation
     {
-        public RhombusTess(double ratio)
+        public RectTess(double ratio)
         {
             InitializeComponent();
 
-            addStartZone(new Point((int)smallSegment + 30, 0), new Point((int)smallSegment + 60, 0));
-            addReflectedStartZone(new Point((int)smallSegment, 0), new Point((int)smallSegment + 30, 0));
-            setShapeHeight(height);
+            double patBase = 30;
+            double heightRatio = ratio;
+            double widthRatio = 1 / ratio;
+            double patHeight = patBase * heightRatio;
+            double patWidth = patBase * widthRatio;
+            addStartZone(new Point(0, 0), new Point((int)patWidth, 0));
+            setShapeHeight(patHeight);
 
-            Pattern pat = new Pattern(60d + lengthShort, lengthLong, 0d);
+            Pattern pat = new Pattern(patWidth, patHeight, 0d);
             List<doublePoint> tri1 = new List<doublePoint>();
 
-            tri1.Add(new doublePoint(smallSegment, 0));
-            tri1.Add(new doublePoint(0, height));
-            tri1.Add(new doublePoint(30, height));
-            tri1.Add(new doublePoint(30 + smallSegment, 0));
+            tri1.Add(new doublePoint(0, 0));
+            tri1.Add(new doublePoint(0, patHeight));
+            tri1.Add(new doublePoint(patWidth, patHeight));
+            tri1.Add(new doublePoint(patWidth, 0));
 
             pat.addPattern(tri1);
             setPattern(pat);
