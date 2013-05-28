@@ -56,9 +56,6 @@ C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapp
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.csprojResolveAssemblyReference.cache
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.About.resources
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.VersionBox1.resources
-C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form1.resources
-C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form2.resources
-C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Form3.resources
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Properties.Resources.resources
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.Tessellation.resources
 C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.csproj.GenerateResource.Cache
@@ -68,3 +65,6 @@ F:\Users\Josh\Documents\Visual Studio 2012\Projects\Orbit Mapper\OrbitMapper\obj
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.MainForms.resources
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.NewShapeForm.resources
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.DebugForms.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.MainForms.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.NewShapeForm.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Debug\OrbitMapper.DebugForms.resources

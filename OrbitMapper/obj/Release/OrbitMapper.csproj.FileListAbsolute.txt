@@ -25,3 +25,16 @@ C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.csproj.GenerateResource.Cache
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.exe
 C:\Users\Josh\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.pdb
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Release\OrbitMapper.exe.config
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Release\OrbitMapper.exe
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\bin\Release\OrbitMapper.pdb
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.About.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.VersionBox1.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.MainForms.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.NewShapeForm.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.DebugForms.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.Properties.Resources.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.Tessellation.resources
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.csproj.GenerateResource.Cache
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.exe
+C:\Users\jpavoncello\Documents\Visual Studio 2012\Projects\OrbitMapper\OrbitMapper\obj\Release\OrbitMapper.pdb

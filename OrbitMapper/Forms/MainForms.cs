@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -19,7 +19,7 @@ namespace OrbitMapper
     public partial class MainForms : Form
     {
         
-        private const string OMVersion = "1.1.0";
+        private const string OMVersion = "1.1.2";
 
         private NewShapeForm newShape;
         private List<Shape> shapes = new List<Shape>();
