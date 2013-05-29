@@ -33,8 +33,8 @@
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelCopyright = new System.Windows.Forms.Label();
             this.labelCompanyName = new System.Windows.Forms.Label();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.okButton = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -73,7 +73,7 @@
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 4);
-            this.logoPictureBox.Size = new System.Drawing.Size(83, 153);
+            this.logoPictureBox.Size = new System.Drawing.Size(82, 153);
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.logoPictureBox.TabIndex = 12;
             this.logoPictureBox.TabStop = false;
@@ -81,11 +81,11 @@
             // labelProductName
             // 
             this.labelProductName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelProductName.Location = new System.Drawing.Point(95, 0);
+            this.labelProductName.Location = new System.Drawing.Point(94, 0);
             this.labelProductName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelProductName.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelProductName.Name = "labelProductName";
-            this.labelProductName.Size = new System.Drawing.Size(201, 17);
+            this.labelProductName.Size = new System.Drawing.Size(202, 17);
             this.labelProductName.TabIndex = 19;
             this.labelProductName.Text = "Product Name:      Orbit Mapper";
             this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -93,11 +93,11 @@
             // labelVersion
             // 
             this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelVersion.Location = new System.Drawing.Point(95, 21);
+            this.labelVersion.Location = new System.Drawing.Point(94, 21);
             this.labelVersion.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelVersion.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(201, 17);
+            this.labelVersion.Size = new System.Drawing.Size(202, 17);
             this.labelVersion.TabIndex = 0;
             this.labelVersion.Text = "Version:      ";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -105,11 +105,11 @@
             // labelCopyright
             // 
             this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCopyright.Location = new System.Drawing.Point(95, 41);
+            this.labelCopyright.Location = new System.Drawing.Point(94, 41);
             this.labelCopyright.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(201, 17);
+            this.labelCopyright.Size = new System.Drawing.Size(202, 17);
             this.labelCopyright.TabIndex = 21;
             this.labelCopyright.Text = "Copyright:      © 2013";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -117,11 +117,11 @@
             // labelCompanyName
             // 
             this.labelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelCompanyName.Location = new System.Drawing.Point(95, 63);
+            this.labelCompanyName.Location = new System.Drawing.Point(94, 63);
             this.labelCompanyName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelCompanyName.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelCompanyName.Name = "labelCompanyName";
-            this.labelCompanyName.Size = new System.Drawing.Size(201, 17);
+            this.labelCompanyName.Size = new System.Drawing.Size(202, 17);
             this.labelCompanyName.TabIndex = 22;
             this.labelCompanyName.Text = "Creator:      Joshua Pavoncello";
             this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

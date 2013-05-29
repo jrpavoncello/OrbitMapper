@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -16,17 +15,29 @@ using System.Xml;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    ///  This is the main control form for the program's execution. Everything should report back to this form in some way.
+    /// </summary>
     public partial class MainForms : Form
     {
         
-        private const string OMVersion = "1.1.2";
+        /// Used to determine whether a new version is available and used in the About.cs and Version.cs form.
+        private const string OMVersion = "1.1.4";
 
+        /// <remarks>
+        /// newShape is used as a member field to hold the state of the NewShapeForm when a user chooses a new shape to create.
+        /// shapes holds all of the instances of shapes that users creates, and tessellations holds all of the instances of tessellations.
+        /// lastTab is used during tab switching to determine whether appropriate action is needed.
+        /// </remarks>
         private NewShapeForm newShape;
         private List<Shape> shapes = new List<Shape>();
         private List<Tessellation> tessellations = new List<Tessellation>();
         private Shape lastTab;
-        private Point Position { get; set; }
         
+        /// <summary>
+        /// This constructor initializes the layout and components, adds the event handlers to their appropriate dispatchers,
+        /// and begins the check for the appropriate version
+        /// </summary>
         public MainForms()
         {
             InitializeComponent();
@@ -35,8 +46,10 @@ namespace OrbitMapper
             EventSource.finishedShape += new FinishedDrawShape(OnPostShapeCollisions);
             EventSource.tabRemove += new RemoveTab(removeThisTab);
 
-            //To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
-            //I check if they are placed incorrectly, if so, then I place them in the intended positions.
+            /// <remarks>
+            /// To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
+            /// I check if they are placed incorrectly, if so, then I place them in the intended positions.
+            /// </remarks>
             TableLayoutPanelCellPosition box = tableLayoutPanel2.GetCellPosition(angleBox);
             if(box.Column != 1 || box.Row != 1){
                 tableLayoutPanel2.Controls.Remove(label3);
@@ -52,123 +65,88 @@ namespace OrbitMapper
             this.backgroundWorker1.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Centralized method to handle the instantiation of all Shapes and Tessellations.
+        /// </summary>
+        /// <param name="shape">Used to determine which shape to instantiate.</param>
+        /// <param name="ratio">Optional parameter that defaults to 0. (Only used for rectangle)</param>
+        /// <returns>Returns a Control array of length 2, the first element being the instance of the Shape 
+        /// and the second being the instance of the Tessellation.</returns>
         private Control[] instantiateShapes(int shape, double ratio = 0d)
         {
+            /// Checks for the default tabPage that is added as a placeholder, and removes it if a shape is being created.
             if (tabControl1.TabPages.Contains(tabPage1))
             {
                 tabControl1.TabPages.Remove(tabPage1);
             }
             Shape tempShape = null;
             Tessellation tempTess = null;
+            /// <remarks>
+            /// Each switch case sets the lastTab field, adds the Shape instance to the shapes List, adds the Tessellation instance to the tessellations List,
+            /// adds the Shape to the tabControl and sets the ContextMenu of that tab to the context menu field in the Shape base class. <seealso cref="Shape.cm"/>
+            /// </remarks>
             switch (shape)
             {
                 case 0:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Equilateral();
-                    shapes.Add(tempShape);
                     EventSource.output("Equilateral Triangle tab created.");
                     tempTess = new EquilateralTess();
                     tempTess.Name = "Equilateral" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 1:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new IsosTri90();
-                    shapes.Add(tempShape);
                     EventSource.output("90 Isosceles Triangle tab created.");
                     tempTess = new IsosTri90Tess();
                     tempTess.Name = "IsosTri90" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 2:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new IsosTri120();
-                    shapes.Add(tempShape);
                     EventSource.output("120 Isosceles Triangle tab created.");
                     tempTess = new IsosTri120Tess();
                     tempTess.Name = "IsosTri120" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 3:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Tri3060();
-                    shapes.Add(tempShape);
                     EventSource.output("30-60-90 Triangle tab created.");
                     tempTess = new Tri3060Tess();
                     tempTess.Name = "Tri3060" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 4:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Hexagon();
-                    shapes.Add(tempShape);
                     EventSource.output("120 Hexagon tab created.");
                     tempTess = new HexagonTess();
                     tempTess.Name = "Hexagon" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 5:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Rhombus();
-                    shapes.Add(tempShape);
                     EventSource.output("60-120 Rhombus tab created.");
                     tempTess = new RhombusTess();
                     tempTess.Name = "Rhombus" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 6:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Kite();
-                    shapes.Add(tempShape);
                     EventSource.output("60-90-120 Kite tab created.");
                     tempTess = new KiteTess();
                     tempTess.Name = "Kite" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 case 7:
-                    if (shapes.Count() != 0)
-                        lastTab = (Shape)tabControl1.SelectedTab;
                     tempShape = new Rect(ratio);
-                    shapes.Add(tempShape);
                     EventSource.output("Rectangle tab created.");
                     tempTess = new RectTess(ratio);
                     tempTess.Name = "Rectangle" + (tempShape.getShapeCount() - 1);
-                    tempTess.Dock = DockStyle.Fill;
-                    tessellations.Add(tempTess);
-                    tabControl1.TabPages.Add(shapes.ElementAt<Shape>(shapes.Count - 1));
-                    tabControl1.Controls.Find(tempShape.Name, true)[0].ContextMenu = tempShape.cm;
                     break;
                 default:
                     break;
             }
+            /// <remarks>
+            /// The order for this must remain the same, the Shape and Tessellation instances must be added to the Lists before they are added to the Controls
+            /// because it triggers an event for the tabControl when a new Control is added, and the lastTab must be configured correctly for it.
+            /// </remarks>
+            if (shapes.Count() != 0)
+                lastTab = (Shape)tabControl1.SelectedTab;
+            shapes.Add(tempShape);
+            tessellations.Add(tempTess);
+            tabControl1.TabPages.Add(tempShape);
             Control[] controls = new Control[2];
             controls[0] = tempShape;
             controls[1] = tempTess;
@@ -176,11 +154,18 @@ namespace OrbitMapper
             return controls;
         }
 
+        /// <summary>
+        /// Used to handle the Click event raised by newToolStripMenuItem when a user clicks the New Shape item in the main menu.
+        /// </summary>
+        /// <param name="sender">The menu item that was selected.</param>
+        /// <param name="e"></param>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(newShape == null)
                 newShape = new NewShapeForm();
             newShape.ShowDialog();
+            /// If the dialog returns DialogResult.Cancel, it means that the user hit the X at the top.
+            /// If the dialog returns a '-1' it means that no shape was selected and the user hit Create.
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {
                 Control[] controls = instantiateShapes(newShape.getShape(), newShape.getRectSize());
@@ -188,6 +173,11 @@ namespace OrbitMapper
             }
         }
 
+        /// <summary>
+        /// Used to handle the MouseUp event raised by tabControl1 when a used selects a tab. Specifically a right click. 
+        /// </summary>
+        /// <param name="sender">The tab that was selected.</param>
+        /// <param name="e">Event information about the mouse click.</param>
         private void tabControl1_MouseUp(object sender, MouseEventArgs e)
         {
             // check if the right mouse button was pressed
@@ -210,39 +200,44 @@ namespace OrbitMapper
             }
         }
 
+        /// <summary>
+        /// This is the handler for a tabRemove event.
+        /// </summary>
+        /// <param name="source">The name of the tab that was selected via the right click after Remove was selected from the menu.</param>
+        /// <param name="e"></param>
         private void removeThisTab(object source, Events e)
         {
+            /// If the source was from the default tab, ignore.
             if(!source.Equals(tabPage1)){
                 string name = (string)source;
+                /// Find the instance of the Shape that matches the name (a unique key).
                 Shape shapeTemp = (Shape)tabControl1.Controls.Find(name, true)[0];
-                Tessellation tessTemp = null;
-                for (int i = 0; i < tessellations.Count; i++)
-                {
-                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(name))
-                    {
-                        tessTemp = tessellations.ElementAt<Tessellation>(i);
-                        break;
-                    }
-                }
-                if (tessTemp == null)
-                {
-                    EventSource.output("The tessellation could not be found with name: " + name);
-                    return;
-                }
+                Tessellation tessTemp = findTessellation(shapeTemp.Name);
+                /// Remove the Tessellation from the splitContainer's panel2.
                 splitContainer1.Panel2.Controls.RemoveByKey(name);
+                /// Remove the Shape from the tabControl.
                 tabControl1.Controls.RemoveByKey(name);
+                /// If the tabControl is now empty, add the default placeholder tab back and collapse panel2 which housed the tessellation.
                 if(tabControl1.TabCount == 0){
                     tabControl1.Controls.Add(tabPage1);
+                    splitContainer1.Panel2Collapsed = true;
                 }
+                /// Remove both from their respective Lists and decrease the tab count for the Shape that is used in some situations to get the .
                 tessellations.Remove(tessTemp);
-                tessTemp.decTabCount();
                 shapes.Remove(shapeTemp);
-                shapeTemp.decTabCount();
             }
         }
 
+        /// <summary>
+        /// Used to handle the FinishedDrawShape event when all of the logic + events have been performed after the collision simuilation has been performed.
+        /// This is important so that the simulation can try to run before it fills in the textboxes with Undefined.
+        /// </summary>
+        /// <param name="source">Empty string.</param>
+        /// <param name="e">Generic event.</param>
         private void OnPostShapeCollisions(object source, Events e)
         {
+            /// Per suggestion by Dr. Umble, if there was an issue calculating the collisions due to the tessellation's base lying directly over a vertex 
+            /// or if a corner has been hit, just filled in the textboxes with Undefined to convey this to the user.
             Shape selectedShape = (Shape)tabControl1.SelectedTab;
             if(selectedShape.undefCollision){
                 angleBox.Text = "Undefined";
@@ -251,6 +246,11 @@ namespace OrbitMapper
             }
         }
 
+        /// <summary>
+        /// Used to handle the FinishedDrawTessellation event when a Shape collision has been finished using the Tessellation.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void updateBounces(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
@@ -258,23 +258,17 @@ namespace OrbitMapper
                 bouncesBox.Text = "" + tempShape.getBounces();
         }
 
+        /// <summary>
+        /// Used to handle the Tessellate event when a Shape collision has been simulated and the resulting data is ready to be inserted into the 
+        /// textboxes and used to set the scroll bars.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void updateFields(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-            Tessellation tessTemp = null;
-            for (int i = 0; i < tessellations.Count; i++)
-            {
-                if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                {
-                    tessTemp = tessellations.ElementAt<Tessellation>(i);
-                    break;
-                }
-            }
-            if (tessTemp == null)
-            {
-                EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                return;
-            }
+            Tessellation tessTemp = findTessellation(tempShape.Name);
+            /// If that tessellation reports that the tessellation should be used for the next collision simulation
             if (tessTemp.populateByTess)
             {
                 double startingPoint = ((Tessellation)source).getStartingPoint();
@@ -282,15 +276,18 @@ namespace OrbitMapper
                 double distance = ((Tessellation)source).getDistance();
                 double tessHeight = ((Tessellation)source).getShapeHeight();
 
+                /// Set the Shape (tab) to report the same as well as set the proper fields to run the new simulation.
                 tempShape.setFromTessellation(true);
                 tempShape.setStartPoint(startingPoint);
                 tempShape.setStartAngle(startingAngle);
                 tempShape.setDistance(distance);
                 tempShape.setTessShapeHeight(tessHeight);
 
+                /// Set the text boxes to reflect those changes
                 angleBox.Text = "" + startingAngle;
                 bouncesBox.Text = "" + 0;
                 pointBox.Text = "" + startingPoint;
+                /// Set the track bars to reflect those changes
                 int val = 0;
                 if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
                 {
@@ -307,15 +304,25 @@ namespace OrbitMapper
                         trackBar2.Value = val;
                     }
                 }
+                /// Causes redraw of shape (runs the simulation)
                 tempShape.Invalidate();
             }
+            /// If the tessellation reports back that the baseClick was on a vertex, baseIsGood will be false
             if (!tessTemp.baseIsGood)
             {
+                /// If so, set the shape to report that there was an undefined collision.
                 tempShape.undefCollision = true;
+                /// Trigger the FinishedDrawShape event to check fill the boxes in with Undefined.
                 EventSource.finishedDrawShape();
             }
         }
 
+        /// <summary>
+        /// This is used only to process if the Enter (Return) key is hit as a shortcut to run the simulation.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Enter)
@@ -328,21 +335,9 @@ namespace OrbitMapper
                     }
                     else
                     {
+                        /// Get the current tab, set the fields, update the track bars, and invalidate the shape to run the simulation.
                         Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-                        Tessellation tessTemp = null;
-                        for (int i = 0; i < tessellations.Count; i++)
-                        {
-                            if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                            {
-                                tessTemp = tessellations.ElementAt<Tessellation>(i);
-                                break;
-                            }
-                        }
-                        if (tessTemp == null)
-                        {
-                            EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                            return true;
-                        }
+                        Tessellation tessTemp = findTessellation(tempShape.Name);
                         tessTemp.populateByTess = false;
 
                         int tempBounces = int.Parse(bouncesBox.Text);
@@ -360,38 +355,45 @@ namespace OrbitMapper
                         if (val > trackBar4.Minimum && val < trackBar4.Maximum)
                             trackBar4.Value = val;
 
+                        /// <remarks>
+                        /// <code>tempShape.setFromTessellation(false);</code> is important so that the current shape knows not to used the current tessellation data.
+                        /// </remarks>
                         tempShape.setFromTessellation(false);
                         tempShape.Invalidate();
                     }
                 }
-                catch (System.ArgumentNullException ane)
+                catch (System.ArgumentNullException ex)
                 {
-                    EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 }
-                catch (System.FormatException fe)
+                catch (System.FormatException ex)
                 {
-                    EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 }
-                catch (System.OverflowException oe)
+                catch (System.OverflowException ex)
                 {
-                    EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 }
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        protected override bool ShowWithoutActivation
-        {
-            get { return true; }
-        }
-
+        /// <summary>
+        /// Process if the Close item is selected from the main menu. (Not if the X button is hit in the window header)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        //Starting Point
+        /// <summary>
+        /// This handles when the Starting Point textbox has new text entered into it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -399,42 +401,36 @@ namespace OrbitMapper
             Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                Tessellation tessTemp = null;
-                for (int i = 0; i < tessellations.Count; i++)
-                {
-                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                    {
-                        tessTemp = tessellations.ElementAt<Tessellation>(i);
-                        break;
-                    }
-                }
-                if (tessTemp == null)
-                {
-                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                    return;
-                }
+                Tessellation tessTemp = findTessellation(tempShape.Name);
+                /// <remarks>
+                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                /// </remarks>
                 tessTemp.populateByTess = false;
                 double temp = double.Parse(pointBox.Text);
                 tempShape.setStartPoint(temp);
 
             }
-            catch(System.ArgumentNullException ane){
-                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+            catch(System.ArgumentNullException ex){
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartPoint(0);
             }
-            catch (System.FormatException fe)
+            catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartPoint(0);
             }
-            catch (System.OverflowException oe)
+            catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartPoint(0);
             }
         }
 
-        //Starting Angle
+        /// <summary>
+        /// This handles when the Angle textbox has new text entered into it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -442,42 +438,36 @@ namespace OrbitMapper
             Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                Tessellation tessTemp = null;
-                for (int i = 0; i < tessellations.Count; i++)
-                {
-                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                    {
-                        tessTemp = tessellations.ElementAt<Tessellation>(i);
-                        break;
-                    }
-                }
-                if (tessTemp == null)
-                {
-                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                    return;
-                }
+                Tessellation tessTemp = findTessellation(tempShape.Name);
+                /// <remarks>
+                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                /// </remarks>
                 tessTemp.populateByTess = false;
                 double temp = double.Parse(angleBox.Text);
                 tempShape.setStartAngle(temp);
             }
-            catch (System.ArgumentNullException ane)
+            catch (System.ArgumentNullException ex)
             {
-                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartAngle(0);
             }
-            catch (System.FormatException fe)
+            catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartAngle(0);
             }
-            catch (System.OverflowException oe)
+            catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setStartAngle(0);
             }
         }
 
-        //Bounces
+        /// <summary>
+        /// This handles when the Bounces textbox has new text entered into it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -485,85 +475,91 @@ namespace OrbitMapper
             Shape tempShape = (Shape)tabControl1.SelectedTab;
             try
             {
-                Tessellation tessTemp = null;
-                for (int i = 0; i < tessellations.Count; i++)
-                {
-                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                    {
-                        tessTemp = tessellations.ElementAt<Tessellation>(i);
-                        break;
-                    }
-                }
-                if (tessTemp == null)
-                {
-                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                    return;
-                }
+                Tessellation tessTemp = findTessellation(tempShape.Name);
+                /// <remarks>
+                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                /// </remarks>
                 tessTemp.populateByTess = false;
                 int temp = int.Parse(bouncesBox.Text);
                 tempShape.setBounces(temp);
             }
-            catch (System.ArgumentNullException ane)
+            catch (System.ArgumentNullException ex)
             {
-                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setBounces(0);
             }
-            catch (System.FormatException fe)
+            catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setBounces(0);
             }
-            catch (System.OverflowException oe)
+            catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 tempShape.setBounces(0);
             }
         }
 
+        /// <summary>
+        /// When the tall button in the middle is pressed, the behavior for it is to collapse or expand the tessellation user control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
                 return;
             Shape tempShape = (Shape)tabControl1.SelectedTab;
-            Tessellation tessTemp = null;
-            for (int i = 0; i < tessellations.Count; i++)
-            {
-                if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                {
-                    tessTemp = tessellations.ElementAt<Tessellation>(i);
-                    break;
-                }
-            }
-            if (tessTemp == null)
-            {
-                EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                return;
-            }
-            tessTemp.populateByTess = false;
+            Tessellation tessTemp = findTessellation(tempShape.Name);
             for (int i = 0; i < tessellations.Count; i++)
             {
                 if (tessellations.ElementAt<Tessellation>(i).Visible)
                 {
+                    /// If there are no tessellations, then there is nothing to collapse.
                     if (i == 0)
                     {
+                        /// The lastWidth field is used specifically for this purpose, it is a static member field that used to remember the last configured
+                        /// width of a tessellation for ALL tessellations to use when it is expanded again
                         Tessellation.lastWidth = tessTemp.Width;
                         this.Width -= tessTemp.Width + splitContainer1.SplitterWidth;
                         splitContainer1.Panel2Collapsed = true;
-                        tessellations.ElementAt<Tessellation>(i).Visible = false;
                     }
                 }
                 else
                 {
+                    /// If there are no tessellations, then there is nothing to expand.
                     if (i == 0)
                     {
-                        splitContainer1.Panel2Collapsed = false;
                         this.Width += Tessellation.lastWidth + splitContainer1.SplitterWidth;
-                        tessellations.ElementAt<Tessellation>(i).Visible = true;
+                        splitContainer1.Panel2Collapsed = false;
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Used whenever typically whenever you need to find the currently selected tab's corresponding tessellation.
+        /// </summary>
+        /// <param name="selectedTab">The Shape that </param>
+        /// <returns></returns>
+        private Tessellation findTessellation(String name)
+        {
+            for (int i = 0; i < tessellations.Count; i++)
+            {
+                if (tessellations.ElementAt<Tessellation>(i).Name.Equals(name))
+                {
+                    return tessellations.ElementAt<Tessellation>(i);
+                }
+            }
+            EventSource.output("The tessellation could not be found with name: " + name);
+            return null;
+        }
+
+        /// <summary>
+        /// When the Go button is pressed, run the simulation from the input in the text boxes (which were already set as the fields for the currently selected shape).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -571,20 +567,10 @@ namespace OrbitMapper
                 if (shapes.Count() == 0)
                     return;
                 Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-                Tessellation tessTemp = null;
-                for (int i = 0; i < tessellations.Count; i++)
-                {
-                    if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tempShape.Name))
-                    {
-                        tessTemp = tessellations.ElementAt<Tessellation>(i);
-                        break;
-                    }
-                }
-                if (tessTemp == null)
-                {
-                    EventSource.output("The tessellation could not be found with name: " + tempShape.Name);
-                    return;
-                }
+                Tessellation tessTemp = findTessellation(tempShape.Name);
+                /// <remarks>
+                /// If this go button on the main form is pressed, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                /// </remarks>
                 tessTemp.populateByTess = false;
 
                 int tempBounces = int.Parse(bouncesBox.Text);
@@ -593,135 +579,148 @@ namespace OrbitMapper
                 double tempPoint = double.Parse(pointBox.Text);
                 tempShape.setStartPoint(tempPoint);
                 if(tempPoint > 0 && tempPoint < 1)
-                    trackBar2.Value = (int)(tempPoint*100);
+                    trackBar2.Value = (int)(tempPoint*100d);
 
                 double tempAngle = double.Parse(angleBox.Text);
                 tempShape.setStartAngle(tempAngle);
-                if(tempAngle > 0 && tempAngle < 180)
-                    trackBar4.Value = (int)(180 - tempAngle);
+                if(tempAngle > 0 && tempAngle < 180d)
+                    trackBar4.Value = (int)(180d - tempAngle);
                 tempShape.setFromTessellation(false);
                 tempShape.Invalidate();
             }
-            catch (System.ArgumentNullException ane)
+            catch (System.ArgumentNullException ex)
             {
-                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
             }
-            catch (System.FormatException fe)
+            catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
             }
-            catch (System.OverflowException oe)
+            catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
             }
         }
 
+        /// <summary>
+        /// This handles when the track bar for the Angle is dragged around. Update the current shapes Angle field and invalidate it to restart the simulation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
                 return;
-            tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+            findTessellation(((Shape)tabControl1.SelectedTab).Name).populateByTess = false;
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-            tempShape.setStartAngle(180 - trackBar4.Value);
-            angleBox.Text = "" + (180 - trackBar4.Value);
+            /// the track bar returns values from (int) 1-179, this converts it into a format that is fiendly to the Shapes StartAngle field.
+            tempShape.setStartAngle(180d - trackBar4.Value);
+            angleBox.Text = "" + (180d - trackBar4.Value);
+            /// <remarks>
+            /// When these track bars are moved, the simulation should not be run from data from the Tessellation
+            /// </remarks>
             tempShape.setFromTessellation(false);
             tempShape.Invalidate();
         }
 
+
+        /// <summary>
+        /// This handles when the track bar for the Starting Position is dragged around. Update the current shapes StartingPosition field and invalidate it to restart the simulation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
                 return;
-            tessellations.ElementAt<Tessellation>(((Shape)tabControl1.SelectedTab).getTabNum()).populateByTess = false;
+            findTessellation(((Shape)tabControl1.SelectedTab).Name).populateByTess = false;
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
+            /// The track bar returns values from (int) 1-99, this converts it into a format that is friend to the Shape's StartPoint field.
             tempShape.setStartPoint(trackBar2.Value / 100d);
             pointBox.Text = "" + (trackBar2.Value / 100d);
+            /// <remarks>
+            /// When these track bars are moved, the simulation should not be run from data from the Tessellation
+            /// </remarks>
             tempShape.setFromTessellation(false);
             tempShape.Invalidate();
         }
 
+        /// <summary>
+        /// This handles when a new tab is selected. It grabs all the data pertinent to the currently selected tab from the corresponding instances
+        /// of Shape and Tessellations from their respective Lists, updates the textboxes/track bars and reruns the simulation (invalidates them).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabControl1_Selected_1(object sender, TabControlEventArgs e)
         {
-            if (!tabControl1.Controls.Contains(tabPage1))
+            /// If the default tab is not there and there is more than one Shape current initialized, perform a selected tab change.
+            if (!tabControl1.Controls.Contains(tabPage1) && this.shapes.Count > 1)
             {
                 Shape tab = (Shape)e.TabPage;
-                if (tab != null)
-                {
-                    EventSource.output(tab.Name + " tab was selected");
-                    angleBox.Text = "" + tab.getStartAngle();
-                    bouncesBox.Text = "" + tab.getBounces();
-                    pointBox.Text = "" + tab.getStartPoint();
-                    if (tab.getStartAngle() > 0 && tab.getStartAngle() < 180)
-                        trackBar4.Value = (int)tab.getStartAngle();
-                    if (tab.getStartPoint() > 0 && tab.getStartPoint() < 1)
-                        trackBar2.Value = (int)(tab.getStartPoint() * 100);
+                EventSource.output(tab.Name + " tab was selected");
+                angleBox.Text = "" + tab.getStartAngle();
+                bouncesBox.Text = "" + tab.getBounces();
+                pointBox.Text = "" + tab.getStartPoint();
+                if (tab.getStartAngle() > 0 && tab.getStartAngle() < 180)
+                    trackBar4.Value = (int)tab.getStartAngle();
+                if (tab.getStartPoint() > 0 && tab.getStartPoint() < 1)
+                    trackBar2.Value = (int)(tab.getStartPoint() * 100d);
 
-                    if(this.shapes.Count > 1 && !((Shape)tabControl1.SelectedTab).Equals(lastTab)){
-                        splitContainer1.Panel2.Controls.RemoveByKey(lastTab.Name);
-                        Tessellation tessTemp = null;
-                        for (int i = 0; i < tessellations.Count; i++)
-                        {
-                            if (tessellations.ElementAt<Tessellation>(i).Name.Equals(tab.Name))
-                            {
-                                tessTemp = tessellations.ElementAt<Tessellation>(i);
-                                break;
-                            }
-                        }
-                        if (tessTemp == null)
-                        {
-                            EventSource.output("The tessellation could not be found with name: " + tab.Name);
-                            return;
-                        }
-                        splitContainer1.Panel2.Controls.Add(tessTemp);
-                        lastTab = (Shape)tabControl1.SelectedTab;
-                    }
-                }
+                splitContainer1.Panel2.Controls.RemoveByKey(lastTab.Name);
+                Tessellation tessTemp = findTessellation(tab.Name);
+                splitContainer1.Panel2.Controls.Add(tessTemp);
+                lastTab = (Shape)tabControl1.SelectedTab;
             }
         }
 
+        /// <summary>
+        /// When a new Control (Shape) is added to the form, and it is the only Shape currently instantiated, set up the selectTab to add the Tessellation
+        /// to the split container correctly when more than one tab is created (when this adding behavior is handled by tabControl1_Selected_1),
+        /// and do the first time insert into the split container. As well, set the splitter distance as it needs to be configured the first time.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabControl1_ControlAdded(object sender, ControlEventArgs e)
         {
-            if(!tabControl1.Controls.Contains(tabPage1)){
-                if (this.shapes.Count == 1)
-                {
-                    Shape temp = (Shape)e.Control;
-                    Tessellation tessTemp = null;
-                    for (int i = 0; i < tessellations.Count; i++)
-                    {
-                        if (tessellations.ElementAt<Tessellation>(i).Name.Equals(temp.Name))
-                        {
-                            tessTemp = tessellations.ElementAt<Tessellation>(i);
-                            break;
-                        }
-                    }
-                    if (tessTemp == null)
-                    {
-                        EventSource.output("The tessellation could not be found with name: " + temp.Name);
-                        return;
-                    }
-                    splitContainer1.Panel2.Controls.Add(tessTemp);
-                    splitContainer1.Panel2Collapsed = false;
-                    splitContainer1.SplitterDistance = this.Width / 2;
-                    lastTab = (Shape)tabControl1.SelectedTab;
-                }
+            if(!tabControl1.Controls.Contains(tabPage1) && this.shapes.Count == 1){
+                Shape temp = (Shape)e.Control;
+                Tessellation tessTemp = findTessellation(temp.Name);
+                splitContainer1.Panel2.Controls.Add(tessTemp);
+                splitContainer1.Panel2Collapsed = false;
+                splitContainer1.SplitterDistance = this.Width / 2;
+                lastTab = (Shape)tabControl1.SelectedTab;
             }
         }
 
+        /// <summary>
+        /// This background worker is the Async thread that runs from MainForms constructor. It runs a PHP script on my server to check the latest records
+        /// of release version in the MySQL DB. If the returned version is not the same in any way, it will prompt the user to download the latest version.
+        /// If I (Josh Pavoncello) am no longer supporting this project (and that address is no longer valid), it will just swallow the resulting
+        /// exception and carry on, so as to not pop up at the start of the program every time in the future.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://www.pragmaticparadigm.com/OrbitMapperGetLatest.php");
+            HttpWebResponse webResponse = null;
+            Stream responseStream = null;
+            StreamReader response = null;
             try
             {
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://www.pragmaticparadigm.com/OrbitMapperGetLatest.php");
-                HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
-                Stream responseStream = webResponse.GetResponseStream();
-                StreamReader response = new StreamReader(responseStream);
+                /// This goes to the address using a POST method, starts the script which checks the latest addition to the versions table in the DB
+                /// and returns that version string in a bit stream.
+                webResponse = (HttpWebResponse)webRequest.GetResponse();
+                responseStream = webResponse.GetResponseStream();
+                response = new StreamReader(responseStream);
                 string tempVersion = response.ReadToEnd();
                 if (OMVersion != tempVersion)
                 {
                     EventSource.output("New version detected!");
                     EventSource.output("Current Version: " + OMVersion);
                     EventSource.output("Latest Version: " + tempVersion);
-                    new VersionBox1().ShowDialog();
+                    /// Report to the user that a new version is available.
+                    new Version().ShowDialog();
                 }
                 else
                 {
@@ -729,36 +728,58 @@ namespace OrbitMapper
                     EventSource.output("Current Version: " + OMVersion);
                     EventSource.output("Latest Version: " + tempVersion);
                 }
-                webResponse.Close();
-                responseStream.Close();
-                response.Close();
             }
             catch (WebException ex) { /* Ignore the exception, failure communication with server */ }
+            /// Run each time, if the streams/connection are not null, make sure they are ended.
+            finally
+            {
+                if(webResponse != null)
+                    webResponse.Close();
+                if(responseStream != null)
+                    responseStream.Close();
+                if(response != null)
+                    response.Close();
+            }
         }
 
+
+        /// <summary>
+        /// If the Save button is pressed from the main menu, saved the current shape data/tessellation data to a user specified file.
+        /// The data is stored in an XML format.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try{
+            if (tabControl1.Controls.Contains(tabPage1))
+            {
+                MessageBox.Show(this, "There is no data to save!", "Save Error");
+                return;
+            }
+            try
+            {
                SaveFileDialog saveFileDialog = new SaveFileDialog();
+               /// Sets the filter for the file dialog to only show files that end in .omd and display this on the bottom of the dialog.
                saveFileDialog.Filter = "Orbit Mapper Data (*.omd)|*.omd";
                saveFileDialog.Title = "Save Orbit Mapper";
                saveFileDialog.ShowDialog();
 
-               // If the file name is not an empty string open it for saving.
+               /// If the file name is not an empty string open it for saving.
                if (saveFileDialog.FileName != "")
                {
-                  // Saves the .omd via a FileStream created by the OpenFile method.
+                  /// Saves the .omd via a FileStream created by the OpenFile method.
                   System.IO.FileStream fs =
                      (System.IO.FileStream)saveFileDialog.OpenFile();
 
-                  switch (saveFileDialog.FilterIndex)
-                  {
-                     case 1 :
-                          string shapeData = @"<?xml version=""1.0""?>" + System.Environment.NewLine + "<shapes>" + System.Environment.NewLine;
+                  if(saveFileDialog.FilterIndex == 1){
+                        string shapeData = @"<?xml version=""1.0""?>" + System.Environment.NewLine + "<shapes>" + System.Environment.NewLine;
                         for (int i = 0; i < shapes.Count; i++)
                         {
+                            /// Aggregate all of the data necessary to reproduce the current state of OrbitMapper in a new instance.
+                            /// This means StartPosition, StartAngle, Bounces, baseClick (X,Y), endClick (X,Y), the ratio field used for rectangles only, 
+                            /// the text of the field WHICH IS VERY IMPORTANT as it is used to determine what the shape is to instantiate later, and the name of the field
                             if(tabControl1.Controls.Contains(shapes.ElementAt<Shape>(i))){
-                                shapeData += @"<shape type=""" + shapes.ElementAt<Shape>(i).Text + @""" name=""" + shapes.ElementAt<Shape>(i).Name + @""">";
+                                shapeData += @"<shape type=""" + shapes.ElementAt<Shape>(i).Text + @""">";
                                 shapeData += shapes.ElementAt<Shape>(i).getShapeData() + System.Environment.NewLine;
                                 shapeData += tessellations.ElementAt<Tessellation>(i).getTessData() + System.Environment.NewLine;
                                 shapeData += "</shape>";
@@ -769,22 +790,23 @@ namespace OrbitMapper
                             byte[] shapeBytes = System.Text.Encoding.UTF8.GetBytes(shapeData);
                             fs.Write(shapeBytes, 0, shapeBytes.Length);
                         }
-                     break;
-
-                     default:
-                     break;
                   }
                   fs.Close();
                }
             }
-            catch (Exception saveE)
+            catch (Exception ex)
             {
-                EventSource.output(saveE.StackTrace);
-                EventSource.output(saveE.Source);
-                MessageBox.Show(this, "Problem saving file.");
+                EventSource.output(ex.StackTrace);
+                EventSource.output(ex.Source);
+                MessageBox.Show(this, "Problem saving file.", "Save Error");
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try{
@@ -866,7 +888,6 @@ namespace OrbitMapper
                             tabControl1.SelectTab(shape);
                             tess.setBasePos(new Point(int.Parse(baseClickX.InnerText), tess.Height - int.Parse(baseClickY.InnerText)));
                             tess.setEndPos(new Point(int.Parse(endClickX.InnerText), tess.Height - int.Parse(endClickY.InnerText)));
-                            tess.populateByTess = bool.Parse(populateByTess.InnerText);
 
                             angleBox.Text = "" + startingAngle;
                             bouncesBox.Text = "" + startingBounces;
@@ -897,11 +918,11 @@ namespace OrbitMapper
                 if(first != null)
                     tabControl1.SelectTab(first);
             }
-            catch (Exception openE)
+            catch (Exception ex)
             {
-                EventSource.output(openE.StackTrace);
-                EventSource.output(openE.Source);
-                MessageBox.Show(this, "Problem opening file.");
+                EventSource.output(ex.StackTrace);
+                EventSource.output(ex.Source);
+                MessageBox.Show(this, "Problem opening file.", "Open Error");
             }
         }
 

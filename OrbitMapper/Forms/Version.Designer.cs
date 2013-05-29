@@ -1,6 +1,6 @@
 ﻿namespace OrbitMapper
 {
-    partial class VersionBox1
+    partial class Version
     {
         /// <summary>
         /// Required designer variable.
@@ -62,7 +62,7 @@
             this.label1.TabIndex = 26;
             this.label1.Text = "New version of Orbit Mapper is available at:";
             // 
-            // VersionBox1
+            // Version
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -74,7 +74,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VersionBox1";
+            this.Name = "Version";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

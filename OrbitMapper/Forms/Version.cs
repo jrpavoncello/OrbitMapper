@@ -4,17 +4,15 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-
 using System.Windows.Forms;
 
 namespace OrbitMapper
 {
-    partial class VersionBox1 : Form
+    partial class Version : Form
     {
-        public VersionBox1()
+        public Version()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
         }
 
         #region Assembly Attribute Accessors
