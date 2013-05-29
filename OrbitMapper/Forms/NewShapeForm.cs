@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -118,21 +117,21 @@ namespace OrbitMapper
                     this.Close();
                 }
             }
-            catch (System.ArgumentNullException ane)
+            catch (System.ArgumentNullException ex)
             {
-                EventSource.output("Message: " + ane.Message + " Source: " + ane.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            catch (System.FormatException fe)
+            catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + fe.Message + " Source: " + fe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            catch (System.OverflowException oe)
+            catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + oe.Message + " Source: " + oe.Source);
+                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }

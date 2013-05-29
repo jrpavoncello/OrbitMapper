@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,7 +13,6 @@ namespace OrbitMapper
         {
             base.Text = "Tri3060";
             base.Name = "Tri3060" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             double temp = Math.Tan(Math.PI / 6) * (1024d);
             addVertex(0, 0, 0);
             addVertex(1024d, temp, 30d);

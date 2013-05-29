@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-
 using System.Windows.Forms;
 
 namespace OrbitMapper
@@ -18,9 +17,8 @@ namespace OrbitMapper
 
             double patBase = 30;
             double heightRatio = ratio;
-            double widthRatio = 1 / ratio;
             double patHeight = patBase * heightRatio;
-            double patWidth = patBase * widthRatio;
+            double patWidth = patBase;
             addStartZone(new Point(0, 0), new Point((int)patWidth, 0));
             setShapeHeight(patHeight);
 

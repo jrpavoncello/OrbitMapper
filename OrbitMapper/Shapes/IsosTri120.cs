@@ -12,7 +12,6 @@ namespace OrbitMapper
         public IsosTri120(){
             base.Text = "IsosTri120";
             base.Name = "IsosTri120" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 6) * (512d);
             addVertex(512d, temp, 30d);

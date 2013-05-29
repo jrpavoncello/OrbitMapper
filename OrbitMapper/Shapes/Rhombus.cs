@@ -13,7 +13,6 @@ namespace OrbitMapper
         {
             base.Text = "Rhombus";
             base.Name = "Rhombus" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 3) * (256d);
             addVertex(256d, temp, 60d);

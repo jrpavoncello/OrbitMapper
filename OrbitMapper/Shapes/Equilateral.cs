@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
@@ -12,7 +13,6 @@ namespace OrbitMapper
         {
             base.Text = "Equilateral";
             base.Name = "Equilateral" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 3) * (256d);
             addVertex(256d, temp, 60d);

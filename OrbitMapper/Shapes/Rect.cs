@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,12 +13,10 @@ namespace OrbitMapper
         {
             base.Text = "Rectangle";
             base.Name = "Rectangle" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             base.setRatio(ratio);
             double heightRatio = ratio;
-            double widthRatio = 1 / ratio;
             double height = 1024 * heightRatio;
-            double width = 1024 * widthRatio;
+            double width = 1024;
             addVertex(0, 0, 0);
             addVertex(0, height, 90);
             addVertex(width, height, 0);

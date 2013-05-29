@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-
 using System.Windows.Forms;
 
 namespace OrbitMapper
@@ -28,39 +27,38 @@ namespace OrbitMapper
         private double shapeHeight;
         public bool populateByTess = false;
         public static int lastWidth = 0;
-        private static int tabCount = 0;
         public bool isInReflectedZone = false;
 
         public Tessellation()
         {
             InitializeComponent();
-            tabCount++;
             this.TabStop = false;
+            this.Dock = DockStyle.Fill;
         }
 
-        public double getStartingPoint(){
+        public double getStartingPoint()
+        {
             return startingPoint;
         }
 
-        public double getStartingAngle(){
+        public double getStartingAngle()
+        {
             return startingAngle;
         }
 
-        public double getDistance(){
+        public double getDistance()
+        {
             return distance;
         }
 
-        public PictureBox getPictureBox(){
+        public PictureBox getPictureBox()
+        {
             return pictureBox1;
         }
 
-        public void addStartZone(Point p1, Point p2){
-            startZones.Add(new Point[]{p1, p2});
-        }
-
-        public void decTabCount()
+        public void addStartZone(Point p1, Point p2)
         {
-            tabCount--;
+            startZones.Add(new Point[] { p1, p2 });
         }
 
         public void setBasePos(Point pos)
@@ -75,7 +73,8 @@ namespace OrbitMapper
             endClick.Y = pos.Y;
         }
 
-        public void setBaseClick(Point pos){
+        public void setBaseClick(Point pos)
+        {
             baseClick.X = pos.X;
             baseClick.Y = pos.Y;
             populateByTess = true;
@@ -149,7 +148,8 @@ namespace OrbitMapper
             hasReflectedZones = true;
         }
 
-        public void setShapeHeight(double height){
+        public void setShapeHeight(double height)
+        {
             shapeHeight = height;
         }
 
@@ -199,7 +199,8 @@ namespace OrbitMapper
                 {
                     lastPictureBoxState = new Point(pictureBox1.Width, pictureBox1.Height);
                 }
-                else{
+                else
+                {
                     int offsetY = pictureBox1.Height - lastPictureBoxState.Y;
                     baseClick.Y += offsetY;
                     endClick.Y += offsetY;
@@ -229,8 +230,8 @@ namespace OrbitMapper
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);
                     }
                     #region Logic for getting data from mouse click
-                    if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) && 
-                    (endClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 && 
+                    if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
+                    (endClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 &&
                     endClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
                     {
                         endClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
@@ -253,19 +254,12 @@ namespace OrbitMapper
                             }
                             else
                             {
-                                try
-                                {
-                                    startingPoint = (double)(baseClick.X - (i * getPattern().getWidth()) - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
-                                    startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
-                                    if (baseClick.X > endClick.X)
-                                        startingAngle = 180 - startingAngle;
-                                    startingAngle = Math.Abs(startingAngle);
-                                    this.isInReflectedZone = false;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.Out.WriteLine(ex.GetBaseException().StackTrace);
-                                }
+                                startingPoint = (double)(baseClick.X - (i * getPattern().getWidth()) - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
+                                startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
+                                if (baseClick.X > endClick.X)
+                                    startingAngle = 180 - startingAngle;
+                                startingAngle = Math.Abs(startingAngle);
+                                this.isInReflectedZone = false;
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                             }
                             baseIsCorrect = true;
@@ -275,7 +269,7 @@ namespace OrbitMapper
                 }
             }
             baseIsGood = baseIsCorrect;
-                
+
             if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
             {
                 System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
@@ -284,7 +278,8 @@ namespace OrbitMapper
             }
         }
 
-        public string getTessData(){
+        public string getTessData()
+        {
             string ret = "";
             ret += "<baseclick_x>" + baseClick.X + "</baseclick_x>";
             ret += "<baseclick_y>" + (this.Height - baseClick.Y) + "</baseclick_y>";
@@ -309,10 +304,12 @@ namespace OrbitMapper
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if(e.Y >= pictureBox1.Height - 10){
+            if (e.Y >= pictureBox1.Height - 10)
+            {
                 baseClick = e.Location;
             }
-            else{
+            else
+            {
                 if (e.Y < pictureBox1.Height - 10)
                 {
                     endClick = e.Location;
@@ -326,11 +323,14 @@ namespace OrbitMapper
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             populateByTess = true;
-            if(lastScrollValue == -1){
+            if (lastScrollValue == -1)
+            {
                 lastScrollValue = trackBar1.Value;
             }
-            else{
-                if(lastScrollValue != trackBar1.Value){
+            else
+            {
+                if (lastScrollValue != trackBar1.Value)
+                {
                     baseClick.X += trackBar1.Value - lastScrollValue;
                     endClick.X += trackBar1.Value - lastScrollValue;
                     lastScrollValue = trackBar1.Value;

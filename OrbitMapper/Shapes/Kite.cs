@@ -13,7 +13,6 @@ namespace OrbitMapper
         {
             base.Text = "Kite";
             base.Name = "Kite" + (base.getShapeCount() - 1);
-            base.setTabCount(base.getTabCount() + 1);
             addVertex(0, 0, 0);
             addVertex(Math.Cos(Math.PI / 3) * 1024, Math.Sin(Math.PI / 3) * 1024, 60d);
             addVertex(1024d, Math.Tan(Math.PI / 6) * 1024, 330d);
