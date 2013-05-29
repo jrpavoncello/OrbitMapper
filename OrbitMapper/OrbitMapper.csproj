@@ -215,9 +215,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\isosceles.png" />
     <None Include="Resources\equilateral.png" />
   </ItemGroup>
