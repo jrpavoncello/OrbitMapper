@@ -9,6 +9,9 @@ namespace OrbitMapper
 {
     public class Equilateral : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for an equilateral triangle.
+        /// </summary>
         public Equilateral()
         {
             base.Text = "Equilateral";

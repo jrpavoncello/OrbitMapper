@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class DebugForms : Form
     {
 

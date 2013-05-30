@@ -11,6 +11,10 @@ namespace OrbitMapper
     {
         public Kite()
         {
+            /// <summary>
+            /// Use the base class to configure this child specifically for a kite laying on one side spanned horizontally.
+            /// The leftmost angle is 60, the two identical angles are 90 and the remaining is 120
+            /// </summary>
             base.Text = "Kite";
             base.Name = "Kite" + (base.getShapeCount() - 1);
             addVertex(0, 0, 0);

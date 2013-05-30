@@ -9,6 +9,9 @@ namespace OrbitMapper
 {
     public class Tri3060 : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for a 30-60-90 triangle
+        /// </summary>
         public Tri3060()
         {
             base.Text = "Tri3060";

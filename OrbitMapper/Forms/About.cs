@@ -8,8 +8,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// Displays information about the program. Hangs from the main menu toolbar
+    /// </summary>
     partial class About : Form
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="version">Used to fill in the version label in the about form.</param>
         public About(string version)
         {
             InitializeComponent();

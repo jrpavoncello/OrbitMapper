@@ -9,6 +9,9 @@ namespace OrbitMapper
 {
     public class Rhombus : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for a 60-120 Rhombus
+        /// </summary>
         public Rhombus()
         {
             base.Text = "Rhombus";

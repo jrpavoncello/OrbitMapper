@@ -9,6 +9,9 @@ namespace OrbitMapper
 {
     public class IsosTri120 : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for a 120 isosceles triangle
+        /// </summary>
         public IsosTri120(){
             base.Text = "IsosTri120";
             base.Name = "IsosTri120" + (base.getShapeCount() - 1);

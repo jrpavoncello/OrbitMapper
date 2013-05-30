@@ -10,6 +10,9 @@ using System.Diagnostics;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// This form is used to get user data in order to instantiate a new shape. This hangs from the main menu toolbar.
+    /// </summary>
     public partial class NewShapeForm : Form
     {
         private int shape = -1;
@@ -27,6 +30,9 @@ namespace OrbitMapper
 
         public double getRectSize(){ return rectSize; }
 
+        /// <summary>
+        /// Used when a new shape box is clicked, it resets all of the labels and panels to the default color I wanted the to be
+        /// </summary>
         private void resetPanels()
         {
             EquiPanel.BackColor = SystemColors.ButtonFace;
@@ -47,8 +53,14 @@ namespace OrbitMapper
             RectangleLabel.BackColor = SystemColors.ButtonFace;
         }
 
+        /// <summary>
+        /// This is the last method called BEFORE the form closes AFTER the X button is hit or this.close() is called
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
+            /// This switch statement is used only for debug output
             string temp = null;
             switch (shape)
             {
@@ -81,6 +93,7 @@ namespace OrbitMapper
                     break;
             }
             EventSource.output(temp + "shape was selected.");
+            /// When the X button was hit, make sure the result reflects that the user did not want a shape created
             if (shape == -1 || cancelled == true)
             {
                 this.DialogResult = DialogResult.Cancel;
@@ -88,18 +101,30 @@ namespace OrbitMapper
             else
             {
                 this.DialogResult = DialogResult.Yes;
-                cancelled = false;
             }
             EventSource.output("Form3 closed.");
         }
 
+        /// <summary>
+        /// This gets reset because even when the dialog is closed, the instance is still in memory, therefore the fields need reset so that
+        /// when the instance is shown again, and the last instance set cancelled=true, it does not consistently report that it was cancelled from my logic
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form2_Shown(object sender, EventArgs e)
         {
             EventSource.output("Panels reset.");
+            cancelled = true; 
             shape = -1;
             resetPanels();
         }
 
+        /// <summary>
+        /// The Create button. If the user selected a rectangle, attempt to parse it and show a dialog box if it fails or is 0.
+        /// If the User selected a shape, set the cancelled field to reflect it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -119,27 +144,33 @@ namespace OrbitMapper
             }
             catch (System.ArgumentNullException ex)
             {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch (System.FormatException ex)
             {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch (System.OverflowException ex)
             {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
+        /// <summary>
+        /// This allows the user to use the mouse sheel to scroll up and down with the AutoScroll bar feature.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form2_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Point p = tableLayoutPanel1.AutoScrollPosition;
+            // To scroll, you must use the AutoScrollPosition field and instantiate new Points every time you fire the event use the mouse sheel
+            // Because we are not horizontally scrolling, set the X coordinate point to remain the same.
+            // The Y coordinate Point reports back negative for the scroll bar, however it needs a positive coordinate to set it to something new (so stupid)
+            // So just get that and subtract the Delta property (change). This could be different depending on how Windows is configured to handle the mouse scroll (some people set Windows to scroll faster)
             this.tableLayoutPanel1.AutoScrollPosition = new Point(tableLayoutPanel1.AutoScrollPosition.X, Math.Abs(tableLayoutPanel1.AutoScrollPosition.Y) - (e.Delta / 10));
         }
 

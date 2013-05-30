@@ -7,6 +7,9 @@ namespace OrbitMapper
 {
     class Hexagon : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for a 120 Hexagon
+        /// </summary>
         public Hexagon(){
             base.Text = "Hexagon";
             base.Name = "Hexagon" + (base.getShapeCount() - 1);

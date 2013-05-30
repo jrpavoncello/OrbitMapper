@@ -362,18 +362,9 @@ namespace OrbitMapper
                         tempShape.Invalidate();
                     }
                 }
-                catch (System.ArgumentNullException ex)
-                {
-                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                }
-                catch (System.FormatException ex)
-                {
-                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                }
-                catch (System.OverflowException ex)
-                {
-                    EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                }
+                catch (System.ArgumentNullException ex){ /*Do nothing */ }
+                catch (System.FormatException ex) { /*Do nothing */ }
+                catch (System.OverflowException ex) { /*Do nothing */ }
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -410,20 +401,9 @@ namespace OrbitMapper
                 tempShape.setStartPoint(temp);
 
             }
-            catch(System.ArgumentNullException ex){
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartPoint(0);
-            }
-            catch (System.FormatException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartPoint(0);
-            }
-            catch (System.OverflowException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartPoint(0);
-            }
+            catch (System.ArgumentNullException ex) { /*Do nothing */ }
+            catch (System.FormatException ex) { /*Do nothing */ }
+            catch (System.OverflowException ex) { /*Do nothing */ }
         }
 
         /// <summary>
@@ -446,21 +426,9 @@ namespace OrbitMapper
                 double temp = double.Parse(angleBox.Text);
                 tempShape.setStartAngle(temp);
             }
-            catch (System.ArgumentNullException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartAngle(0);
-            }
-            catch (System.FormatException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartAngle(0);
-            }
-            catch (System.OverflowException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setStartAngle(0);
-            }
+            catch (System.ArgumentNullException ex) { /*Do nothing */ }
+            catch (System.FormatException ex) { /*Do nothing */ }
+            catch (System.OverflowException ex) { /*Do nothing */ }
         }
 
         /// <summary>
@@ -483,21 +451,9 @@ namespace OrbitMapper
                 int temp = int.Parse(bouncesBox.Text);
                 tempShape.setBounces(temp);
             }
-            catch (System.ArgumentNullException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setBounces(0);
-            }
-            catch (System.FormatException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setBounces(0);
-            }
-            catch (System.OverflowException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-                tempShape.setBounces(0);
-            }
+            catch (System.ArgumentNullException ex) { /*Do nothing */ }
+            catch (System.FormatException ex) { /*Do nothing */ }
+            catch (System.OverflowException ex) { /*Do nothing */ }
         }
 
         /// <summary>
@@ -588,18 +544,9 @@ namespace OrbitMapper
                 tempShape.setFromTessellation(false);
                 tempShape.Invalidate();
             }
-            catch (System.ArgumentNullException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-            }
-            catch (System.FormatException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-            }
-            catch (System.OverflowException ex)
-            {
-                EventSource.output("Message: " + ex.Message + " Source: " + ex.Source);
-            }
+            catch (System.ArgumentNullException ex) { /*Do nothing */ }
+            catch (System.FormatException ex) { /*Do nothing */ }
+            catch (System.OverflowException ex) { /*Do nothing */ }
         }
 
         /// <summary>
@@ -797,13 +744,13 @@ namespace OrbitMapper
             catch (Exception ex)
             {
                 EventSource.output(ex.StackTrace);
-                EventSource.output(ex.Source);
                 MessageBox.Show(this, "Problem saving file.", "Save Error");
             }
         }
 
         /// <summary>
-        /// 
+        /// This handles when the Open item is selected in the main menu. It houses all the logic to parse .omd XML files and begin the object
+        /// instantiation. If there is any exception thrown during the file open, it will simply pop up a dialog and say that there was a problem.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -821,11 +768,15 @@ namespace OrbitMapper
                 {
                     // Saves the .omd via a FileStream created by the OpenFile method.
                     System.IO.Stream fs = openFileDialog.OpenFile();
-                    XmlDocument xmlDoc= new XmlDocument(); //* create an xml document object.
-                    xmlDoc.Load(fs);
-                    XmlNodeList shapes = xmlDoc.GetElementsByTagName("shape");
+                    XmlDocument xmlDoc = new XmlDocument(); // create an xml document object.
+                    xmlDoc.Load(fs); // Use it to load the IOStream from the OpenFile dialog
+                    XmlNodeList shapes = xmlDoc.GetElementsByTagName("shape"); // Aggregate all of the individual saved Shape to iterate through
                     
                     for(int i = 0; i < shapes.Count; i++){
+                        /// <remarks>
+                        /// XmlNodeList provides an nice way to index through children where the first index points to the individual highest level element you would like to search through
+                        /// and the second can be used like a Dictionary where it will search all children under that tag for any elements with the specified tag name
+                        /// </remarks>
                         XmlElement point = shapes[i]["startpoint"];
                         XmlElement angle = shapes[i]["startangle"];
                         XmlElement bounces = shapes[i]["bounces"];
@@ -874,6 +825,9 @@ namespace OrbitMapper
                             }
                             else if (type == "Rectangle")
                             {
+                                /// <remarks>
+                                /// Remember that Rectangle shapes need the extra property for the ratio saved so that they can be instantiated again.
+                                /// </remarks>
                                 XmlElement ratio = shapes[i]["ratio"];
                                 controls = instantiateShapes(7, double.Parse(ratio.InnerText));
                             }
@@ -909,6 +863,7 @@ namespace OrbitMapper
                                     trackBar2.Value = val;
                                 }
                             }
+                            //Used to set the tab index to the first one opened
                             if (i == 0)
                                 first = shape;
                             EventSource.output("New tab number: " + this.shapes.Count + " was added.");
@@ -921,21 +876,30 @@ namespace OrbitMapper
             catch (Exception ex)
             {
                 EventSource.output(ex.StackTrace);
-                EventSource.output(ex.Source);
                 MessageBox.Show(this, "Problem opening file.", "Open Error");
             }
         }
 
+        /// <summary>
+        /// Only used when user clicks the About button on the main menu, open the dialog and persist user closes before continue.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new About(OMVersion).ShowDialog();
         }
 
+        /// <summary>
+        /// This draws the custom stripes down the middle of the button that is pressed to show and hide the Tessellation map
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Paint(object sender, PaintEventArgs e)
         {
-            int size = button1.Height / 8;
-            int offsetX = button1.Width / 2;
-            int offsetY = (button1.Height / 2) - (size / 2);
+            int size = button1.Height / 8; // Set the vertical size of the stripes
+            int offsetX = button1.Width / 2; // Find the center horizontally
+            int offsetY = (button1.Height / 2) - (size / 2); //Find the center vertically and set the topmost edge of the stripes
             int vertices = 2;
             Point[] go = new Point[vertices];
             Graphics g = e.Graphics;
@@ -952,10 +916,17 @@ namespace OrbitMapper
             g.DrawLine(System.Drawing.Pens.DimGray, go[0], go[1]);
         }
 
+        /// <summary>
+        /// This draws the custom triangle over the "Go" button, or the button pressed to initiate the simulation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Paint(object sender, PaintEventArgs e)
         {
+            // Find the center
             int width = button2.Width / 2;
             int height = width * 2;
+            // Find the top left corner of the triangle to start it centered + 1
             int offsetX = (button2.Width / 2) - (width / 2) + 1;
             int offsetY = (button2.Height / 2) - (height / 2);
             int vertices = 3;
@@ -968,6 +939,11 @@ namespace OrbitMapper
             g.FillPolygon(new SolidBrush(Color.Teal), go);
         }
 
+        /// <summary>
+        /// This draws the custom stripe over the split containers vertical splitter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void splitContainer1_Paint(object sender, PaintEventArgs e)
         {
             int offsetX = splitContainer1.SplitterDistance;
