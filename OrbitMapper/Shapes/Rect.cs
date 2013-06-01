@@ -24,7 +24,6 @@ namespace OrbitMapper
             addVertex(0, height, 90);
             addVertex(width, height, 0);
             addVertex(width, 0, 90);
-            setScale(width, height);
             setStartArea(0, width);
         }
     }

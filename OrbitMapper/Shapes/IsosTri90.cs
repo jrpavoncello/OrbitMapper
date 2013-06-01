@@ -20,7 +20,6 @@ namespace OrbitMapper
             double temp = Math.Tan(Math.PI / 4) * (512d);
             addVertex(512d, temp, 45d);
             addVertex(1024d, 0, 135d);
-            setScale(1024d, temp);
             setStartArea(0d, 1024);
         }
     }

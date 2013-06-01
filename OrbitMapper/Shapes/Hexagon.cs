@@ -23,7 +23,6 @@ namespace OrbitMapper
             addVertex(xSmallSegment + xLargeSegment, height, 0d);
             addVertex(1024d, ySegment, 120d);
             addVertex(xSmallSegment + xLargeSegment, 0, 60d);
-            setScale(1024d, height);
             setStartArea(xSmallSegment, xSmallSegment + xLargeSegment);
         }
     }

@@ -22,9 +22,12 @@ namespace OrbitMapper
             try{
                 Application.Run(new MainForms());
             }
-            catch(Exception e){
-                EventSource.output(e.StackTrace);
+            catch (Exception e)
+            {
                 EventSource.output(e.Message);
+                EventSource.output(e.StackTrace);
+                EventSource.output(e.InnerException.Message);
+                EventSource.output(e.InnerException.StackTrace);
                 new DebugForms().ShowDialog();
             }
         }
