@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitMapper", "OrbitMapper\OrbitMapper.csproj", "{41A18B22-46BB-4C55-A41C-6D2937D8BCF0}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "OrbitMapper.Help", "OrbitMapper.Help\OrbitMapper.Help.shfbproj", "{8F48F578-07BF-4565-959A-66CF90470F7F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{41A18B22-46BB-4C55-A41C-6D2937D8BCF0} = {41A18B22-46BB-4C55-A41C-6D2937D8BCF0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace OrbitMapper
+﻿namespace OrbitMapper.Tessellations
 {
     partial class IsosTri90Tess
     {

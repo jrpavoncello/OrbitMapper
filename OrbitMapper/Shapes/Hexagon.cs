@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OrbitMapper
+namespace OrbitMapper.Shapes
 {
     class Hexagon : Shape
     {

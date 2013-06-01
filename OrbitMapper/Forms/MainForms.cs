@@ -13,6 +13,8 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using System.Drawing.Drawing2D;
+using OrbitMapper.Tessellations;
+using OrbitMapper.Shapes;
 
 namespace OrbitMapper
 {

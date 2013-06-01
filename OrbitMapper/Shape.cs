@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Drawing.Drawing2D;
 
-namespace OrbitMapper
+namespace OrbitMapper.Shapes
 {
     public class Shape : TabPage
     {

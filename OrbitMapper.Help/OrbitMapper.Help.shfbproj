@@ -27,7 +27,7 @@
     <CppCommentsFixup>False</CppCommentsFixup>
     <CleanIntermediates>True</CleanIntermediates>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\OrbitMapper\OrbitMapper.csproj" xmlns="" />
+      <DocumentationSource sourceFile="..\OrbitMapper\OrbitMapper.csproj" />
     </DocumentationSources>
     <SyntaxFilters>CSharp</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>

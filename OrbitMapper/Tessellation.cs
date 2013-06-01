@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using OrbitMapper;
 
-namespace OrbitMapper
+namespace OrbitMapper.Tessellations
 {
     /// <summary>
     /// Tessellation is meant to be used exactly the same as a button, grid, slider, tab page.

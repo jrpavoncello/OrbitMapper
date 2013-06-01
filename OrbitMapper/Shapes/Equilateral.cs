@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace OrbitMapper
+namespace OrbitMapper.Shapes
 {
     public class Equilateral : Shape
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace OrbitMapper
+namespace OrbitMapper.Tessellations
 {
     public partial class HexagonTess : Tessellation
     {
