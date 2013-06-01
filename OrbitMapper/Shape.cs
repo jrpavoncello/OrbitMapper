@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace OrbitMapper
 {
@@ -14,7 +15,7 @@ namespace OrbitMapper
     {
 
         #region Initialization of member fields
-        private Vertices vertices = new Vertices();
+        private List<DoublePoint> vertices = new List<DoublePoint>();
         private static int shapeCount = 0;
         private List<Intersect> collisions;
         private int numWalls;
@@ -172,7 +173,7 @@ namespace OrbitMapper
             /// Add to the numWalls (used for iterating over them without having to use Count.
             numWalls++;
             this.walls.Add(new DoublePoint(numWalls - 1, angle)); /// Vertices are stored as Double for accuracy
-            vertices.addVertex(x1, x2);
+            vertices.Add(new DoublePoint(x1, x2));
             if (x1 > this.width)
             { /// If the X or Y position is greater than the width or height, increase the width or height for the user automatically
                 this.width = x1;
@@ -192,12 +193,12 @@ namespace OrbitMapper
 
         private int getVerticesCount()
         {
-            return vertices.size();
+            return vertices.Count();
         }
 
         private DoublePoint vertexAt(int index)
         {
-            return vertices.pointAt(index);
+            return vertices.ElementAt<DoublePoint>(index);
         }
 
         /// <summary>
@@ -611,7 +612,7 @@ namespace OrbitMapper
         }
 
         /// <summary>
-        /// 
+        /// This finds the angle of reflection given the angle of project and the angle of the wall
         /// </summary>
         /// <param name="projection"></param>
         /// <param name="wallAngle"></param>
@@ -619,32 +620,52 @@ namespace OrbitMapper
         private double findReflection(double projection, double wallAngle)
         {
             double temp = 0;
+            /// Special cases where either is horizontal
             if (wallAngle == 180 || wallAngle == 0)
             {
                 temp = 360 - projection;
             }
+            /// Special cases where either is vertical
             else if (wallAngle == 90 || wallAngle == 270)
             {
                 temp = mod(180 - projection, 360);
             }
+            /// Else formula I solved to find the angle of reflection
             else
             {
-                temp = mod(2 * wallAngle - projection, 360);
+                temp = mod((2 * wallAngle) - projection, 360);
             }
             return temp;
         }
 
+        /// <summary>
+        /// Custom mod formula for double because the regular modulo truncates double precision numbers to integers before performing the operation.
+        /// This is much more expensive to perform than regualar Math.mod.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private double mod(double x, double m)
         {
             return (x % m + m) % m;
         }
 
+        /// <summary>
+        /// Finds the angle given two points (x1, x2) and (x3, x4)
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="x2"></param>
+        /// <param name="x3"></param>
+        /// <param name="x4"></param>
+        /// <returns></returns>
         private double findAngle(double x1, double x2, double x3, double x4)
         {
             double x13 = x3 - x1;
             double x24 = x4 - x2;
+            // Find their angle using ArcTan
             double angle = Math.Abs(Math.Atan(x24 / x13) * 180 / Math.PI);
 
+            //Special cases for if they are horizontal or vertical
             if (x13 == 0 && x24 >= 0)
             {
                 angle = 90;
@@ -662,37 +683,52 @@ namespace OrbitMapper
                 angle = 180;
             }
 
+            // In quadrant 1
             //if(x13 >= 0 && x24 >= 0)
             //angle = angle;
 
+            // In quadrant 2
             else if (x13 <= 0 && x24 >= 0)
                 angle = 180 - angle;
 
+            // In quadrant 4
             else if (x13 >= 0 && x24 <= 0)
                 angle = 360 - angle;
 
+            // In quadrant 3
             else
                 angle = angle + 180;
 
             return angle;
         }
 
+        /// <summary>
+        /// Scale the shape down to match the tabPage size
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private int scale(double x)
         {
             double tabWidth = base.Width - 10;
             double tabHeight = base.Height - 10;
             double scaledX = tabWidth / scaleX;
             double scaledY = tabHeight / scaleY;
+            /// If x direction needs more scaling down, use that
             if (scaledX < scaledY)
             {
                 return (int)(scaledX * x);
             }
+            /// Otherwise, use the y direction's scale
             else
             {
                 return (int)(scaledY * x);
             }
         }
 
+        /// <summary>
+        /// Return all of the collisions detect in a friendly format to iterate through and use a Graphics.drawLine method
+        /// </summary>
+        /// <returns></returns>
         public Point[] getCollisions()
         {
             int count = collisions.Count;
@@ -707,13 +743,17 @@ namespace OrbitMapper
             return temp;
         }
 
+        /// <summary>
+        /// Return the vetices for the shape in a friendly format to insert into a Graphics.drawPoly method
+        /// </summary>
+        /// <returns></returns>
         public Point[] getVertices()
         {
             List<Point> temp = new List<Point>();
-            EventSource.output(vertices.size() + " vertices.");
-            for (int i = 0; i < vertices.size(); i++)
+            EventSource.output(vertices.Count() + " vertices.");
+            for (int i = 0; i < vertices.Count(); i++)
             {
-                temp.Add(new Point((base.Width / 2) - (scale(this.width) / 2) + scale(vertices.pointAt(i).x1), base.Height - 1 - scale(vertices.pointAt(i).x2)));
+                temp.Add(new Point((base.Width / 2) - (scale(this.width) / 2) + scale(vertices.ElementAt<DoublePoint>(i).x1), base.Height - 1 - scale(vertices.ElementAt<DoublePoint>(i).x2)));
             }
             return temp.ToArray<Point>();
         }
@@ -728,27 +768,34 @@ namespace OrbitMapper
             return base.Width;
         }
 
+        /// <summary>
+        /// Paint method to custom draw the shape and the intersections on a tab page
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             if (getVerticesCount() != 0)
             {
+                /// Create the graphics context and clear it of the last draw
                 Graphics g = e.Graphics;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.Clear(SystemColors.Control);
 
+                /// Get the shape, intiate the collision simulation, and get the collisions in a Point array
                 Point[] shape = getVertices();
                 findIntersections();
                 Point[] collisions = getCollisions();
                 EventSource.output("Drawing " + shape.Length + " vertices.");
                 g.DrawPolygon(System.Drawing.Pens.Black, shape);
-                if (collisions != null && !this.undefCollision)
+                if (collisions != null && !this.undefCollision) /// If there are no collisions or there was an undefined collision we don't want to draw
                 {
                     EventSource.output("Intersections detected: " + collisions.Length);
                     for (int i = 0; i < collisions.Length - 1; i++)
                     {
-                        if (i == 0)
+                        if (i == 0) // Mark the start point with a blue dot
                             g.FillEllipse(new SolidBrush(Color.SteelBlue), collisions[i].X - 5, collisions[i].Y - 6, 10, 10);
                         else
-                            if (i == collisions.Length - 2)
+                            if (i == collisions.Length - 2) // Mark the end point with a red dot
                                 g.FillEllipse(new SolidBrush(Color.Tomato), collisions[i + 1].X - 4, collisions[i + 1].Y - 5, 8, 8);
                         g.DrawLine(System.Drawing.Pens.Red, collisions[i], collisions[i + 1]);
                     }

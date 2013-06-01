@@ -42,14 +42,15 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(589, 393);
             this.textBox1.TabIndex = 0;
+            this.textBox1.VisibleChanged += new System.EventHandler(this.textBox1_VisibleChanged);
             // 
-            // Form3
+            // DebugForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 393);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form3";
+            this.Name = "DebugForms";
             this.Text = "Debug Console";
             this.ResumeLayout(false);
             this.PerformLayout();

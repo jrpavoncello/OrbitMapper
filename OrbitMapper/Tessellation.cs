@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace OrbitMapper
 {
@@ -183,6 +184,7 @@ namespace OrbitMapper
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(SystemColors.Control);
 
             /// If the baseClick or endClick has been specified...

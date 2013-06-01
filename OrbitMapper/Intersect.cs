@@ -5,6 +5,9 @@ using System.Text;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// Quick and easy class for storing Intersection data, could have been a struct too
+    /// </summary>
     public class Intersect
     {
         public double x1;

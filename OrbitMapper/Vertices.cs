@@ -6,16 +6,17 @@ using System.Drawing;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// This is used as a precise and easy way to store and return vertices, whether used for a shape or for the collisions.
+    /// </summary>
     public class Vertices
     {
         private List<double> x1;
         private List<double> x2;
-        private List<DoublePoint> vertices;
         public Vertices()
         {
             x1 = new List<double>();
             x2 = new List<double>();
-            vertices = new List<DoublePoint>();
         }
         public Vertices(double x1, double x2)
         {
@@ -23,19 +24,17 @@ namespace OrbitMapper
             this.x2 = new List<double>();
             this.x1.Add(x1);
             this.x2.Add(x2);
-            vertices = new List<DoublePoint>();
-            this.vertices.Add(new DoublePoint(x1, x2));
         }
         public void addVertex(double x1, double x2)
         {
             this.x1.Add(x1);
             this.x2.Add(x2);
-            this.vertices.Add(new DoublePoint(x1, x2));
         }
-        public DoublePoint[] getVertices()
-        {
-            return vertices.ToArray<DoublePoint>();
-        }
+        /// <summary>
+        /// Get a specific vertex
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public DoublePoint pointAt(int index)
         {
             return new DoublePoint(x1.ElementAt<double>(index), x2.ElementAt<double>(index));
