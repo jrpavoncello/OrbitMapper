@@ -5,17 +5,17 @@ using System.Text;
 
 namespace OrbitMapper
 {
-    public class doublePoint
+    public class DoublePoint
     {
 
         public double x1;
         public double x2;
-        public doublePoint()
+        public DoublePoint()
         {
             x1 = 0;
             x2 = 0;
         }
-        public doublePoint(double x1, double x2)
+        public DoublePoint(double x1, double x2)
         {
             this.x1 = x1;
             this.x2 = x2;

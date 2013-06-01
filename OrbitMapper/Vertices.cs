@@ -10,12 +10,12 @@ namespace OrbitMapper
     {
         private List<double> x1;
         private List<double> x2;
-        private List<doublePoint> vertices;
+        private List<DoublePoint> vertices;
         public Vertices()
         {
             x1 = new List<double>();
             x2 = new List<double>();
-            vertices = new List<doublePoint>();
+            vertices = new List<DoublePoint>();
         }
         public Vertices(double x1, double x2)
         {
@@ -23,22 +23,22 @@ namespace OrbitMapper
             this.x2 = new List<double>();
             this.x1.Add(x1);
             this.x2.Add(x2);
-            vertices = new List<doublePoint>();
-            this.vertices.Add(new doublePoint(x1, x2));
+            vertices = new List<DoublePoint>();
+            this.vertices.Add(new DoublePoint(x1, x2));
         }
         public void addVertex(double x1, double x2)
         {
             this.x1.Add(x1);
             this.x2.Add(x2);
-            this.vertices.Add(new doublePoint(x1, x2));
+            this.vertices.Add(new DoublePoint(x1, x2));
         }
-        public doublePoint[] getVertices()
+        public DoublePoint[] getVertices()
         {
-            return vertices.ToArray<doublePoint>();
+            return vertices.ToArray<DoublePoint>();
         }
-        public doublePoint pointAt(int index)
+        public DoublePoint pointAt(int index)
         {
-            return new doublePoint(x1.ElementAt<double>(index), x2.ElementAt<double>(index));
+            return new DoublePoint(x1.ElementAt<double>(index), x2.ElementAt<double>(index));
         }
         public int size()
         {

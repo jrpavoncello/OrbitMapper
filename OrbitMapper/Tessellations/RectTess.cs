@@ -23,12 +23,12 @@ namespace OrbitMapper
             setShapeHeight(patHeight);
 
             Pattern pat = new Pattern(patWidth, patHeight, 0d);
-            List<doublePoint> tri1 = new List<doublePoint>();
+            List<DoublePoint> tri1 = new List<DoublePoint>();
 
-            tri1.Add(new doublePoint(0, 0));
-            tri1.Add(new doublePoint(0, patHeight));
-            tri1.Add(new doublePoint(patWidth, patHeight));
-            tri1.Add(new doublePoint(patWidth, 0));
+            tri1.Add(new DoublePoint(0, 0));
+            tri1.Add(new DoublePoint(0, patHeight));
+            tri1.Add(new DoublePoint(patWidth, patHeight));
+            tri1.Add(new DoublePoint(patWidth, 0));
 
             pat.addPattern(tri1);
             setPattern(pat);

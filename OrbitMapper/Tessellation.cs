@@ -107,9 +107,9 @@ namespace OrbitMapper
             return isBetween;
         }
 
-        private doublePoint getIntersect(double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8)
+        private DoublePoint getIntersect(double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8)
         {
-            doublePoint ret = new doublePoint();
+            DoublePoint ret = new DoublePoint();
             if (x3 - x1 == 0)
             {
                 double m2 = (x8 - x6) / (x7 - x5);

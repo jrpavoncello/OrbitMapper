@@ -8,21 +8,21 @@ namespace OrbitMapper
 {
     public class Pattern
     {
-        private List<List<doublePoint>> vertices;
+        private List<List<DoublePoint>> vertices;
         private double width = 0;
         private double height = 0;
         private double offset = 0;
 
         public Pattern(double width, double height, double offset)
         {
-            vertices = new List<List<doublePoint>>();
+            vertices = new List<List<DoublePoint>>();
             this.width = width;
             this.height = height;
             this.offset = offset;
         }
         public Pattern()
         {
-            vertices = new List<List<doublePoint>>();
+            vertices = new List<List<DoublePoint>>();
         }
 
         public double getOffset()
@@ -54,10 +54,10 @@ namespace OrbitMapper
         }
 
         public void addVertex(double x1, double x2, int patternNum){
-            vertices.ElementAt<List<doublePoint>>(patternNum).Add(new doublePoint(x1, x2));
+            vertices.ElementAt<List<DoublePoint>>(patternNum).Add(new DoublePoint(x1, x2));
         }
 
-        public void addPattern(List<doublePoint> pattern){
+        public void addPattern(List<DoublePoint> pattern){
             vertices.Add(pattern);
         }
 
@@ -65,10 +65,10 @@ namespace OrbitMapper
             int len1 = vertices.Count;
             Point[][] temp = new Point[len1][];
             for(int i = 0; i < len1; i++){
-                int len2 = vertices.ElementAt<List<doublePoint>>(i).Count();
+                int len2 = vertices.ElementAt<List<DoublePoint>>(i).Count();
                 temp[i] = new Point[len2];
-                for(int j = 0; j < vertices.ElementAt<List<doublePoint>>(i).Count(); j++){
-                    Point item = new Point((int)vertices.ElementAt<List<doublePoint>>(i).ElementAt<doublePoint>(j).x1, (int)vertices.ElementAt<List<doublePoint>>(i).ElementAt<doublePoint>(j).x2);
+                for(int j = 0; j < vertices.ElementAt<List<DoublePoint>>(i).Count(); j++){
+                    Point item = new Point((int)vertices.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x1, (int)vertices.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x2);
                     temp[i][j] = item;
                 }
             }

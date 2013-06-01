@@ -18,7 +18,7 @@ namespace OrbitMapper
         private static int shapeCount = 0;
         private List<Intersect> collisions;
         private int numWalls;
-        private List<doublePoint> walls;
+        private List<DoublePoint> walls;
         private double width = 0;
         private double height = 0;
         private double scaleX;
@@ -26,7 +26,7 @@ namespace OrbitMapper
         private double startPoint = 0;
         private double startAngle = 0;
         private int bounces = 0;
-        private doublePoint startArea = new doublePoint();
+        private DoublePoint startArea = new DoublePoint();
         private int tabNum = 0;
         private bool fromTessellation = false;
         private double tessShapeHeight;
@@ -40,7 +40,7 @@ namespace OrbitMapper
         public Shape()
         {
             collisions = new List<Intersect>();
-            walls = new List<doublePoint>();
+            walls = new List<DoublePoint>();
             this.CausesValidation = true;
             cm = new ContextMenu();
             cm.MenuItems.Add("Remove", new EventHandler(removeThisTab));
@@ -70,7 +70,7 @@ namespace OrbitMapper
             EventSource.removeTab(this.Name);
         }
 
-        public doublePoint getStartArea()
+        public DoublePoint getStartArea()
         {
             return startArea;
         }
@@ -135,7 +135,7 @@ namespace OrbitMapper
         public void addVertex(double x1, double x2, double angle)
         {
             numWalls++;
-            this.walls.Add(new doublePoint(numWalls - 1, angle));
+            this.walls.Add(new DoublePoint(numWalls - 1, angle));
             vertices.addVertex(x1, x2);
             if (x1 > width)
                 width = x1;
@@ -171,14 +171,14 @@ namespace OrbitMapper
             return vertices.size();
         }
 
-        private doublePoint vertexAt(int index)
+        private DoublePoint vertexAt(int index)
         {
             return vertices.pointAt(index);
         }
 
-        private doublePoint getIntersect(double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8)
+        private DoublePoint getIntersect(double x1, double x2, double x3, double x4, double x5, double x6, double x7, double x8)
         {
-            doublePoint ret = new doublePoint();
+            DoublePoint ret = new DoublePoint();
             if (x3 - x1 == 0)
             {
                 double m2 = (x8 - x6) / (x7 - x5);
@@ -211,9 +211,9 @@ namespace OrbitMapper
             }
         }
 
-        private doublePoint findProjection(double x1, double x2, double distance, double angle)
+        private DoublePoint findProjection(double x1, double x2, double distance, double angle)
         {
-            doublePoint ret = new doublePoint();
+            DoublePoint ret = new DoublePoint();
 
             if (angle == 0)
             {
@@ -300,7 +300,7 @@ namespace OrbitMapper
                     tempIntersects[j] = new Intersect();
                 }
                 int leastDistance = -1;
-                doublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
+                DoublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
                 double x3 = tempProjection.x1;
                 double x4 = tempProjection.x2;
                 for (int j = 0; j < numWalls; j++)
@@ -308,7 +308,7 @@ namespace OrbitMapper
                     if (intersects[i].wall != j)
                     {
                         int tempMod = (int)mod(j - 1, numWalls);
-                        doublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
+                        DoublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
                         if (temp == null)
                             continue;
                         tempIntersects[j].x1 = temp.x1;
@@ -316,10 +316,10 @@ namespace OrbitMapper
                         tempIntersects[j].wall = j;
                         tempIntersects[j].distance = Math.Sqrt(Math.Pow(intersects[i].x1 - tempIntersects[j].x1, 2) + Math.Pow(intersects[i].x2 - tempIntersects[j].x2, 2));
 
-                        doublePoint minXPoint = new doublePoint();
-                        doublePoint maxXPoint = new doublePoint();
-                        doublePoint minYPoint = new doublePoint();
-                        doublePoint maxYPoint = new doublePoint();
+                        DoublePoint minXPoint = new DoublePoint();
+                        DoublePoint maxXPoint = new DoublePoint();
+                        DoublePoint minYPoint = new DoublePoint();
+                        DoublePoint maxYPoint = new DoublePoint();
                         if (vertexAt(tempMod).x1 > vertexAt(j).x1)
                         {
                             minXPoint.x1 = vertexAt(j).x1;
@@ -433,7 +433,7 @@ namespace OrbitMapper
                     tempIntersects[j] = new Intersect();
                 }
                 int leastDistance = -1;
-                doublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
+                DoublePoint tempProjection = findProjection(intersects[i].x1, intersects[i].x2, width, intersects[i].angle);
                 double x3 = tempProjection.x1;
                 double x4 = tempProjection.x2;
                 for (int j = 0; j < numWalls; j++)
@@ -441,7 +441,7 @@ namespace OrbitMapper
                     if (intersects[i].wall != j)
                     {
                         int tempMod = (int)mod(j - 1, numWalls);
-                        doublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
+                        DoublePoint temp = getIntersect(intersects[i].x1, intersects[i].x2, x3, x4, vertexAt(tempMod).x1, vertexAt(tempMod).x2, vertexAt(j).x1, vertexAt(j).x2);
                         if (temp == null)
                             continue;
                         tempIntersects[j].x1 = temp.x1;
@@ -449,10 +449,10 @@ namespace OrbitMapper
                         tempIntersects[j].wall = j;
                         tempIntersects[j].distance = Math.Sqrt(Math.Pow(intersects[i].x1 - tempIntersects[j].x1, 2) + Math.Pow(intersects[i].x2 - tempIntersects[j].x2, 2));
 
-                        doublePoint minXPoint = new doublePoint();
-                        doublePoint maxXPoint = new doublePoint();
-                        doublePoint minYPoint = new doublePoint();
-                        doublePoint maxYPoint = new doublePoint();
+                        DoublePoint minXPoint = new DoublePoint();
+                        DoublePoint maxXPoint = new DoublePoint();
+                        DoublePoint minYPoint = new DoublePoint();
+                        DoublePoint maxYPoint = new DoublePoint();
                         if (vertexAt(tempMod).x1 > vertexAt(j).x1)
                         {
                             minXPoint.x1 = vertexAt(j).x1;

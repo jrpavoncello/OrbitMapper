@@ -25,20 +25,20 @@ namespace OrbitMapper
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d, height, 0d);
-            List<doublePoint> tri1 = new List<doublePoint>();
+            List<DoublePoint> tri1 = new List<DoublePoint>();
 
-            tri1.Add(new doublePoint(xSmallSegment + xLargeSegment, 0));
-            tri1.Add(new doublePoint(xSmallSegment, 0));
-            tri1.Add(new doublePoint(0, ySegment));
-            tri1.Add(new doublePoint(xSmallSegment, height));
-            tri1.Add(new doublePoint(xSmallSegment + xLargeSegment, height));
-            tri1.Add(new doublePoint(width, ySegment));
-            tri1.Add(new doublePoint(xLargeSegment + width, ySegment));
-            tri1.Add(new doublePoint(xSmallSegment + xLargeSegment + width, height));
-            tri1.Add(new doublePoint(xLargeSegment + width, ySegment + height));
-            tri1.Add(new doublePoint(width, ySegment + height));
-            tri1.Add(new doublePoint(xSmallSegment + xLargeSegment, height));
-            tri1.Add(new doublePoint(width, ySegment));
+            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, 0));
+            tri1.Add(new DoublePoint(xSmallSegment, 0));
+            tri1.Add(new DoublePoint(0, ySegment));
+            tri1.Add(new DoublePoint(xSmallSegment, height));
+            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, height));
+            tri1.Add(new DoublePoint(width, ySegment));
+            tri1.Add(new DoublePoint(xLargeSegment + width, ySegment));
+            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment + width, height));
+            tri1.Add(new DoublePoint(xLargeSegment + width, ySegment + height));
+            tri1.Add(new DoublePoint(width, ySegment + height));
+            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, height));
+            tri1.Add(new DoublePoint(width, ySegment));
 
             pat.addPattern(tri1);
             setPattern(pat);
