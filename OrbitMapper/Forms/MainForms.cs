@@ -25,7 +25,7 @@ namespace OrbitMapper
     {
         
         // Used to determine whether a new version is available and used in the About.cs and Version.cs form.
-        private const string OMVersion = "1.1.4";
+        private const string OMVersion = "1.1.5";
 
         // newShape is used as a member field to hold the state of the NewShapeForm when a user chooses a new shape to create.
         // shapes holds all of the instances of shapes that users creates, and tessellations holds all of the instances of tessellations.
