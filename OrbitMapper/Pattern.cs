@@ -63,7 +63,7 @@ namespace OrbitMapper
         }
 
         /// <summary>
-        /// Add pattern assumes that the List<DoublePoint> is in the correct order to be able to be directly fed to a Graphics.DrawPoly() method for drawing.
+        /// Add pattern assumes that the List pattern is in the correct order to be able to be directly fed to a Graphics.DrawPoly() method for drawing.
         /// I try to keep the number of patterns down and reduce the amount of pathing that requires a double-back to draw shapes, but is not necessary
         /// </summary>
         /// <param name="pattern"></param>

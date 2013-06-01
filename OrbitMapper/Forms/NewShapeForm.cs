@@ -60,7 +60,7 @@ namespace OrbitMapper
         /// <param name="e"></param>
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            /// This switch statement is used only for debug output
+            // This switch statement is used only for debug output
             string temp = null;
             switch (shape)
             {
@@ -93,7 +93,7 @@ namespace OrbitMapper
                     break;
             }
             EventSource.output(temp + "shape was selected.");
-            /// When the X button was hit, make sure the result reflects that the user did not want a shape created
+            // When the X button was hit, make sure the result reflects that the user did not want a shape created
             if (shape == -1 || cancelled == true)
             {
                 this.DialogResult = DialogResult.Cancel;

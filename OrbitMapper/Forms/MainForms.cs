@@ -22,12 +22,12 @@ namespace OrbitMapper
     public partial class MainForms : Form
     {
         
-        /// Used to determine whether a new version is available and used in the About.cs and Version.cs form.
+        // Used to determine whether a new version is available and used in the About.cs and Version.cs form.
         private const string OMVersion = "1.1.4";
 
-        /// newShape is used as a member field to hold the state of the NewShapeForm when a user chooses a new shape to create.
-        /// shapes holds all of the instances of shapes that users creates, and tessellations holds all of the instances of tessellations.
-        /// lastTab is used during tab switching to determine whether appropriate action is needed.
+        // newShape is used as a member field to hold the state of the NewShapeForm when a user chooses a new shape to create.
+        // shapes holds all of the instances of shapes that users creates, and tessellations holds all of the instances of tessellations.
+        // lastTab is used during tab switching to determine whether appropriate action is needed.
         private NewShapeForm newShape;
         private List<Shape> shapes = new List<Shape>();
         private List<Tessellation> tessellations = new List<Tessellation>();
@@ -45,8 +45,8 @@ namespace OrbitMapper
             EventSource.finishedShape += new FinishedDrawShape(OnPostShapeCollisions);
             EventSource.tabRemove += new RemoveTab(removeThisTab);
 
-            /// To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
-            /// I check if they are placed incorrectly, if so, then I place them in the intended positions.
+            // To address a bug with the table layout in Windows Vista where the text field and labels in the layout builds incorrectly.
+            // I check if they are placed incorrectly, if so, then I place them in the intended positions.
             TableLayoutPanelCellPosition box = tableLayoutPanel2.GetCellPosition(angleBox);
             if(box.Column != 1 || box.Row != 1){
                 tableLayoutPanel2.Controls.Remove(label3);
@@ -71,15 +71,15 @@ namespace OrbitMapper
         /// and the second being the instance of the Tessellation.</returns>
         private Control[] instantiateShapes(int shape, double ratio = 0d)
         {
-            /// Checks for the default tabPage that is added as a placeholder, and removes it if a shape is being created.
+            // Checks for the default tabPage that is added as a placeholder, and removes it if a shape is being created.
             if (tabControl1.TabPages.Contains(tabPage1))
             {
                 tabControl1.TabPages.Remove(tabPage1);
             }
             Shape tempShape = null;
             Tessellation tempTess = null;
-            /// Each switch case sets the lastTab field, adds the Shape instance to the shapes List, adds the Tessellation instance to the tessellations List,
-            /// adds the Shape to the tabControl and sets the ContextMenu of that tab to the context menu field in the Shape base class.
+            // Each switch case sets the lastTab field, adds the Shape instance to the shapes List, adds the Tessellation instance to the tessellations List,
+            // adds the Shape to the tabControl and sets the ContextMenu of that tab to the context menu field in the Shape base class.
             switch (shape)
             {
                 case 0:
@@ -134,8 +134,8 @@ namespace OrbitMapper
                     break;
             }
 
-            /// The order for this must remain the same, the Shape and Tessellation instances must be added to the Lists before they are added to the Controls
-            /// because it triggers an event for the tabControl when a new Control is added, and the lastTab must be configured correctly for it.
+            // The order for this must remain the same, the Shape and Tessellation instances must be added to the Lists before they are added to the Controls
+            // because it triggers an event for the tabControl when a new Control is added, and the lastTab must be configured correctly for it.
             if (shapes.Count() != 0)
                 lastTab = (Shape)tabControl1.SelectedTab;
             shapes.Add(tempShape);
@@ -158,8 +158,8 @@ namespace OrbitMapper
             if(newShape == null)
                 newShape = new NewShapeForm();
             newShape.ShowDialog();
-            /// If the dialog returns DialogResult.Cancel, it means that the user hit the X at the top.
-            /// If the dialog returns a '-1' it means that no shape was selected and the user hit Create.
+            // If the dialog returns DialogResult.Cancel, it means that the user hit the X at the top.
+            // If the dialog returns a '-1' it means that no shape was selected and the user hit Create.
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {
                 Control[] controls = instantiateShapes(newShape.getShape(), newShape.getRectSize());
@@ -201,22 +201,22 @@ namespace OrbitMapper
         /// <param name="e"></param>
         private void removeThisTab(object source, Events e)
         {
-            /// If the source was from the default tab, ignore.
+            // If the source was from the default tab, ignore.
             if(!source.Equals(tabPage1)){
                 string name = (string)source;
-                /// Find the instance of the Shape that matches the name (a unique key).
+                // Find the instance of the Shape that matches the name (a unique key).
                 Shape shapeTemp = (Shape)tabControl1.Controls.Find(name, true)[0];
                 Tessellation tessTemp = findTessellation(shapeTemp.Name);
-                /// Remove the Tessellation from the splitContainer's panel2.
+                // Remove the Tessellation from the splitContainer's panel2.
                 splitContainer1.Panel2.Controls.RemoveByKey(name);
-                /// Remove the Shape from the tabControl.
+                // Remove the Shape from the tabControl.
                 tabControl1.Controls.RemoveByKey(name);
-                /// If the tabControl is now empty, add the default placeholder tab back and collapse panel2 which housed the tessellation.
+                // If the tabControl is now empty, add the default placeholder tab back and collapse panel2 which housed the tessellation.
                 if(tabControl1.TabCount == 0){
                     tabControl1.Controls.Add(tabPage1);
                     splitContainer1.Panel2Collapsed = true;
                 }
-                /// Remove both from their respective Lists and decrease the tab count for the Shape that is used in some situations to get the .
+                // Remove both from their respective Lists and decrease the tab count for the Shape that is used in some situations to get the .
                 tessellations.Remove(tessTemp);
                 shapes.Remove(shapeTemp);
             }
@@ -230,8 +230,8 @@ namespace OrbitMapper
         /// <param name="e">Generic event.</param>
         private void OnPostShapeCollisions(object source, Events e)
         {
-            /// Per suggestion by Dr. Umble, if there was an issue calculating the collisions due to the tessellation's base lying directly over a vertex 
-            /// or if a corner has been hit, just filled in the textboxes with Undefined to convey this to the user.
+            // Per suggestion by Dr. Umble, if there was an issue calculating the collisions due to the tessellation's base lying directly over a vertex 
+            // or if a corner has been hit, just filled in the textboxes with Undefined to convey this to the user.
             Shape selectedShape = (Shape)tabControl1.SelectedTab;
             if(selectedShape.undefCollision){
                 angleBox.Text = "Undefined";
@@ -262,7 +262,7 @@ namespace OrbitMapper
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
             Tessellation tessTemp = findTessellation(tempShape.Name);
-            /// If that tessellation reports that the tessellation should be used for the next collision simulation
+            // If that tessellation reports that the tessellation should be used for the next collision simulation
             if (tessTemp.populateByTess)
             {
                 double startingPoint = ((Tessellation)source).getStartingPoint();
@@ -270,18 +270,18 @@ namespace OrbitMapper
                 double distance = ((Tessellation)source).getDistance();
                 double tessHeight = ((Tessellation)source).getShapeHeight();
 
-                /// Set the Shape (tab) to report the same as well as set the proper fields to run the new simulation.
+                // Set the Shape (tab) to report the same as well as set the proper fields to run the new simulation.
                 tempShape.setFromTessellation(true);
                 tempShape.setStartPoint(startingPoint);
                 tempShape.setStartAngle(startingAngle);
                 tempShape.setDistance(distance);
                 tempShape.setTessShapeHeight(tessHeight);
 
-                /// Set the text boxes to reflect those changes
+                // Set the text boxes to reflect those changes
                 angleBox.Text = "" + startingAngle;
                 bouncesBox.Text = "" + 0;
                 pointBox.Text = "" + startingPoint;
-                /// Set the track bars to reflect those changes
+                // Set the track bars to reflect those changes
                 int val = 0;
                 if (tempShape.getStartAngle() > 0 && tempShape.getStartAngle() < 180)
                 {
@@ -298,15 +298,15 @@ namespace OrbitMapper
                         trackBar2.Value = val;
                     }
                 }
-                /// Causes redraw of shape (runs the simulation)
+                // Causes redraw of shape (runs the simulation)
                 tempShape.Invalidate();
             }
-            /// If the tessellation reports back that the baseClick was on a vertex, baseIsGood will be false
+            // If the tessellation reports back that the baseClick was on a vertex, baseIsGood will be false
             if (!tessTemp.baseIsGood)
             {
-                /// If so, set the shape to report that there was an undefined collision.
+                // If so, set the shape to report that there was an undefined collision.
                 tempShape.undefCollision = true;
-                /// Trigger the FinishedDrawShape event to check fill the boxes in with Undefined.
+                // Trigger the FinishedDrawShape event to check fill the boxes in with Undefined.
                 EventSource.finishedDrawShape();
             }
         }
@@ -329,7 +329,7 @@ namespace OrbitMapper
                     }
                     else
                     {
-                        /// Get the current tab, set the fields, update the track bars, and invalidate the shape to run the simulation.
+                        // Get the current tab, set the fields, update the track bars, and invalidate the shape to run the simulation.
                         Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                         Tessellation tessTemp = findTessellation(tempShape.Name);
                         tessTemp.populateByTess = false;
@@ -349,7 +349,7 @@ namespace OrbitMapper
                         if (val > trackBar4.Minimum && val < trackBar4.Maximum)
                             trackBar4.Value = val;
 
-                        /// tempShape.setFromTessellation(false) is important so that the current shape knows not to used the current tessellation data.
+                        // tempShape.setFromTessellation(false) is important so that the current shape knows not to used the current tessellation data.
                         tempShape.setFromTessellation(false);
                         tempShape.Invalidate();
                     }
@@ -385,7 +385,7 @@ namespace OrbitMapper
             try
             {
                 Tessellation tessTemp = findTessellation(tempShape.Name);
-                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                // If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
                 tessTemp.populateByTess = false;
                 double temp = double.Parse(pointBox.Text);
                 tempShape.setStartPoint(temp);
@@ -409,7 +409,7 @@ namespace OrbitMapper
             try
             {
                 Tessellation tessTemp = findTessellation(tempShape.Name);
-                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                // If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
                 tessTemp.populateByTess = false;
                 double temp = double.Parse(angleBox.Text);
                 tempShape.setStartAngle(temp);
@@ -432,7 +432,7 @@ namespace OrbitMapper
             try
             {
                 Tessellation tessTemp = findTessellation(tempShape.Name);
-                /// If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                // If text is enter into this text box, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
                 tessTemp.populateByTess = false;
                 int temp = int.Parse(bouncesBox.Text);
                 tempShape.setBounces(temp);
@@ -457,11 +457,11 @@ namespace OrbitMapper
             {
                 if (tessellations.ElementAt<Tessellation>(i).Visible)
                 {
-                    /// If there are no tessellations, then there is nothing to collapse.
+                    // If there are no tessellations, then there is nothing to collapse.
                     if (i == 0)
                     {
-                        /// The lastWidth field is used specifically for this purpose, it is a static member field that used to remember the last configured
-                        /// width of a tessellation for ALL tessellations to use when it is expanded again
+                        // The lastWidth field is used specifically for this purpose, it is a static member field that used to remember the last configured
+                        // width of a tessellation for ALL tessellations to use when it is expanded again
                         Tessellation.lastWidth = tessTemp.Width;
                         this.Width -= tessTemp.Width + splitContainer1.SplitterWidth;
                         splitContainer1.Panel2Collapsed = true;
@@ -469,7 +469,7 @@ namespace OrbitMapper
                 }
                 else
                 {
-                    /// If there are no tessellations, then there is nothing to expand.
+                    // If there are no tessellations, then there is nothing to expand.
                     if (i == 0)
                     {
                         this.Width += Tessellation.lastWidth + splitContainer1.SplitterWidth;
@@ -482,7 +482,7 @@ namespace OrbitMapper
         /// <summary>
         /// Used whenever typically whenever you need to find the currently selected tab's corresponding tessellation.
         /// </summary>
-        /// <param name="selectedTab">The Shape that </param>
+        /// <param name="name">The Shape that </param>
         /// <returns></returns>
         private Tessellation findTessellation(String name)
         {
@@ -510,7 +510,7 @@ namespace OrbitMapper
                     return;
                 Shape tempShape = (Shape)this.tabControl1.SelectedTab;
                 Tessellation tessTemp = findTessellation(tempShape.Name);
-                /// If this go button on the main form is pressed, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
+                // If this go button on the main form is pressed, then set the current tessellation that is active to not report that the collision simulation should be drawn from it.
                 tessTemp.populateByTess = false;
 
                 int tempBounces = int.Parse(bouncesBox.Text);
@@ -544,10 +544,10 @@ namespace OrbitMapper
                 return;
             findTessellation(((Shape)tabControl1.SelectedTab).Name).populateByTess = false;
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-            /// the track bar returns values from (int) 1-179, this converts it into a format that is fiendly to the Shapes StartAngle field.
+            // the track bar returns values from (int) 1-179, this converts it into a format that is fiendly to the Shapes StartAngle field.
             tempShape.setStartAngle(180d - trackBar4.Value);
             angleBox.Text = "" + (180d - trackBar4.Value);
-            /// When these track bars are moved, the simulation should not be run from data from the Tessellation
+            // When these track bars are moved, the simulation should not be run from data from the Tessellation
             tempShape.setFromTessellation(false);
             tempShape.Invalidate();
         }
@@ -564,10 +564,10 @@ namespace OrbitMapper
                 return;
             findTessellation(((Shape)tabControl1.SelectedTab).Name).populateByTess = false;
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
-            /// The track bar returns values from (int) 1-99, this converts it into a format that is friend to the Shape's StartPoint field.
+            // The track bar returns values from (int) 1-99, this converts it into a format that is friend to the Shape's StartPoint field.
             tempShape.setStartPoint(trackBar2.Value / 100d);
             pointBox.Text = "" + (trackBar2.Value / 100d);
-            /// When these track bars are moved, the simulation should not be run from data from the Tessellation
+            // When these track bars are moved, the simulation should not be run from data from the Tessellation
             tempShape.setFromTessellation(false);
             tempShape.Invalidate();
         }
@@ -580,7 +580,7 @@ namespace OrbitMapper
         /// <param name="e"></param>
         private void tabControl1_Selected_1(object sender, TabControlEventArgs e)
         {
-            /// If the default tab is not there and there is more than one Shape current initialized, perform a selected tab change.
+            // If the default tab is not there and there is more than one Shape current initialized, perform a selected tab change.
             if (!tabControl1.Controls.Contains(tabPage1) && this.shapes.Count > 1)
             {
                 Shape tab = (Shape)e.TabPage;
@@ -635,8 +635,8 @@ namespace OrbitMapper
             StreamReader response = null;
             try
             {
-                /// This goes to the address using a POST method, starts the script which checks the latest addition to the versions table in the DB
-                /// and returns that version string in a bit stream.
+                // This goes to the address using a POST method, starts the script which checks the latest addition to the versions table in the DB
+                // and returns that version string in a bit stream.
                 webResponse = (HttpWebResponse)webRequest.GetResponse();
                 responseStream = webResponse.GetResponseStream();
                 response = new StreamReader(responseStream);
@@ -646,7 +646,7 @@ namespace OrbitMapper
                     EventSource.output("New version detected!");
                     EventSource.output("Current Version: " + OMVersion);
                     EventSource.output("Latest Version: " + tempVersion);
-                    /// Report to the user that a new version is available.
+                    // Report to the user that a new version is available.
                     new Version().ShowDialog();
                 }
                 else
@@ -657,7 +657,7 @@ namespace OrbitMapper
                 }
             }
             catch (WebException ex) { /* Ignore the exception, failure communication with server */ }
-            /// Run each time, if the streams/connection are not null, make sure they are ended.
+            // Run each time, if the streams/connection are not null, make sure they are ended.
             finally
             {
                 if(webResponse != null)
@@ -686,15 +686,15 @@ namespace OrbitMapper
             try
             {
                SaveFileDialog saveFileDialog = new SaveFileDialog();
-               /// Sets the filter for the file dialog to only show files that end in .omd and display this on the bottom of the dialog.
+               // Sets the filter for the file dialog to only show files that end in .omd and display this on the bottom of the dialog.
                saveFileDialog.Filter = "Orbit Mapper Data (*.omd)|*.omd";
                saveFileDialog.Title = "Save Orbit Mapper";
                saveFileDialog.ShowDialog();
 
-               /// If the file name is not an empty string open it for saving.
+               // If the file name is not an empty string open it for saving.
                if (saveFileDialog.FileName != "")
                {
-                  /// Saves the .omd via a FileStream created by the OpenFile method.
+                  // Saves the .omd via a FileStream created by the OpenFile method.
                   System.IO.FileStream fs =
                      (System.IO.FileStream)saveFileDialog.OpenFile();
 
@@ -702,9 +702,9 @@ namespace OrbitMapper
                         string shapeData = @"<?xml version=""1.0""?>" + System.Environment.NewLine + "<shapes>" + System.Environment.NewLine;
                         for (int i = 0; i < shapes.Count; i++)
                         {
-                            /// Aggregate all of the data necessary to reproduce the current state of OrbitMapper in a new instance.
-                            /// This means StartPosition, StartAngle, Bounces, baseClick (X,Y), endClick (X,Y), the ratio field used for rectangles only, 
-                            /// the text of the field WHICH IS VERY IMPORTANT as it is used to determine what the shape is to instantiate later, and the name of the field
+                            // Aggregate all of the data necessary to reproduce the current state of OrbitMapper in a new instance.
+                            // This means StartPosition, StartAngle, Bounces, baseClick (X,Y), endClick (X,Y), the ratio field used for rectangles only, 
+                            // the text of the field WHICH IS VERY IMPORTANT as it is used to determine what the shape is to instantiate later, and the name of the field
                             if(tabControl1.Controls.Contains(shapes.ElementAt<Shape>(i))){
                                 shapeData += @"<shape type=""" + shapes.ElementAt<Shape>(i).Text + @""">";
                                 shapeData += shapes.ElementAt<Shape>(i).getShapeData() + System.Environment.NewLine;
@@ -753,8 +753,8 @@ namespace OrbitMapper
                     XmlNodeList shapes = xmlDoc.GetElementsByTagName("shape"); // Aggregate all of the individual saved Shape to iterate through
                     
                     for(int i = 0; i < shapes.Count; i++){
-                        /// XmlNodeList provides an nice way to index through children where the first index points to the individual highest level element you would like to search through
-                        /// and the second can be used like a Dictionary where it will search all children under that tag for any elements with the specified tag name
+                        // XmlNodeList provides an nice way to index through children where the first index points to the individual highest level element you would like to search through
+                        // and the second can be used like a Dictionary where it will search all children under that tag for any elements with the specified tag name
                         XmlElement point = shapes[i]["startpoint"];
                         XmlElement angle = shapes[i]["startangle"];
                         XmlElement bounces = shapes[i]["bounces"];
@@ -803,7 +803,7 @@ namespace OrbitMapper
                             }
                             else if (type == "Rectangle")
                             {
-                                /// Remember that Rectangle shapes need the extra property for the ratio saved so that they can be instantiated again.
+                                // Remember that Rectangle shapes need the extra property for the ratio saved so that they can be instantiated again.
                                 XmlElement ratio = shapes[i]["ratio"];
                                 controls = instantiateShapes(7, double.Parse(ratio.InnerText));
                             }
@@ -839,7 +839,7 @@ namespace OrbitMapper
                                     trackBar2.Value = val;
                                 }
                             }
-                            //Used to set the tab index to the first one opened
+                            // Used to set the tab index to the first one opened
                             if (i == 0)
                                 first = shape;
                             EventSource.output("New tab number: " + this.shapes.Count + " was added.");
@@ -875,7 +875,7 @@ namespace OrbitMapper
         {
             int size = button1.Height / 8; // Set the vertical size of the stripes
             int offsetX = button1.Width / 2; // Find the center horizontally
-            int offsetY = (button1.Height / 2) - (size / 2); //Find the center vertically and set the topmost edge of the stripes
+            int offsetY = (button1.Height / 2) - (size / 2); // Find the center vertically and set the topmost edge of the stripes
             int vertices = 2;
             Point[] go = new Point[vertices];
             Graphics g = e.Graphics;

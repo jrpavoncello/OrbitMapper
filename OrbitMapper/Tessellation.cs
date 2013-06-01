@@ -18,7 +18,6 @@ namespace OrbitMapper
     public partial class Tessellation : UserControl
     {
         private Pattern pattern = new Pattern();
-        private bool buttonPressed = true;
         private Point baseClick = new Point(0, 0);
         private Point endClick = new Point(0, 0);
         private Point lastPictureBoxState = new Point();
@@ -38,7 +37,7 @@ namespace OrbitMapper
         {
             InitializeComponent();
             this.TabStop = false;
-            /// Fill out completely wherever you put this control
+            // Fill out completely wherever you put this control
             this.Dock = DockStyle.Fill;
         }
 
@@ -187,15 +186,15 @@ namespace OrbitMapper
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(SystemColors.Control);
 
-            /// If the baseClick or endClick has been specified...
+            // If the baseClick or endClick has been specified...
             if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
             {
-                /// If the last state has not yet been specified, specify it
+                // If the last state has not yet been specified, specify it
                 if (lastPictureBoxState.Y == 0)
                 {
                     lastPictureBoxState = new Point(pictureBox1.Width, pictureBox1.Height);
                 }
-                /// Otherwise set the offset to draw the tessellations from so they anchor at the bottom and expand upward.
+                // Otherwise set the offset to draw the tessellations from so they anchor at the bottom and expand upward.
                 else
                 {
                     int offsetY = pictureBox1.Height - lastPictureBoxState.Y;
@@ -205,22 +204,22 @@ namespace OrbitMapper
                 }
             }
 
-            /// Get the patterns to tile and draw
+            // Get the patterns to tile and draw
             Point[][] patterns = getPattern().getPatterns();
-            /// Determine the number of iterations in the x direction and the number of iterations in the y direction
-            /// that need to be used in order to cover the entire tessellation area.
-            /// 2 was added so that I can draw it overlapping the User Controls draw area so that there is no whitespace near edges.
+            // Determine the number of iterations in the x direction and the number of iterations in the y direction
+            // that need to be used in order to cover the entire tessellation area.
+            // 2 was added so that I can draw it overlapping the User Controls draw area so that there is no whitespace near edges.
             int iterX = (int)(this.Width / getPattern().getWidth()) + 2;
             int iterY = (int)(this.Height / getPattern().getHeight()) + 2;
             bool baseIsCorrect = false;
-            /// Run through the iterations in both directions (it draws the Y direction for each X first).
+            // Run through the iterations in both directions (it draws the Y direction for each X first).
             for (int i = 0; i < iterX; i++)
             {
                 for (int j = 0; j < iterY; j++)
                 {
                     for (int k = 0; k < patterns.Count(); k++)
                     {
-                        /// Draw each pattern
+                        // Draw each pattern
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
@@ -233,39 +232,39 @@ namespace OrbitMapper
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);
                     }
                     #region Logic for getting data from mouse click
-                    /// I preface this logic by saying that I am now looking back at it 6+ months later to document it, I'll try my best.
-                    /// Make sure both the base and end clicks are set by the user
-                    /// If so, then check to see if it is between a small offset of +- 5 pixels in order to anchor it to a baseline.
-                    /// The pitfall with this is that if the pattern has multiple shapes draw vertically, it can only anchor it to the top of the entire pattern itself.
+                    // I preface this logic by saying that I am now looking back at it 6+ months later to document it, I'll try my best.
+                    // Make sure both the base and end clicks are set by the user
+                    // If so, then check to see if it is between a small offset of +- 5 pixels in order to anchor it to a baseline.
+                    // The pitfall with this is that if the pattern has multiple shapes draw vertically, it can only anchor it to the top of the entire pattern itself.
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
                     (endClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 &&
                     endClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
                     {
                         endClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
                     }
-                    /// Do the same for the baseline
+                    // Do the same for the baseline
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
                     (baseClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 &&
                     baseClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
                     {
                         baseClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
                         #region Determine the starting areas for the mouse click and weather it's in a reflected or regular
-                        /// If the current click is between any starting area at all, reflected or not...
+                        // If the current click is between any starting area at all, reflected or not...
                         if (betweenStartZones(baseClick.X - (int)(i * getPattern().getWidth())))
                         {
-                            /// zone will be used to determine which starting area it's in, in order to get the correct X position data for that pattern's start
+                            // zone will be used to determine which starting area it's in, in order to get the correct X position data for that pattern's start
                             int zone;
-                            /// Set zone equal to whatever reflectedstartzone(the current X position in relation to the entire pattern) returns
-                            /// If it is non-negative, it means that it is between a reflected start area
+                            // Set zone equal to whatever reflectedstartzone(the current X position in relation to the entire pattern) returns
+                            // If it is non-negative, it means that it is between a reflected start area
                             if ((zone = betweenReflectedStartZones(baseClick.X - (int)(i * getPattern().getWidth()))) > -1)
                             {
                                 startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - (i * getPattern().getWidth())))/*The X position of the point along the zones width*/ / (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X)/*The zones entire width*/;
-                                /// Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
+                                // Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                 startingAngle = mod(startingAngle, 180);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                             }
-                            /// The baseclick must then be between a regular start zone
+                            // The baseclick must then be between a regular start zone
                             else
                             {
                                 startingPoint = (double)(baseClick.X - (i * getPattern().getWidth()) - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
@@ -275,7 +274,7 @@ namespace OrbitMapper
                                 startingAngle = Math.Abs(startingAngle);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                             }
-                            /// Since the baseClick was between one of the starting areas, we'll set this true. Used when reporting back to the MainForm
+                            // Since the baseClick was between one of the starting areas, we'll set this true. Used when reporting back to the MainForm
                             baseIsCorrect = true;
                         }
                         #endregion
@@ -283,10 +282,10 @@ namespace OrbitMapper
                     #endregion
                 }
             }
-            /// Set the instances field to what we determined during the algorithm
+            // Set the instances field to what we determined during the algorithm
             baseIsGood = baseIsCorrect;
 
-            /// If the baseClick or endClick has been specified...
+            // If the baseClick or endClick has been specified...
             if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
             {
                 System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
@@ -342,12 +341,12 @@ namespace OrbitMapper
         /// <param name="e"></param>
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            /// If the user clicked near the bottom, it was a baseclick
+            // If the user clicked near the bottom, it was a baseclick
             if (e.Y >= pictureBox1.Height - 10)
             {
                 baseClick = e.Location;
             }
-            /// Otherwise, it was an endclick.
+            // Otherwise, it was an endclick.
             else
             {
                 if (e.Y < pictureBox1.Height - 10)
@@ -355,7 +354,7 @@ namespace OrbitMapper
                     endClick = e.Location;
                 }
             }
-            /// If the user clicked in here, then they must want us to use this data to find the collisions
+            // If the user clicked in here, then they must want us to use this data to find the collisions
             populateByTess = true;
             pictureBox1.Invalidate();
             pictureBox1.Update();

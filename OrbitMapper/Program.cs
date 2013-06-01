@@ -19,8 +19,8 @@ namespace OrbitMapper
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            /// Create the instance of DebugForm to log information in the background. It only bogs down CPU a little bit if logRealtime 
-            /// is set to true, either way crash information will be displayed when an unhandled exception occurs.
+            // Create the instance of DebugForm to log information in the background. It only bogs down CPU a little bit if logRealtime 
+            // is set to true, either way crash information will be displayed when an unhandled exception occurs.
             DebugForms debugger = new DebugForms();
             if(DebugForms.logRealtime)
                 debugger.Show();

@@ -9,11 +9,11 @@ namespace OrbitMapper
 {
     public class Rect : Shape
     {
+        /// <summary>
+        /// Use the base class to configure this child specifically for a rectangle (could also be a square).
+        /// </summary>
         public Rect(double ratio)
         {
-            /// <summary>
-            /// Use the base class to configure this child specifically for a rectangle (could also be a square).
-            /// </summary>
             base.Text = "Rectangle";
             base.Name = "Rectangle" + (base.getShapeCount() - 1);
             base.setRatio(ratio);

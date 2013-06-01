@@ -43,7 +43,7 @@ namespace OrbitMapper
             collisions = new List<Intersect>();
             walls = new List<DoublePoint>();
             this.CausesValidation = true;
-            /// Set the Context Menu of this instance referenced by the TabControl this will be placed ino to be the context menu created below.
+            // Set the Context Menu of this instance referenced by the TabControl this will be placed ino to be the context menu created below.
             cm = new ContextMenu();
             cm.MenuItems.Add("Remove", new EventHandler(removeThisTab));
             this.ContextMenu = cm;
@@ -170,12 +170,12 @@ namespace OrbitMapper
         /// <param name="angle"></param>
         public void addVertex(double x1, double x2, double angle)
         {
-            /// Add to the numWalls (used for iterating over them without having to use Count.
+            // Add to the numWalls (used for iterating over them without having to use Count.
             numWalls++;
             this.walls.Add(new DoublePoint(numWalls - 1, angle)); /// Vertices are stored as Double for accuracy
             vertices.Add(new DoublePoint(x1, x2));
             if (x1 > this.width)
-            { /// If the X or Y position is greater than the width or height, increase the width or height for the user automatically
+            { // If the X or Y position is greater than the width or height, increase the width or height for the user automatically
                 this.width = x1;
                 this.scaleX = x1;
             }
@@ -216,7 +216,7 @@ namespace OrbitMapper
         private DoublePoint getIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
         {
             DoublePoint ret = new DoublePoint();
-            /// Special case for when the first line is vertical
+            // Special case for when the first line is vertical
             if (x2 - x1 == 0)
             {
                 double m2 = (y4 - y3) / (x4 - x3);
@@ -225,7 +225,7 @@ namespace OrbitMapper
                 ret.x2 = (m2 * x1) + b2;
                 return ret;
             }
-            /// Special case for when the first line is vertical
+            // Special case for when the first line is vertical
             else if (x4 - x3 == 0)
             {
                 double m1 = (y2 - y1) / (x2 - x1);
@@ -236,14 +236,14 @@ namespace OrbitMapper
             }
             else
             {
-                double m1 = (y2 - y1) / (x2 - x1); /// If not those two, get the slope of both lines
+                double m1 = (y2 - y1) / (x2 - x1); // If not those two, get the slope of both lines
                 double m2 = (y4 - y3) / (x4 - x3);
-                if (m1 != m2) /// If they're not parallel
+                if (m1 != m2) // If they're not parallel
                 {
-                    double b1 = y1 - (m1 * x1); /// Get their y-intercepts
-                    double b2 = y3 - (m2 * x3); /// Get their y-intercepts
-                    ret.x1 = (b2 - b1) / (m1 - m2); /// Solve for x of the interception
-                    ret.x2 = m2 * ret.x1 + b2; /// Solve for y of the interception
+                    double b1 = y1 - (m1 * x1); // Get their y-intercepts
+                    double b2 = y3 - (m2 * x3); // Get their y-intercepts
+                    ret.x1 = (b2 - b1) / (m1 - m2); // Solve for x of the interception
+                    ret.x2 = m2 * ret.x1 + b2; // Solve for y of the interception
                     return ret;
                 }
                 return null;
@@ -262,51 +262,51 @@ namespace OrbitMapper
         {
             DoublePoint ret = new DoublePoint();
 
-            /// Special case if the angle is 0
+            // Special case if the angle is 0
             if (angle == 0)
             {
                 ret.x1 = x1 + distance;
                 ret.x2 = x2;
                 return ret;
-            } /// or 180
+            } // or 180
             else if (angle == 180)
             {
                 ret.x1 = x1 - distance;
                 ret.x2 = x2;
                 return ret;
-            } /// or 90
+            } // or 90
             else if (angle == 90)
             {
                 ret.x1 = x1;
                 ret.x2 = x2 + distance;
                 return ret;
-            } /// or 270
+            } // or 270
             else if (angle == 270)
             {
                 ret.x1 = x1;
                 ret.x2 = x2 - distance;
                 return ret;
             }
-            /// IF none of those, calculate x3 and x4
+            // IF none of those, calculate x3 and x4
             double x3 = Math.Abs(Math.Cos(angle * Math.PI / 180d) * distance);
             double x4 = Math.Abs(Math.Sin(angle * Math.PI / 180d) * distance);
-            /// If the angle was in quadrant 1, add x1 and x3, add x2 and x4
+            // If the angle was in quadrant 1, add x1 and x3, add x2 and x4
             if (angle > 0 && angle < 90)
             {
                 ret.x1 = x1 + x3;
                 ret.x2 = x2 + x4;
             }
-            /// If the angle was in quadrant 2, subtract x3 from x1, add x2 and x4
+            // If the angle was in quadrant 2, subtract x3 from x1, add x2 and x4
             else if (angle > 90 && angle < 180)
             {
                 ret.x1 = x1 - x3;
                 ret.x2 = x2 + x4;
-            } /// If the angle was in quadrant 3, subtract x3 from x1, subtract x4 from x2
+            } // If the angle was in quadrant 3, subtract x3 from x1, subtract x4 from x2
             else if (angle > 180 && angle < 270)
             {
                 ret.x1 = x1 - x3;
                 ret.x2 = x2 - x4;
-            } /// If the angle was in quadrant 4, add x1 and x3, subtract x4 from x2
+            } // If the angle was in quadrant 4, add x1 and x3, subtract x4 from x2
             else
             {
                 ret.x1 = x1 + x3;
@@ -321,21 +321,21 @@ namespace OrbitMapper
         /// </summary>
         private void findIntersectionsFromTess()
         {
-            /// If the starting point or angle entered was not right, don't continue
+            // If the starting point or angle entered was not right, don't continue
             if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180)
                 return;
 
-            /// Clear the last simulation done from the collisions List
+            // Clear the last simulation done from the collisions List
             collisions.Clear();
             
-            /// Find the total starting width, multiply it by the ratio entered (0,1) and add it to the startareas x1 position
-            /// If you're confused, this is for shapes like the hexagon where the starting area is only a small portion of the shapes width
+            // Find the total starting width, multiply it by the ratio entered (0,1) and add it to the startareas x1 position
+            // If you're confused, this is for shapes like the hexagon where the starting area is only a small portion of the shapes width
             double startingPoint = startArea.x1 + (startPoint * Math.Abs(startArea.x1 - startArea.x2));
 
-            /// Reset any member fields
+            // Reset any member fields
             this.undefCollision = false;
             double totalDistance = 0;
-            /// If the distance from the mouse clicks has not yet been scaled up, scale it up
+            // If the distance from the mouse clicks has not yet been scaled up, scale it up
             if (isNotScaled)
             {
                 distance = (this.height / tessShapeHeight) * distance;
@@ -344,7 +344,7 @@ namespace OrbitMapper
             DoublePoint tempProjection = null;
             int i = 0;
             bounces = 0;
-            /// Set up the first intersect and data before running through the loop
+            // Set up the first intersect and data before running through the loop
             Intersect tempInt = new Intersect();
             tempInt.x1 = startingPoint;
             tempInt.x2 = 0d;
@@ -357,22 +357,22 @@ namespace OrbitMapper
             while (totalDistance <= distance - 0.000001d)
             {
                 Intersect curIntersect = collisions.ElementAt<Intersect>(i);
-                /// Temporary variable for finding the collisions with EACH of the walls (to determine which is the least distance
+                // Temporary variable for finding the collisions with EACH of the walls (to determine which is the least distance
                 Intersect[] tempIntersects = new Intersect[numWalls];
                 for (int j = 0; j < tempIntersects.Length; j++)
                 {
                     tempIntersects[j] = new Intersect();
                 }
-                /// leastDistance is to choose the index of tempIntersects which has the right wall
+                // leastDistance is to choose the index of tempIntersects which has the right wall
                 int leastDistance = -1;
-                /// Find the project from the current point, longest possible distance, angle of reflection.
+                // Find the project from the current point, longest possible distance, angle of reflection.
                 tempProjection = findProjection(curIntersect.x1, curIntersect.x2, width, curIntersect.angle);
                 double x3 = tempProjection.x1;
                 double x4 = tempProjection.x2;
-                /// For each of the walls
+                // For each of the walls
                 for (int j = 0; j < numWalls; j++)
                 {
-                    /// If the wall is not the wall that the last collision took place
+                    // If the wall is not the wall that the last collision took place
                     if (curIntersect.wall != j)
                     {
                         int tempMod = (int)mod(j - 1, numWalls); // Use tempMod to find the correct vertex to determine a line for the current wall
@@ -385,7 +385,7 @@ namespace OrbitMapper
                         tempIntersects[j].wall = j;
                         tempIntersects[j].distance = Math.Sqrt(Math.Pow(curIntersect.x1 - tempIntersects[j].x1, 2) + Math.Pow(curIntersect.x2 - tempIntersects[j].x2, 2));
 
-                        /// Run through the current walls' vertices and determine the min and max for the x position and min and max for the y position
+                        // Run through the current walls' vertices and determine the min and max for the x position and min and max for the y position
                         DoublePoint minXPoint = new DoublePoint();
                         DoublePoint maxXPoint = new DoublePoint();
                         DoublePoint minYPoint = new DoublePoint();
@@ -419,18 +419,18 @@ namespace OrbitMapper
                             maxYPoint.x1 = vertexAt(j).x1;
                             maxYPoint.x2 = vertexAt(j).x2;
                         }
-                        /// Use this data to determine whether the collision we found is actually a valid collision (inside the shape)
+                        // Use this data to determine whether the collision we found is actually a valid collision (inside the shape)
                         if (tempIntersects[j].distance > 0 &&
                             tempIntersects[j].x1 >= minXPoint.x1 && tempIntersects[j].x1 <= maxXPoint.x1 &&
                             tempIntersects[j].x2 >= minYPoint.x2 && tempIntersects[j].x2 <= maxYPoint.x2)
-                        {   /// If it is valid and leastDistance has not yet been set, set it to this index
+                        {   // If it is valid and leastDistance has not yet been set, set it to this index
                             if (leastDistance == -1)
                             {
                                 leastDistance = j;
                             }
                             else
-                            {   /// If it valid and leastDistance has been set, check to see that the new distance is more than the distance at the index marked
-                                /// by leastDistance, if it is, set leastDistance equal to this index
+                            {   // If it valid and leastDistance has been set, check to see that the new distance is more than the distance at the index marked
+                                // by leastDistance, if it is, set leastDistance equal to this index
                                 if (tempIntersects[leastDistance].distance > tempIntersects[j].distance)
                                 {
                                     leastDistance = j;
@@ -439,26 +439,26 @@ namespace OrbitMapper
                         }
                     }
                 }
-                /// After leastDistance has been determined for the current iteration of the algorithm, test to make sure it's not equal to any
-                /// of the current shapes vertices (which would be illegal)
+                // After leastDistance has been determined for the current iteration of the algorithm, test to make sure it's not equal to any
+                // of the current shapes vertices (which would be illegal)
                 for (int j = 0; j < numWalls; j++)
                 {
                     if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
                         this.undefCollision = true;
                 }
-                /// If so, call the event the triggers this and return from this algorithm. Going further could crash this draw function rendering the shape useless
-                /// .NET quarantines the draw function when it throws an exception for this shape, only way to get around it is to delete the tab containing the shape or close the program
+                // If so, call the event the triggers this and return from this algorithm. Going further could crash this draw function rendering the shape useless
+                // .NET quarantines the draw function when it throws an exception for this shape, only way to get around it is to delete the tab containing the shape or close the program
                 if (this.undefCollision)
                 {
                     EventSource.finishedDrawTess(bounces);
                     EventSource.finishedDrawShape();
                     return;
                 }
-                /// With the current collision, find the angle from the last intersect to this one
+                // With the current collision, find the angle from the last intersect to this one
                 double projection = findAngle(curIntersect.x1, curIntersect.x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
                 tempIntersects[leastDistance].wall = leastDistance;
-                /// Add the tempIntersect to the collisions container
+                // Add the tempIntersect to the collisions container
                 collisions.Add(tempIntersects[leastDistance]);
                 totalDistance += tempIntersects[leastDistance].distance;
                 bounces++;
@@ -474,28 +474,28 @@ namespace OrbitMapper
         private void findIntersections()
         {
 
-            /// If the user wants to generate the collisions from the tessellation, branch to the method that does it, then return
+            // If the user wants to generate the collisions from the tessellation, branch to the method that does it, then return
             if (fromTessellation)
             {
                 findIntersectionsFromTess();
                 return;
             }
 
-            /// If the starting point or angle entered was not right, don't continue
+            // If the starting point or angle entered was not right, don't continue
             if (startPoint <= 0 || startPoint >= 1 || startAngle <= 0 || startAngle >= 180 || bounces <= 0)
                 return;
 
-            /// Clear the last simulation done from the collisions List
+            // Clear the last simulation done from the collisions List
             collisions.Clear();
 
-            /// Find the total starting width, multiply it by the ratio entered (0,1) and add it to the startareas x1 position
-            /// If you're confused, this is for shapes like the hexagon where the starting area is only a small portion of the shapes width
+            // Find the total starting width, multiply it by the ratio entered (0,1) and add it to the startareas x1 position
+            // If you're confused, this is for shapes like the hexagon where the starting area is only a small portion of the shapes width
             double startingPoint = startArea.x1 + (startPoint * Math.Abs(startArea.x1 - startArea.x2));
 
             DoublePoint tempProjection = null;
-            /// Reset any member fields
+            // Reset any member fields
             this.undefCollision = false;
-            /// Set up the first intersect and data before running through the loop
+            // Set up the first intersect and data before running through the loop
             Intersect tempInt = new Intersect();
             tempInt.x1 = startingPoint;
             tempInt.x2 = 0d;
@@ -507,22 +507,22 @@ namespace OrbitMapper
             for (int i = 0; i < bounces; i++)
             {
                 Intersect curIntersect = collisions.ElementAt<Intersect>(i);
-                /// Temporary variable for finding the collisions with EACH of the walls (to determine which is the least distance
+                // Temporary variable for finding the collisions with EACH of the walls (to determine which is the least distance
                 Intersect[] tempIntersects = new Intersect[numWalls];
                 for (int j = 0; j < tempIntersects.Length; j++)
                 {
                     tempIntersects[j] = new Intersect();
                 }
-                /// leastDistance is to choose the index of tempIntersects which has the right wall
+                // leastDistance is to choose the index of tempIntersects which has the right wall
                 int leastDistance = -1;
-                /// Find the project from the current point, longest possible distance, angle of reflection.
+                // Find the project from the current point, longest possible distance, angle of reflection.
                 tempProjection = findProjection(curIntersect.x1, curIntersect.x2, width, curIntersect.angle);
                 double x3 = tempProjection.x1;
                 double x4 = tempProjection.x2;
-                /// For each of the walls
+                // For each of the walls
                 for (int j = 0; j < numWalls; j++)
                 {
-                    /// If the wall is not the wall that the last collision took place
+                    // If the wall is not the wall that the last collision took place
                     if (curIntersect.wall != j)
                     {
                         int tempMod = (int)mod(j - 1, numWalls); // Use tempMod to find the correct vertex to determine a line for the current wall
@@ -535,7 +535,7 @@ namespace OrbitMapper
                         tempIntersects[j].wall = j;
                         tempIntersects[j].distance = Math.Sqrt(Math.Pow(curIntersect.x1 - tempIntersects[j].x1, 2) + Math.Pow(curIntersect.x2 - tempIntersects[j].x2, 2));
 
-                        /// Run through the current walls' vertices and determine the min and max for the x position and min and max for the y position
+                        // Run through the current walls' vertices and determine the min and max for the x position and min and max for the y position
                         DoublePoint minXPoint = new DoublePoint();
                         DoublePoint maxXPoint = new DoublePoint();
                         DoublePoint minYPoint = new DoublePoint();
@@ -569,18 +569,18 @@ namespace OrbitMapper
                             maxYPoint.x1 = vertexAt(j).x1;
                             maxYPoint.x2 = vertexAt(j).x2;
                         }
-                        /// Use this data to determine whether the collision we found is actually a valid collision (inside the shape)
+                        // Use this data to determine whether the collision we found is actually a valid collision (inside the shape)
                         if (tempIntersects[j].distance > 0 &&
                             tempIntersects[j].x1 >= minXPoint.x1 && tempIntersects[j].x1 <= maxXPoint.x1 &&
                             tempIntersects[j].x2 >= minYPoint.x2 && tempIntersects[j].x2 <= maxYPoint.x2)
-                        {   /// If it is valid and leastDistance has not yet been set, set it to this index
+                        {   // If it is valid and leastDistance has not yet been set, set it to this index
                             if (leastDistance == -1)
                             {
                                 leastDistance = j;
                             }
                             else
-                            {   /// If it valid and leastDistance has been set, check to see that the new distance is more than the distance at the index marked
-                                /// by leastDistance, if it is, set leastDistance equal to this index
+                            {   // If it valid and leastDistance has been set, check to see that the new distance is more than the distance at the index marked
+                                // by leastDistance, if it is, set leastDistance equal to this index
                                 if (tempIntersects[leastDistance].distance > tempIntersects[j].distance)
                                 {
                                     leastDistance = j;
@@ -589,20 +589,20 @@ namespace OrbitMapper
                         }
                     }
                 }
-                /// After leastDistance has been determined for the current iteration of the algorithm, test to make sure it's not equal to any
-                /// of the current shapes vertices (which would be illegal)
+                // After leastDistance has been determined for the current iteration of the algorithm, test to make sure it's not equal to any
+                // of the current shapes vertices (which would be illegal)
                 for (int j = 0; j < numWalls; j++)
                 {
                     if (tempIntersects[leastDistance].x1 == vertexAt(j).x1 && tempIntersects[leastDistance].x2 == vertexAt(j).x2)
                         this.undefCollision = true;
                 }
-                /// If there was an undefined collision found, return and trigger the event that will fill in the boxes with Undef if it detects it
+                // If there was an undefined collision found, return and trigger the event that will fill in the boxes with Undef if it detects it
                 if (this.undefCollision)
                 {
                     EventSource.finishedDrawShape();
                     return;
                 }
-                /// Set fields for the tempIntersect and add it to the current collisions
+                // Set fields for the tempIntersect and add it to the current collisions
                 double projection = findAngle(curIntersect.x1, curIntersect.x2, tempIntersects[leastDistance].x1, tempIntersects[leastDistance].x2);
                 tempIntersects[leastDistance].angle = findReflection(projection, walls[leastDistance].x2);
                 tempIntersects[leastDistance].wall = leastDistance;
@@ -620,17 +620,17 @@ namespace OrbitMapper
         private double findReflection(double projection, double wallAngle)
         {
             double temp = 0;
-            /// Special cases where either is horizontal
+            // Special cases where either is horizontal
             if (wallAngle == 180 || wallAngle == 0)
             {
                 temp = 360 - projection;
             }
-            /// Special cases where either is vertical
+            // Special cases where either is vertical
             else if (wallAngle == 90 || wallAngle == 270)
             {
                 temp = mod(180 - projection, 360);
             }
-            /// Else formula I solved to find the angle of reflection
+            // Else formula I solved to find the angle of reflection
             else
             {
                 temp = mod((2 * wallAngle) - projection, 360);
@@ -665,7 +665,7 @@ namespace OrbitMapper
             // Find their angle using ArcTan
             double angle = Math.Abs(Math.Atan(x24 / x13) * 180 / Math.PI);
 
-            //Special cases for if they are horizontal or vertical
+            // Special cases for if they are horizontal or vertical
             if (x13 == 0 && x24 >= 0)
             {
                 angle = 90;
@@ -684,8 +684,8 @@ namespace OrbitMapper
             }
 
             // In quadrant 1
-            //if(x13 >= 0 && x24 >= 0)
-            //angle = angle;
+            // if(x13 >= 0 && x24 >= 0)
+            // angle = angle;
 
             // In quadrant 2
             else if (x13 <= 0 && x24 >= 0)
@@ -713,12 +713,12 @@ namespace OrbitMapper
             double tabHeight = base.Height - 10;
             double scaledX = tabWidth / scaleX;
             double scaledY = tabHeight / scaleY;
-            /// If x direction needs more scaling down, use that
+            // If x direction needs more scaling down, use that
             if (scaledX < scaledY)
             {
                 return (int)(scaledX * x);
             }
-            /// Otherwise, use the y direction's scale
+            // Otherwise, use the y direction's scale
             else
             {
                 return (int)(scaledY * x);
@@ -776,18 +776,18 @@ namespace OrbitMapper
         {
             if (getVerticesCount() != 0)
             {
-                /// Create the graphics context and clear it of the last draw
+                // Create the graphics context and clear it of the last draw
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.Clear(SystemColors.Control);
 
-                /// Get the shape, intiate the collision simulation, and get the collisions in a Point array
+                // Get the shape, intiate the collision simulation, and get the collisions in a Point array
                 Point[] shape = getVertices();
                 findIntersections();
                 Point[] collisions = getCollisions();
                 EventSource.output("Drawing " + shape.Length + " vertices.");
                 g.DrawPolygon(System.Drawing.Pens.Black, shape);
-                if (collisions != null && !this.undefCollision) /// If there are no collisions or there was an undefined collision we don't want to draw
+                if (collisions != null && !this.undefCollision) // If there are no collisions or there was an undefined collision we don't want to draw
                 {
                     EventSource.output("Intersections detected: " + collisions.Length);
                     for (int i = 0; i < collisions.Length - 1; i++)
