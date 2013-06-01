@@ -17,10 +17,10 @@ namespace OrbitMapper
             base.Text = "Tri3060";
             base.Name = "Tri3060" + (base.getShapeCount() - 1);
             double temp = Math.Tan(Math.PI / 6) * (1024d);
-            addVertex(0, 0, 0);
-            addVertex(1024d, temp, 30d);
-            addVertex(1024d, 0, 90d);
-            setStartArea(0d, 1024);
+            base.addVertex(0, 0, 0);
+            base.addVertex(1024d, temp, 30d);
+            base.addVertex(1024d, 0, 90d);
+            base.setStartArea(0d, 1024);
         }
     }
 }

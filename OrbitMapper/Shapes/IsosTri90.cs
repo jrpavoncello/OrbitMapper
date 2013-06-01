@@ -16,11 +16,11 @@ namespace OrbitMapper
         {
             base.Text = "IsosTri90";
             base.Name = "IsosTri90" + (base.getShapeCount() - 1);
-            addVertex(0, 0, 0);
+            base.addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 4) * (512d);
-            addVertex(512d, temp, 45d);
-            addVertex(1024d, 0, 135d);
-            setStartArea(0d, 1024);
+            base.addVertex(512d, temp, 45d);
+            base.addVertex(1024d, 0, 135d);
+            base.setStartArea(0d, 1024);
         }
     }
 }

@@ -16,11 +16,11 @@ namespace OrbitMapper
         {
             base.Text = "Equilateral";
             base.Name = "Equilateral" + (base.getShapeCount() - 1);
-            addVertex(0, 0, 0);
+            base.addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 3) * (256d);
-            addVertex(256d, temp, 60d);
-            addVertex(512d, 0, 120d);
-            setStartArea(0d, 512d);
+            base.addVertex(256d, temp, 60d);
+            base.addVertex(512d, 0, 120d);
+            base.setStartArea(0d, 512d);
         }
     }
 }

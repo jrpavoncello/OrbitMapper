@@ -17,13 +17,13 @@ namespace OrbitMapper
             double xLargeSegment = 512d;
             double ySegment = Math.Cos(Math.PI / 6)*512d;
             double height = ySegment*2;
-            addVertex(xSmallSegment, 0, 0);
-            addVertex(0, ySegment, 120d);
-            addVertex(xSmallSegment, height, 60);
-            addVertex(xSmallSegment + xLargeSegment, height, 0d);
-            addVertex(1024d, ySegment, 120d);
-            addVertex(xSmallSegment + xLargeSegment, 0, 60d);
-            setStartArea(xSmallSegment, xSmallSegment + xLargeSegment);
+            base.addVertex(xSmallSegment, 0, 0);
+            base.addVertex(0, ySegment, 120d);
+            base.addVertex(xSmallSegment, height, 60);
+            base.addVertex(xSmallSegment + xLargeSegment, height, 0d);
+            base.addVertex(1024d, ySegment, 120d);
+            base.addVertex(xSmallSegment + xLargeSegment, 0, 60d);
+            base.setStartArea(xSmallSegment, xSmallSegment + xLargeSegment);
         }
     }
 }

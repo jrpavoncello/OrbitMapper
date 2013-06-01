@@ -16,12 +16,12 @@ namespace OrbitMapper
         {
             base.Text = "Rhombus";
             base.Name = "Rhombus" + (base.getShapeCount() - 1);
-            addVertex(0, 0, 0);
+            base.addVertex(0, 0, 0);
             double temp = Math.Tan(Math.PI / 3) * (256d);
-            addVertex(256d, temp, 60d);
-            addVertex(768d, temp, 0d);
-            addVertex(512d, 0, 60d);
-            setStartArea(0d, 512d);
+            base.addVertex(256d, temp, 60d);
+            base.addVertex(768d, temp, 0d);
+            base.addVertex(512d, 0, 60d);
+            base.setStartArea(0d, 512d);
         }
     }
 }

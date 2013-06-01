@@ -20,11 +20,11 @@ namespace OrbitMapper
             double heightRatio = ratio;
             double height = 1024 * heightRatio;
             double width = 1024;
-            addVertex(0, 0, 0);
-            addVertex(0, height, 90);
-            addVertex(width, height, 0);
-            addVertex(width, 0, 90);
-            setStartArea(0, width);
+            base.addVertex(0, 0, 0);
+            base.addVertex(0, height, 90);
+            base.addVertex(width, height, 0);
+            base.addVertex(width, 0, 90);
+            base.setStartArea(0, width);
         }
     }
 }
