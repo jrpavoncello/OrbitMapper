@@ -33,6 +33,9 @@ namespace OrbitMapper.Tessellations
         private double shapeHeight;
         public bool populateByTess = false;
         public static int lastWidth = 0;
+        private Point lastClick = new Point(0, 0);
+        private Point offset = new Point(0, 0);
+        
 
         public Tessellation()
         {
@@ -227,7 +230,8 @@ namespace OrbitMapper.Tessellations
                             Point temp = new Point((int)(i * getPattern().getWidth()) + patterns[k][l].X, getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - patterns[k][l].Y);
                             if (j % 2 == 1)
                                 temp.X -= (int)getPattern().getOffset();
-                            temp.X -= (int)getPattern().getWidth();
+                            temp.X -= (int)getPattern().getWidth() - offset.X;
+                            temp.Y += offset.Y;
                             poly[l] = temp;
                         }
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);
@@ -342,23 +346,41 @@ namespace OrbitMapper.Tessellations
         /// <param name="e"></param>
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            // If the user clicked near the bottom, it was a baseclick
-            if (e.Y >= pictureBox1.Height - 10)
+            if (e.Button == MouseButtons.Left)
             {
-                baseClick = e.Location;
-            }
-            // Otherwise, it was an endclick.
-            else
-            {
-                if (e.Y < pictureBox1.Height - 10)
+                // If the user clicked near the bottom, it was a baseclick
+                if (e.Y >= pictureBox1.Height - 10)
                 {
-                    endClick = e.Location;
+                    baseClick.X = offset.X + e.Location.X;
+                    baseClick.Y = offset.Y + e.Location.Y;
                 }
+                // Otherwise, it was an endclick.
+                else
+                {
+                    if (e.Y < pictureBox1.Height - 10)
+                    {
+                        endClick.X = offset.X + e.Location.X;
+                        endClick.Y = offset.Y + e.Location.Y;
+                    }
+                }
+                // If the user clicked in here, then they must want us to use this data to find the collisions
+                populateByTess = true;
+                pictureBox1.Invalidate();
+                pictureBox1.Update();
             }
-            // If the user clicked in here, then they must want us to use this data to find the collisions
-            populateByTess = true;
-            pictureBox1.Invalidate();
-            pictureBox1.Update();
+        }
+
+        /// <summary>
+        /// Start tracking the mouse movement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                lastClick = e.Location;
+            }
         }
 
         /// <summary>
@@ -383,6 +405,19 @@ namespace OrbitMapper.Tessellations
                     endClick.X += trackBar1.Value - lastScrollValue;
                     lastScrollValue = trackBar1.Value;
                 }
+                pictureBox1.Invalidate();
+                pictureBox1.Update();
+            }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                offset.X += e.Location.X - lastClick.X;
+                offset.Y += e.Location.Y - lastClick.Y;
+                lastClick = e.Location;
+
                 pictureBox1.Invalidate();
                 pictureBox1.Update();
             }
