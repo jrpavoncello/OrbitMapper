@@ -25,6 +25,8 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d, height, 0d);
+            pat.fullWidth = (int)width;
+            pat.fullHeight = (int)(ySegment + height);
             List<DoublePoint> tri1 = new List<DoublePoint>();
 
             tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, 0));

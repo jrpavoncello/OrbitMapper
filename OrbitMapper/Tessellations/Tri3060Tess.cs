@@ -20,6 +20,8 @@ namespace OrbitMapper.Tessellations
             double height = Math.Sqrt(900 + (segmentHeight * segmentHeight));
             double totalHeight = height + segmentHeight;
             Pattern pat = new Pattern(60, totalHeight, 30);
+            pat.fullWidth = 90;
+            pat.fullHeight = (int)totalHeight;
             List<DoublePoint> tri1 = new List<DoublePoint>();
             List<DoublePoint> tri2 = new List<DoublePoint>();
             List<DoublePoint> tri3 = new List<DoublePoint>();

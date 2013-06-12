@@ -35,7 +35,7 @@ namespace OrbitMapper.Tessellations
         public static int lastWidth = 0;
         private Point lastClick = new Point(0, 0);
         private Point offset = new Point(0, 0);
-        
+        private bool inRegularZone = true;
 
         public Tessellation()
         {
@@ -93,7 +93,6 @@ namespace OrbitMapper.Tessellations
             baseClick.Y = pos.Y;
             populateByTess = true;
             pictureBox1.Invalidate();
-            pictureBox1.Update();
         }
 
         /// <summary>
@@ -107,7 +106,6 @@ namespace OrbitMapper.Tessellations
             endClick.X = pos.X;
             endClick.Y = pos.Y;
             pictureBox1.Invalidate();
-            pictureBox1.Update();
         }
 
         /// <summary>
@@ -169,11 +167,19 @@ namespace OrbitMapper.Tessellations
             return -2;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public Pattern getPattern()
         {
             return pattern;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="pat"></param>
         public void setPattern(Pattern pat)
         {
             pattern = pat;
@@ -213,25 +219,30 @@ namespace OrbitMapper.Tessellations
             // Determine the number of iterations in the x direction and the number of iterations in the y direction
             // that need to be used in order to cover the entire tessellation area.
             // 2 was added so that I can draw it overlapping the User Controls draw area so that there is no whitespace near edges.
-            int iterX = (int)(this.Width / getPattern().getWidth()) + 2;
-            int iterY = (int)(this.Height / getPattern().getHeight()) + 2;
+
+            int iterX = this.Width / getPattern().iWidth + 6;
+            int iterY = this.Height / getPattern().iHeight + 6;
+            int divPatWidth = (-offset.X)/getPattern().iWidth;
+            int divPatHeight = (-offset.Y)/getPattern().iHeight;
             bool baseIsCorrect = false;
             // Run through the iterations in both directions (it draws the Y direction for each X first).
-            for (int i = 0; i < iterX; i++)
+            for (int i = divPatWidth; i < iterX + divPatWidth; i++)
             {
-                for (int j = 0; j < iterY; j++)
+                int iMultGetPatWidth = i * getPattern().iWidth;
+                for (int j = divPatHeight; j < iterY + divPatHeight; j++)
                 {
+                    int jMultGetPatHeight = j * getPattern().iHeight;
                     for (int k = 0; k < patterns.Count(); k++)
                     {
                         // Draw each pattern
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
-                            Point temp = new Point((int)(i * getPattern().getWidth()) + patterns[k][l].X, getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - patterns[k][l].Y);
+                            Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
                             if (j % 2 == 1)
-                                temp.X -= (int)getPattern().getOffset();
-                            temp.X -= (int)getPattern().getWidth() - offset.X;
-                            temp.Y += offset.Y;
+                                temp.X -= getPattern().iOffset;
+                            temp.X -= getPattern().iWidth * 3 - offset.X;
+                            temp.Y -= offset.Y;
                             poly[l] = temp;
                         }
                         g.DrawPolygon(System.Drawing.Pens.Black, poly);
@@ -242,42 +253,44 @@ namespace OrbitMapper.Tessellations
                     // If so, then check to see if it is between a small offset of +- 5 pixels in order to anchor it to a baseline.
                     // The pitfall with this is that if the pattern has multiple shapes draw vertically, it can only anchor it to the top of the entire pattern itself.
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
-                    (endClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 &&
-                    endClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
+                    (endClick.Y >= getPictureBox().Height - 5 - jMultGetPatHeight - 5 &&
+                    endClick.Y <= getPictureBox().Height - 5 - jMultGetPatHeight + 5))
                     {
-                        endClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
+                        endClick.Y = getPictureBox().Height - 5 - jMultGetPatHeight;
                     }
                     // Do the same for the baseline
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
-                    (baseClick.Y >= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) - 5 &&
-                    baseClick.Y <= getPictureBox().Height - 5 - (int)(j * getPattern().getHeight()) + 5))
+                    (baseClick.Y >= getPictureBox().Height - 5 - jMultGetPatHeight - 5 &&
+                    baseClick.Y <= getPictureBox().Height - 5 - jMultGetPatHeight + 5))
                     {
-                        baseClick.Y = getPictureBox().Height - 5 - (int)(j * getPattern().getHeight());
+                        baseClick.Y = getPictureBox().Height - 5 - jMultGetPatHeight;
                         #region Determine the starting areas for the mouse click and weather it's in a reflected or regular
                         // If the current click is between any starting area at all, reflected or not...
-                        if (betweenStartZones(baseClick.X - (int)(i * getPattern().getWidth())))
+                        if (betweenStartZones(baseClick.X - iMultGetPatWidth))
                         {
                             // zone will be used to determine which starting area it's in, in order to get the correct X position data for that pattern's start
                             int zone;
                             // Set zone equal to whatever reflectedstartzone(the current X position in relation to the entire pattern) returns
                             // If it is non-negative, it means that it is between a reflected start area
-                            if ((zone = betweenReflectedStartZones(baseClick.X - (int)(i * getPattern().getWidth()))) > -1)
+                            if ((zone = betweenReflectedStartZones(baseClick.X - iMultGetPatWidth)) > -1)
                             {
-                                startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - (i * getPattern().getWidth())))/*The X position of the point along the zones width*/ / (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X)/*The zones entire width*/;
+                                startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - iMultGetPatWidth))/*The X position of the point along the zones width*/ / (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X)/*The zones entire width*/;
                                 // Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                 startingAngle = mod(startingAngle, 180);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
+                                inRegularZone = false;
                             }
                             // The baseclick must then be between a regular start zone
                             else
                             {
-                                startingPoint = (double)(baseClick.X - (i * getPattern().getWidth()) - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
+                                startingPoint = (double)(baseClick.X - iMultGetPatWidth - startZones.ElementAt<Point[]>(0)[0].X) / (double)(startZones.ElementAt<Point[]>(0)[1].X - startZones.ElementAt<Point[]>(0)[0].X);
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
                                 if (baseClick.X > endClick.X)
                                     startingAngle = 180 - startingAngle;
                                 startingAngle = Math.Abs(startingAngle);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
+                                inRegularZone = true;
                             }
                             // Since the baseClick was between one of the starting areas, we'll set this true. Used when reporting back to the MainForm
                             baseIsCorrect = true;
@@ -288,13 +301,35 @@ namespace OrbitMapper.Tessellations
                 }
             }
             // Set the instances field to what we determined during the algorithm
-            baseIsGood = baseIsCorrect;
+            if (baseClick.X + offset.X >= 0 && baseClick.X + offset.X <= getPictureBox().Width && offset.Y >= 0 && offset.Y <= getPictureBox().Height)
+                baseIsGood = baseIsCorrect;
+            else
+            {
+                if (baseIsGood)
+                {
+                    if (inRegularZone)
+                    {
+                        startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
+                        if (baseClick.X > endClick.X)
+                            startingAngle = 180 - startingAngle;
+                        startingAngle = Math.Abs(startingAngle);
+                        distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
+                    }
+                    else
+                    {
+                        // Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
+                        startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
+                        startingAngle = mod(startingAngle, 180);
+                        distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
+                    }
+                }
+            }
 
             // If the baseClick or endClick has been specified...
             if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
             {
                 System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
-                g.DrawLine(myPen, baseClick, endClick);
+                g.DrawLine(myPen, new Point(baseClick.X + offset.X, baseClick.Y - offset.Y), new Point(endClick.X + offset.X, endClick.Y - offset.Y));
                 EventSource.updateTess(this);
             }
         }
@@ -334,9 +369,7 @@ namespace OrbitMapper.Tessellations
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
             pictureBox1.Invalidate();
-            pictureBox1.Update();
             this.Invalidate();
-            this.Update();
         }
 
         /// <summary>
@@ -351,22 +384,21 @@ namespace OrbitMapper.Tessellations
                 // If the user clicked near the bottom, it was a baseclick
                 if (e.Y >= pictureBox1.Height - 10)
                 {
-                    baseClick.X = offset.X + e.Location.X;
-                    baseClick.Y = offset.Y + e.Location.Y;
+                    baseClick.X = e.Location.X - offset.X;
+                    baseClick.Y = e.Location.Y + offset.Y;
                 }
                 // Otherwise, it was an endclick.
                 else
                 {
                     if (e.Y < pictureBox1.Height - 10)
                     {
-                        endClick.X = offset.X + e.Location.X;
-                        endClick.Y = offset.Y + e.Location.Y;
+                        endClick.X = e.Location.X - offset.X;
+                        endClick.Y = e.Location.Y + offset.Y;
                     }
                 }
                 // If the user clicked in here, then they must want us to use this data to find the collisions
                 populateByTess = true;
                 pictureBox1.Invalidate();
-                pictureBox1.Update();
             }
         }
 
@@ -380,6 +412,21 @@ namespace OrbitMapper.Tessellations
             if (e.Button == MouseButtons.Right)
             {
                 lastClick = e.Location;
+            }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                offset.X += e.Location.X - lastClick.X;
+                offset.Y -= e.Location.Y - lastClick.Y;
+                lastClick = e.Location;
+
+                if (offset.Y > 0)
+                    offset.Y = 0;
+
+                pictureBox1.Invalidate();
             }
         }
 
@@ -406,21 +453,14 @@ namespace OrbitMapper.Tessellations
                     lastScrollValue = trackBar1.Value;
                 }
                 pictureBox1.Invalidate();
-                pictureBox1.Update();
             }
         }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                offset.X += e.Location.X - lastClick.X;
-                offset.Y += e.Location.Y - lastClick.Y;
-                lastClick = e.Location;
-
-                pictureBox1.Invalidate();
-                pictureBox1.Update();
-            }
+            offset.X = 0;
+            offset.Y = 0;
+            pictureBox1.Invalidate();
         }
     }
 }

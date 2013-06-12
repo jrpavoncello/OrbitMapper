@@ -20,6 +20,8 @@ namespace OrbitMapper.Tessellations
             List<DoublePoint> tri2 = new List<DoublePoint>();
             addStartZone(new Point(0, 0), new Point(40, 0));
             setShapeHeight(temp);
+            pat.fullWidth = 40;
+            pat.fullHeight = (int)temp * 2;
 
             tri1.Add(new DoublePoint(0, 0));
             tri1.Add(new DoublePoint(20, temp));
