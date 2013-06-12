@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Extend the Shape base for an Equilateral
+    /// </summary>
     public class Equilateral : Shape
     {
         /// <summary>

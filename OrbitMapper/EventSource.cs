@@ -7,13 +7,30 @@ using OrbitMapper.Tessellations;
 
 namespace OrbitMapper
 {
+    /// <summary>
+    /// Contains events to subscribe to.
+    /// </summary>
     public static class EventSource
     {
-        //Event handling method definitions for when an event is triggered
+        /// <summary>
+        /// Subscribe to this when you want to know when text has been logged
+        /// </summary>
         public static event TextChanged textChanged;
+        /// <summary>
+        /// Subscribe to this when you want to have some custom behavior prior to the Undefined being filled in. (Could have done this just by ordering the subscribers correctly)
+        /// </summary>
         public static event Tessellate tessellate;
+        /// <summary>
+        /// Subscribe to this when you want to do something after the collision simulation finishes from tessellation (like update the bounces text)
+        /// </summary>
         public static event FinishedDrawTess finishedTessellate;
+        /// <summary>
+        /// Subscribe to this when you want know when the EVERYTHING has finished from either inputs (to account for undefined behavior)
+        /// </summary>
         public static event FinishedDrawShape finishedShape;
+        /// <summary>
+        /// Subscribe to this when you want to have custom behavior when a tab is determined to be removed. (like actually removing it)
+        /// </summary>
         public static event RemoveTab tabRemove;
         private static string console = "";
 

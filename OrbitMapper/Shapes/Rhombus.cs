@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Extend the Shape base for an Rhombus
+    /// </summary>
     public class Rhombus : Shape
     {
         /// <summary>

@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Tessellations
 {
+    /// <summary>
+    /// Extend from base
+    /// </summary>
     public partial class RhombusTess : Tessellation
     {
+        /// <summary>
+        /// Customize this child
+        /// </summary>
         public RhombusTess()
         {
             InitializeComponent();
@@ -24,8 +30,6 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d + lengthShort, lengthLong, 0d);
-            pat.fullWidth = (int)(60 + smallSegment + lengthShort);
-            pat.fullHeight = (int)(lengthLong * 1.5);
             List<DoublePoint> tri1 = new List<DoublePoint>();
             List<DoublePoint> tri2 = new List<DoublePoint>();
             List<DoublePoint> tri3 = new List<DoublePoint>();

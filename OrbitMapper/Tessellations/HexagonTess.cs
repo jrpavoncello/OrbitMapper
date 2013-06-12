@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Tessellations
 {
+    /// <summary>
+    /// Extend from base
+    /// </summary>
     public partial class HexagonTess : Tessellation
     {
+        /// <summary>
+        /// Customize this child
+        /// </summary>
         public HexagonTess()
         {
             InitializeComponent();
@@ -25,8 +31,6 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d, height, 0d);
-            pat.fullWidth = (int)width;
-            pat.fullHeight = (int)(ySegment + height);
             List<DoublePoint> tri1 = new List<DoublePoint>();
 
             tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, 0));

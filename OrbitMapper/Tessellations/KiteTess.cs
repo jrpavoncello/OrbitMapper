@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Tessellations
 {
+    /// <summary>
+    /// Extend from base
+    /// </summary>
     public partial class KiteTess : Tessellation
     {
+        /// <summary>
+        /// Customize this child
+        /// </summary>
         public KiteTess()
         {
             InitializeComponent();
@@ -25,8 +31,6 @@ namespace OrbitMapper.Tessellations
             addStartZone(new Point(30, 0), new Point(60, 0));
             addReflectedStartZone(new Point(0, 0), new Point(30, 0));
             setShapeHeight(heightOnSide);
-            pat.fullWidth = 90;
-            pat.fullHeight = (int)totalHeight;
 
             tri1.Add(new DoublePoint(30 - (Math.Cos(Math.PI / 3d) * 30d), heightOnSide));
             tri1.Add(new DoublePoint(0, segmentHeight));

@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Tessellations
 {
+    /// <summary>
+    /// Extend from base
+    /// </summary>
     public partial class RectTess : Tessellation
     {
+        /// <summary>
+        /// Customize this child
+        /// </summary>
         public RectTess(double ratio)
         {
             InitializeComponent();
@@ -23,8 +29,6 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(patHeight);
 
             Pattern pat = new Pattern(patWidth, patHeight, 0d);
-            pat.fullWidth = (int)patWidth;
-            pat.fullHeight = (int)patHeight;
             List<DoublePoint> tri1 = new List<DoublePoint>();
 
             tri1.Add(new DoublePoint(0, 0));

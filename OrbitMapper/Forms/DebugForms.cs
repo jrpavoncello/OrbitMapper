@@ -15,16 +15,27 @@ namespace OrbitMapper
     /// </summary>
     public partial class DebugForms : Form
     {
+        /// <summary>
+        /// Set this to true when you want the debug menu to be visible
+        /// </summary>
         public static bool logRealtime = false;
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         public DebugForms()
         {
             InitializeComponent();
-            /// Subscribes to the textChanged event
+            // Subscribes to the textChanged event
             EventSource.textChanged += new TextChanged(updateText);
             this.textBox1.Text = EventSource.getText();
         }
 
+        /// <summary>
+        /// Only update the text if logRealtime is true, otherwise it will be updated only when the program crashes
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         public void updateText(object source, Events e){
             if(logRealtime)
                 this.textBox1.Text = EventSource.getText();

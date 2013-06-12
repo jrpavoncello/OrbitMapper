@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Extend the Shape base for an Rect
+    /// </summary>
     public class Rect : Shape
     {
         /// <summary>

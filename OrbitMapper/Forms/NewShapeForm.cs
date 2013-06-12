@@ -19,15 +19,26 @@ namespace OrbitMapper
         private bool cancelled = true;
         private double rectSize = 0;
 
+        /// <summary>
+        /// Build layout
+        /// </summary>
         public NewShapeForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Get the shape selected
+        /// </summary>
+        /// <returns></returns>
         public int getShape(){
             return shape;
         }
 
+        /// <summary>
+        /// Return the size of the rectangle (used from MainForm when a rectangle has been selected to get it's ratio)
+        /// </summary>
+        /// <returns></returns>
         public double getRectSize(){ return rectSize; }
 
         /// <summary>

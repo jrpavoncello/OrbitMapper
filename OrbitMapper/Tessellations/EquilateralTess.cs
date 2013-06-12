@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Tessellations
 {
+    /// <summary>
+    /// Extend from Tessellation
+    /// </summary>
     public partial class EquilateralTess : Tessellation
     {
+        /// <summary>
+        /// Customize this child
+        /// </summary>
         public EquilateralTess()
         {
             InitializeComponent();
@@ -20,8 +26,6 @@ namespace OrbitMapper.Tessellations
             List<DoublePoint> tri2 = new List<DoublePoint>();
             addStartZone(new Point(0, 0), new Point(40, 0));
             setShapeHeight(temp);
-            pat.fullWidth = 60;
-            pat.fullHeight = (int)temp;
 
             tri1.Add(new DoublePoint(0, 0));
             tri1.Add(new DoublePoint(20, temp));

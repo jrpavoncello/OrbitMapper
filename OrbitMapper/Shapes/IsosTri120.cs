@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Extend the Shape base for an IsosTri120
+    /// </summary>
     public class IsosTri120 : Shape
     {
         /// <summary>

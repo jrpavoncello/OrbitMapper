@@ -11,6 +11,9 @@ using System.Drawing.Drawing2D;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Base class for shape, not designed to be used directly as a TabPage. Create a custom class, extend this Shape base class, and configure it according to the shape you would like to add.
+    /// </summary>
     public class Shape : TabPage
     {
 
@@ -28,16 +31,21 @@ namespace OrbitMapper.Shapes
         private double startAngle = 0;
         private int bounces = 0;
         private DoublePoint startArea = new DoublePoint();
-        private int tabNum = 0;
         private bool fromTessellation = false;
         private double tessShapeHeight;
         private double distance = 0;
         private bool isNotScaled = true;
+        /// <summary>
+        /// Used to determine whether undefined behavior has been detected
+        /// </summary>
         public bool undefCollision = false;
         private double ratio = 0;
-        public ContextMenu cm;
+        private ContextMenu cm;
         #endregion
 
+        /// <summary>
+        /// Initialize some objects and add the context menu for when you right click a tab
+        /// </summary>
         public Shape()
         {
             collisions = new List<Intersect>();
@@ -85,11 +93,19 @@ namespace OrbitMapper.Shapes
             EventSource.removeTab(this.Name);
         }
 
+        /// <summary>
+        /// Get the whole start area
+        /// </summary>
+        /// <returns></returns>
         public DoublePoint getStartArea()
         {
             return startArea;
         }
 
+        /// <summary>
+        /// Get the Shape count (
+        /// </summary>
+        /// <returns></returns>
         public int getShapeCount()
         {
             return shapeCount;
@@ -116,11 +132,19 @@ namespace OrbitMapper.Shapes
             fromTessellation = isFromTess;
         }
 
+        /// <summary>
+        /// Set the starting point for the shape, this is the area along the base that a user would be able to start a projection from
+        /// </summary>
+        /// <param name="startPoint"></param>
         public void setStartPoint(double startPoint)
         {
             this.startPoint = startPoint;
         }
 
+        /// <summary>
+        /// Set the tessellations shape height (used to determined where to start repeating vertically
+        /// </summary>
+        /// <param name="h"></param>
         public void setTessShapeHeight(double h)
         {
             tessShapeHeight = h;
@@ -137,26 +161,46 @@ namespace OrbitMapper.Shapes
             isNotScaled = true;
         }
 
+        /// <summary>
+        /// Get the starting point
+        /// </summary>
+        /// <returns></returns>
         public double getStartPoint()
         {
             return startPoint;
         }
 
+        /// <summary>
+        /// Set the starting angle of the projection in degrees
+        /// </summary>
+        /// <returns></returns>
         public void setStartAngle(double startAngle)
         {
             this.startAngle = startAngle;
         }
 
+        /// <summary>
+        /// Get the starting angle of the projection in degrees
+        /// </summary>
+        /// <returns></returns>
         public double getStartAngle()
         {
             return startAngle;
         }
 
+        /// <summary>
+        /// Set the number of bounces that you would like to simulation
+        /// </summary>
+        /// <returns></returns>
         public void setBounces(int bounces)
         {
             this.bounces = bounces;
         }
 
+        /// <summary>
+        /// Get the number of bounces
+        /// </summary>
+        /// <returns></returns>
         public int getBounces()
         {
             return bounces;
@@ -172,7 +216,7 @@ namespace OrbitMapper.Shapes
         {
             // Add to the numWalls (used for iterating over them without having to use Count.
             numWalls++;
-            this.walls.Add(new DoublePoint(numWalls - 1, angle)); /// Vertices are stored as Double for accuracy
+            this.walls.Add(new DoublePoint(numWalls - 1, angle)); // Vertices are stored as Double for accuracy
             vertices.Add(new DoublePoint(x1, x2));
             if (x1 > this.width)
             { // If the X or Y position is greater than the width or height, increase the width or height for the user automatically
@@ -184,11 +228,6 @@ namespace OrbitMapper.Shapes
                 this.height = x2;
                 this.scaleY = x2;
             }
-        }
-
-        public int getTabNum()
-        {
-            return tabNum;
         }
 
         private int getVerticesCount()
@@ -758,11 +797,19 @@ namespace OrbitMapper.Shapes
             return temp.ToArray<Point>();
         }
 
+        /// <summary>
+        /// Get the current tab height (used for scaling)
+        /// </summary>
+        /// <returns></returns>
         public int getTabHeight()
         {
             return base.Height;
         }
 
+        /// <summary>
+        /// Get the current tab width (used for scaling)
+        /// </summary>
+        /// <returns></returns>
         public int getTabWidth()
         {
             return base.Width;

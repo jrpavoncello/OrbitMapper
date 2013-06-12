@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace OrbitMapper.Shapes
 {
+    /// <summary>
+    /// Extend from Shape for a custom Tri3060
+    /// </summary>
     public class Tri3060 : Shape
     {
         /// <summary>

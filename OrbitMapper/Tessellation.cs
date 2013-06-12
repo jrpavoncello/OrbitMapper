@@ -18,12 +18,15 @@ namespace OrbitMapper.Tessellations
     /// </summary>
     public partial class Tessellation : UserControl
     {
-        private Pattern pattern = new Pattern();
+        private Pattern pattern = null;
         private Point baseClick = new Point(0, 0);
         private Point endClick = new Point(0, 0);
         private Point lastPictureBoxState = new Point();
         private List<Point[]> startZones = new List<Point[]>();
         private List<Point[]> reflectedStartZones = new List<Point[]>();
+        /// <summary>
+        /// Field used to determine whether the last valid algorithm determined that the base was valid.
+        /// </summary>
         public bool baseIsGood = true;
         private bool hasReflectedZones = false;
         private double startingPoint;
@@ -31,12 +34,21 @@ namespace OrbitMapper.Tessellations
         private double distance;
         private int lastScrollValue = -1;
         private double shapeHeight;
+        /// <summary>
+        /// Field used to determine when to use this tessellation for drawing the collisions
+        /// </summary>
         public bool populateByTess = false;
+        /// <summary>
+        /// Field used when the splitter is being used in tandem with the hide button and tab switching to help determine the proper sizing we need.
+        /// </summary>
         public static int lastWidth = 0;
         private Point lastClick = new Point(0, 0);
         private Point offset = new Point(0, 0);
         private bool inRegularZone = true;
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         public Tessellation()
         {
             InitializeComponent();
@@ -45,37 +57,66 @@ namespace OrbitMapper.Tessellations
             this.Dock = DockStyle.Fill;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public double getStartingPoint()
         {
             return startingPoint;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public double getStartingAngle()
         {
             return startingAngle;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public double getDistance()
         {
             return distance;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         public PictureBox getPictureBox()
         {
             return pictureBox1;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
         public void addStartZone(Point p1, Point p2)
         {
             startZones.Add(new Point[] { p1, p2 });
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="pos"></param>
         public void setBasePos(Point pos)
         {
             baseClick.X = pos.X;
             baseClick.Y = pos.Y;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="pos"></param>
         public void setEndPos(Point pos)
         {
             endClick.X = pos.X;
@@ -140,11 +181,19 @@ namespace OrbitMapper.Tessellations
             hasReflectedZones = true;
         }
 
+        /// <summary>
+        /// Sets the shapes height
+        /// </summary>
+        /// <param name="height"></param>
         public void setShapeHeight(double height)
         {
             shapeHeight = height;
         }
 
+        /// <summary>
+        /// Gets the shapes height
+        /// </summary>
+        /// <returns></returns>
         public double getShapeHeight()
         {
             return shapeHeight;
@@ -221,7 +270,11 @@ namespace OrbitMapper.Tessellations
             // 2 was added so that I can draw it overlapping the User Controls draw area so that there is no whitespace near edges.
 
             int iterX = this.Width / getPattern().iWidth + 6;
-            int iterY = this.Height / getPattern().iHeight + 6;
+            int iterY = this.Height / getPattern().iHeight + 2;
+            // What divPatWidth and divPatHeight are used for is to determine the area of iterations that this pattern should run through while drawing in order
+            // for the pattern to not end while using your mouse to scroll the map beyond the bounds of the picturebox.
+            // This method to create a dynamic maps such as this is a necessary so that you are not trying to draw things that are not even visible to the container.
+            // Although, there is a bit of an overlap purposely on the left, right and top because many patterns would simply end while scrolling because they are so large jagged.
             int divPatWidth = (-offset.X)/getPattern().iWidth;
             int divPatHeight = (-offset.Y)/getPattern().iHeight;
             bool baseIsCorrect = false;
@@ -239,8 +292,11 @@ namespace OrbitMapper.Tessellations
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
                             Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
+                            // This is applied every other row because some patterns do not populate the map perfectly straight up.
+                            // For example, the equilateral pattern must be applied at a slight horizontal offset otherwise the pattern would not match up as we draw
                             if (j % 2 == 1)
                                 temp.X -= getPattern().iOffset;
+                            // This is applied at every iteration, we will subtract 3 times the width to not mess up the iOffset and give it some overlap to the left
                             temp.X -= getPattern().iWidth * 3 - offset.X;
                             temp.Y -= offset.Y;
                             poly[l] = temp;
@@ -252,6 +308,7 @@ namespace OrbitMapper.Tessellations
                     // Make sure both the base and end clicks are set by the user
                     // If so, then check to see if it is between a small offset of +- 5 pixels in order to anchor it to a baseline.
                     // The pitfall with this is that if the pattern has multiple shapes draw vertically, it can only anchor it to the top of the entire pattern itself.
+                    // This will not be accurate if the baseClick is not currently in view (including the overlap), we will account for this later.
                     if (((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0)) &&
                     (endClick.Y >= getPictureBox().Height - 5 - jMultGetPatHeight - 5 &&
                     endClick.Y <= getPictureBox().Height - 5 - jMultGetPatHeight + 5))
@@ -300,13 +357,16 @@ namespace OrbitMapper.Tessellations
                     #endregion
                 }
             }
-            // Set the instances field to what we determined during the algorithm
+            // Set the field to what we determined during the algorithm only if we know that the results above are valid 
+            // (they will not be valid if the current offset makes the baseclick not visible or in the slight overlap)
             if (baseClick.X + offset.X >= 0 && baseClick.X + offset.X <= getPictureBox().Width && offset.Y >= 0 && offset.Y <= getPictureBox().Height)
                 baseIsGood = baseIsCorrect;
             else
             {
+                // If the last valid algorithm determined that the base is valid, we know it hasn't changed (because the base is out of view, including the overlap)
                 if (baseIsGood)
                 {
+                    // Set all the properties EXCEPT that starting position (since it couldn't have changed) according to whether the last known base was in a regular or reflected zone
                     if (inRegularZone)
                     {
                         startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
@@ -329,6 +389,7 @@ namespace OrbitMapper.Tessellations
             if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
             {
                 System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
+                //In order to draw the base click and end click in their correct positions, we must add the offset when drawing them
                 g.DrawLine(myPen, new Point(baseClick.X + offset.X, baseClick.Y - offset.Y), new Point(endClick.X + offset.X, endClick.Y - offset.Y));
                 EventSource.updateTess(this);
             }
@@ -384,12 +445,14 @@ namespace OrbitMapper.Tessellations
                 // If the user clicked near the bottom, it was a baseclick
                 if (e.Y >= pictureBox1.Height - 10)
                 {
+                    //Add the current offsets to get the click's absolute position
                     baseClick.X = e.Location.X - offset.X;
                     baseClick.Y = e.Location.Y + offset.Y;
                 }
                 // Otherwise, it was an endclick.
                 else
                 {
+                    //Add the current offsets to get the click's absolute position
                     if (e.Y < pictureBox1.Height - 10)
                     {
                         endClick.X = e.Location.X - offset.X;
@@ -409,6 +472,7 @@ namespace OrbitMapper.Tessellations
         /// <param name="e"></param>
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            //This is called once per mouse click, set lastclick to the current location so that it is know before we start triggering the mousemove event from old data.
             if (e.Button == MouseButtons.Right)
             {
                 lastClick = e.Location;
@@ -419,6 +483,7 @@ namespace OrbitMapper.Tessellations
         {
             if (e.Button == MouseButtons.Right)
             {
+                //Calculate the offset from the mouse's current position and the mouse's last known position
                 offset.X += e.Location.X - lastClick.X;
                 offset.Y -= e.Location.Y - lastClick.Y;
                 lastClick = e.Location;
@@ -428,6 +493,19 @@ namespace OrbitMapper.Tessellations
 
                 pictureBox1.Invalidate();
             }
+        }
+
+        /// <summary>
+        /// Shortcut for moving the user back to the origin in the tessellation map.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            //Return the offsets back to the origin and redraw
+            offset.X = 0;
+            offset.Y = 0;
+            pictureBox1.Invalidate();
         }
 
         /// <summary>
@@ -452,15 +530,11 @@ namespace OrbitMapper.Tessellations
                     endClick.X += trackBar1.Value - lastScrollValue;
                     lastScrollValue = trackBar1.Value;
                 }
+                //Return the offsets back to the origin and redraw
+                offset.X = 0;
+                offset.Y = 0;
                 pictureBox1.Invalidate();
             }
-        }
-
-        private void pictureBox1_DoubleClick(object sender, EventArgs e)
-        {
-            offset.X = 0;
-            offset.Y = 0;
-            pictureBox1.Invalidate();
         }
     }
 }

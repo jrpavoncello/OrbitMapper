@@ -17,12 +17,25 @@ namespace OrbitMapper
         private double width = 0;
         private double height = 0;
         private double offset = 0;
+        /// <summary>
+        /// Used so that the double width does not have to be unpacked if precision is not necessary
+        /// </summary>
         public int iWidth { get; set; }
+        /// <summary>
+        /// Used so that the double height does not have to be unpacked if precision is not necessary
+        /// </summary>
         public int iHeight { get; set; }
+        /// <summary>
+        /// Used so that the double offset does not have to be unpacked if precision is not necessary
+        /// </summary>
         public int iOffset { get; set; }
-        public int fullWidth { get; set; }
-        public int fullHeight { get; set; }
 
+        /// <summary>
+        /// Initilize a pattern.
+        /// </summary>
+        /// <param name="width">Width of the pattern to be used where to start the repeat draws</param>
+        /// <param name="height">Height of the pattern</param>
+        /// <param name="offset">The horizontal offset needed to keep drawing this shape vertically (see the equilateral case)</param>
         public Pattern(double width, double height, double offset)
         {
             vertices = new List<List<DoublePoint>>();
@@ -34,12 +47,12 @@ namespace OrbitMapper
             this.iOffset = (int)offset;
         }
 
-        public Pattern()
-        {
-            vertices = new List<List<DoublePoint>>();
-        }
-
-
+        /// <summary>
+        /// Add a vertex for a specified pattern individually.
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="x2"></param>
+        /// <param name="patternNum"></param>
         public void addVertex(double x1, double x2, int patternNum){
             vertices.ElementAt<List<DoublePoint>>(patternNum).Add(new DoublePoint(x1, x2));
         }
