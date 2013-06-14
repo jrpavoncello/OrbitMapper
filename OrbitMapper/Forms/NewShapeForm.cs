@@ -153,17 +153,7 @@ namespace OrbitMapper
                     this.Close();
                 }
             }
-            catch (System.ArgumentNullException ex)
-            {
-                MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
-                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-            catch (System.FormatException ex)
-            {
-                MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
-                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-            catch (System.OverflowException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Cannot create a new rectangle of that type.", "Orbit Mapper",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

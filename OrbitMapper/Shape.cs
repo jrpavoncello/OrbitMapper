@@ -56,6 +56,7 @@ namespace OrbitMapper.Shapes
             cm.MenuItems.Add("Remove", new EventHandler(removeThisTab));
             this.ContextMenu = cm;
             shapeCount++;
+            base.BackColor = Color.White;
         }
 
         /// <summary>
@@ -65,6 +66,24 @@ namespace OrbitMapper.Shapes
         public void setRatio(double ratio)
         {
             this.ratio = ratio;
+        }
+
+        /// <summary>
+        /// Gets the width of the shape, this will be larger than the tabs width, it is the actual size we do calculations on
+        /// </summary>
+        /// <returns></returns>
+        public int getShapeWidth()
+        {
+            return (int)this.width;
+        }
+
+        /// <summary>
+        /// Gets the height of the shape, this will be larger than the tabs height, it is the actual size we do calculations on
+        /// </summary>
+        /// <returns></returns>
+        public int getShapeHeight()
+        {
+            return (int)this.height;
         }
 
         /// <summary>
@@ -826,7 +845,7 @@ namespace OrbitMapper.Shapes
                 // Create the graphics context and clear it of the last draw
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.Clear(SystemColors.Control);
+                g.Clear(Color.White);
 
                 // Get the shape, intiate the collision simulation, and get the collisions in a Point array
                 Point[] shape = getVertices();

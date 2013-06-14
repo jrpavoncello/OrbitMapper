@@ -13,13 +13,14 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using System.Drawing.Drawing2D;
+using OrbitMapper;
 using OrbitMapper.Tessellations;
 using OrbitMapper.Shapes;
 
-namespace OrbitMapper
+namespace OrbitMapper.Forms
 {
     /// <summary>
-    ///  This is the main control form for the program's execution. Everything should report back to this form in some way.
+    /// This is the main control form for the program's execution. Everything should report back to this form in some way.
     /// </summary>
     public partial class MainForms : Form
     {
@@ -34,7 +35,7 @@ namespace OrbitMapper
         private List<Shape> shapes = new List<Shape>();
         private List<Tessellation> tessellations = new List<Tessellation>();
         private Shape lastTab;
-        
+
         /// <summary>
         /// This constructor initializes the layout and components, adds the event handlers to their appropriate dispatchers,
         /// and begins the check for the appropriate version
@@ -69,8 +70,10 @@ namespace OrbitMapper
         /// </summary>
         /// <param name="shape">Used to determine which shape to instantiate.</param>
         /// <param name="ratio">Optional parameter that defaults to 0. (Only used for rectangle)</param>
-        /// <returns>Returns a Control array of length 2, the first element being the instance of the Shape 
-        /// and the second being the instance of the Tessellation.</returns>
+        /// <returns>
+        /// Returns a Control array of length 2, the first element being the instance of the Shape
+        /// and the second being the instance of the Tessellation.
+        /// </returns>
         private Control[] instantiateShapes(int shape, double ratio = 0d)
         {
             // Checks for the default tabPage that is added as a placeholder, and removes it if a shape is being created.
@@ -154,7 +157,7 @@ namespace OrbitMapper
         /// Used to handle the Click event raised by newToolStripMenuItem when a user clicks the New Shape item in the main menu.
         /// </summary>
         /// <param name="sender">The menu item that was selected.</param>
-        /// <param name="e"></param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(newShape == null)
@@ -170,7 +173,7 @@ namespace OrbitMapper
         }
 
         /// <summary>
-        /// Used to handle the MouseUp event raised by tabControl1 when a used selects a tab. Specifically a right click. 
+        /// Used to handle the MouseUp event raised by tabControl1 when a used selects a tab. Specifically a right click.
         /// </summary>
         /// <param name="sender">The tab that was selected.</param>
         /// <param name="e">Event information about the mouse click.</param>
@@ -200,7 +203,7 @@ namespace OrbitMapper
         /// This is the handler for a tabRemove event.
         /// </summary>
         /// <param name="source">The name of the tab that was selected via the right click after Remove was selected from the menu.</param>
-        /// <param name="e"></param>
+        /// <param name="e">The e.</param>
         private void removeThisTab(object source, Events e)
         {
             // If the source was from the default tab, ignore.
@@ -245,8 +248,8 @@ namespace OrbitMapper
         /// <summary>
         /// Used to handle the FinishedDrawTessellation event when a Shape collision has been finished using the Tessellation.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
+        /// <param name="source">The source.</param>
+        /// <param name="e">The e.</param>
         private void updateBounces(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
@@ -255,11 +258,11 @@ namespace OrbitMapper
         }
 
         /// <summary>
-        /// Used to handle the Tessellate event when a Shape collision has been simulated and the resulting data is ready to be inserted into the 
+        /// Used to handle the Tessellate event when a Shape collision has been simulated and the resulting data is ready to be inserted into the
         /// textboxes and used to set the scroll bars.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
+        /// <param name="source">The source.</param>
+        /// <param name="e">The e.</param>
         private void updateFields(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
@@ -316,9 +319,11 @@ namespace OrbitMapper
         /// <summary>
         /// This is used only to process if the Enter (Return) key is hit as a shortcut to run the simulation.
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="keyData"></param>
-        /// <returns></returns>
+        /// <param name="msg">A <see cref="T:System.Windows.Forms.Message" />, passed by reference, that represents the Win32 message to process.</param>
+        /// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys" /> values that represents the key to process.</param>
+        /// <returns>
+        /// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
+        /// </returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Enter)
@@ -356,9 +361,7 @@ namespace OrbitMapper
                         tempShape.Invalidate();
                     }
                 }
-                catch (System.ArgumentNullException ex){ /*Do nothing */ }
-                catch (System.FormatException ex) { /*Do nothing */ }
-                catch (System.OverflowException ex) { /*Do nothing */ }
+                catch (Exception ex) { /* Do nothing */ }
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -367,8 +370,8 @@ namespace OrbitMapper
         /// <summary>
         /// Process if the Close item is selected from the main menu. (Not if the X button is hit in the window header)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -377,8 +380,8 @@ namespace OrbitMapper
         /// <summary>
         /// This handles when the Starting Point textbox has new text entered into it.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -393,16 +396,14 @@ namespace OrbitMapper
                 tempShape.setStartPoint(temp);
 
             }
-            catch (System.ArgumentNullException ex) { /*Do nothing */ }
-            catch (System.FormatException ex) { /*Do nothing */ }
-            catch (System.OverflowException ex) { /*Do nothing */ }
+            catch (Exception ex) { /*Do nothing */ }
         }
 
         /// <summary>
         /// This handles when the Angle textbox has new text entered into it.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -416,16 +417,14 @@ namespace OrbitMapper
                 double temp = double.Parse(angleBox.Text);
                 tempShape.setStartAngle(temp);
             }
-            catch (System.ArgumentNullException ex) { /*Do nothing */ }
-            catch (System.FormatException ex) { /*Do nothing */ }
-            catch (System.OverflowException ex) { /*Do nothing */ }
+            catch (Exception ex) { /*Do nothing */ }
         }
 
         /// <summary>
         /// This handles when the Bounces textbox has new text entered into it.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -439,16 +438,14 @@ namespace OrbitMapper
                 int temp = int.Parse(bouncesBox.Text);
                 tempShape.setBounces(temp);
             }
-            catch (System.ArgumentNullException ex) { /*Do nothing */ }
-            catch (System.FormatException ex) { /*Do nothing */ }
-            catch (System.OverflowException ex) { /*Do nothing */ }
+            catch (Exception ex) { /*Do nothing */ }
         }
 
         /// <summary>
         /// When the tall button in the middle is pressed, the behavior for it is to collapse or expand the tessellation user control.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -484,7 +481,7 @@ namespace OrbitMapper
         /// <summary>
         /// Used whenever typically whenever you need to find the currently selected tab's corresponding tessellation.
         /// </summary>
-        /// <param name="name">The Shape that </param>
+        /// <param name="name">The Shape that</param>
         /// <returns></returns>
         private Tessellation findTessellation(String name)
         {
@@ -502,8 +499,8 @@ namespace OrbitMapper
         /// <summary>
         /// When the Go button is pressed, run the simulation from the input in the text boxes (which were already set as the fields for the currently selected shape).
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -530,16 +527,14 @@ namespace OrbitMapper
                 tempShape.setFromTessellation(false);
                 tempShape.Invalidate();
             }
-            catch (System.ArgumentNullException ex) { /*Do nothing */ }
-            catch (System.FormatException ex) { /*Do nothing */ }
-            catch (System.OverflowException ex) { /*Do nothing */ }
+            catch (Exception ex) { /*Do nothing */ }
         }
 
         /// <summary>
         /// This handles when the track bar for the Angle is dragged around. Update the current shapes Angle field and invalidate it to restart the simulation.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -558,8 +553,8 @@ namespace OrbitMapper
         /// <summary>
         /// This handles when the track bar for the Starting Position is dragged around. Update the current shapes StartingPosition field and invalidate it to restart the simulation.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             if (shapes.Count() == 0)
@@ -578,8 +573,8 @@ namespace OrbitMapper
         /// This handles when a new tab is selected. It grabs all the data pertinent to the currently selected tab from the corresponding instances
         /// of Shape and Tessellations from their respective Lists, updates the textboxes/track bars and reruns the simulation (invalidates them).
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param>
         private void tabControl1_Selected_1(object sender, TabControlEventArgs e)
         {
             // If the default tab is not there and there is more than one Shape current initialized, perform a selected tab change.
@@ -607,8 +602,8 @@ namespace OrbitMapper
         /// to the split container correctly when more than one tab is created (when this adding behavior is handled by tabControl1_Selected_1),
         /// and do the first time insert into the split container. As well, set the splitter distance as it needs to be configured the first time.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ControlEventArgs"/> instance containing the event data.</param>
         private void tabControl1_ControlAdded(object sender, ControlEventArgs e)
         {
             if(!tabControl1.Controls.Contains(tabPage1) && this.shapes.Count == 1){
@@ -627,8 +622,8 @@ namespace OrbitMapper
         /// If I (Josh Pavoncello) am no longer supporting this project (and that address is no longer valid), it will just swallow the resulting
         /// exception and carry on, so as to not pop up at the start of the program every time in the future.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DoWorkEventArgs"/> instance containing the event data.</param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create("http://www.pragmaticparadigm.com/OrbitMapperGetLatest.php");
@@ -658,7 +653,7 @@ namespace OrbitMapper
                     EventSource.output("Latest Version: " + tempVersion);
                 }
             }
-            catch (WebException ex) { /* Ignore the exception, failure communication with server */ }
+            catch (Exception ex) { /* Ignore the exception, failure communication with server */ }
             // Run each time, if the streams/connection are not null, make sure they are ended.
             finally
             {
@@ -676,8 +671,8 @@ namespace OrbitMapper
         /// If the Save button is pressed from the main menu, saved the current shape data/tessellation data to a user specified file.
         /// The data is stored in an XML format.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (tabControl1.Controls.Contains(tabPage1))
@@ -734,9 +729,9 @@ namespace OrbitMapper
         /// This handles when the Open item is selected in the main menu. It houses all the logic to parse .omd XML files and begin the object
         /// instantiation. If there is any exception thrown during the file open, it will simply pop up a dialog and say that there was a problem.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try{
                 OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -861,8 +856,8 @@ namespace OrbitMapper
         /// <summary>
         /// Only used when user clicks the About button on the main menu, open the dialog and persist user closes before continue.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new About(OMVersion).ShowDialog();
@@ -871,8 +866,8 @@ namespace OrbitMapper
         /// <summary>
         /// This draws the custom stripes down the middle of the button that is pressed to show and hide the Tessellation map
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void button1_Paint(object sender, PaintEventArgs e)
         {
             int size = button1.Height / 8; // Set the vertical size of the stripes
@@ -898,8 +893,8 @@ namespace OrbitMapper
         /// <summary>
         /// This draws the custom triangle over the "Go" button, or the button pressed to initiate the simulation.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void button2_Paint(object sender, PaintEventArgs e)
         {
             // Find the center
@@ -922,8 +917,8 @@ namespace OrbitMapper
         /// <summary>
         /// This draws the custom stripe over the split containers vertical splitter.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void splitContainer1_Paint(object sender, PaintEventArgs e)
         {
             int offsetX = splitContainer1.SplitterDistance;
@@ -931,6 +926,23 @@ namespace OrbitMapper
             g.SmoothingMode = SmoothingMode.AntiAlias;
             Pen pen = new Pen(System.Drawing.Brushes.DimGray, 4);
             g.DrawLine(pen, new Point(offsetX, 0), new Point(offsetX, splitContainer1.Height));
+        }
+
+        /// <summary>
+        /// Handles the DropDownItemClicked event of the ExportToolStripMenuItem control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void ExportToolStripMenuItem_DropDownItemClicked(object sender, EventArgs e)
+        {
+            // Run through each of the tabs to make sure they get resized to the current window size, otherwise the preview BMPs will not be a consistent size
+            if (!tabControl1.Contains(tabPage1))
+            {
+                int i = tabControl1.SelectedIndex;
+                while (i != (++tabControl1.SelectedIndex)%tabControl1.TabCount) { }
+            }
+            Export exportDialog = new Export(shapes, tessellations, tabControl1.SelectedIndex);
+            exportDialog.Show();
         }
     }
 }
