@@ -54,11 +54,11 @@ namespace OrbitMapper.Forms
                 // If the current iteration is the tab number, we will default it to be the selected tab
                 if (i == tabNum)
                 {
-                    this.comboBox1.Text = text;
                     this.comboBox1.SelectedIndex = i;
                 }
                 // Create a bitmap preview ahead of time for each shape
                 previews.Add(ImageUtilities.createBitmapPreview(shape));
+                i++;
             }
             // If there were actually shapes...
             if (i != 0)
@@ -264,6 +264,20 @@ namespace OrbitMapper.Forms
                 }
             }
             base.Update(); //Have the base update after all the resize logic has been decided.
+        }
+
+        /// <summary>
+        /// When closing, set all of the fields to null in order to clear the references.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Export_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            shapes = null;
+            tessellations = null;
+            lastWidths = null;
+            lastHeights = null;
+            previews = null;
         }
     }
 }

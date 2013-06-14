@@ -524,10 +524,13 @@
             this.ClientSize = new System.Drawing.Size(625, 333);
             this.Controls.Add(this.tableLayoutPanel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1200, 800);
             this.MinimumSize = new System.Drawing.Size(500, 280);
             this.Name = "NewShapeForm";
             this.Text = "New Shape";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Shown += new System.EventHandler(this.Form2_Shown);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseWheel);

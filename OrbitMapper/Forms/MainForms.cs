@@ -936,13 +936,16 @@ namespace OrbitMapper.Forms
         private void ExportToolStripMenuItem_DropDownItemClicked(object sender, EventArgs e)
         {
             // Run through each of the tabs to make sure they get resized to the current window size, otherwise the preview BMPs will not be a consistent size
-            if (!tabControl1.Contains(tabPage1))
+            if (!tabControl1.Contains(tabPage1) && tabControl1.TabCount > 1)
             {
                 int i = tabControl1.SelectedIndex;
-                while (i != (++tabControl1.SelectedIndex)%tabControl1.TabCount) { }
+                tabControl1.SelectedIndex = (tabControl1.SelectedIndex + 1) % tabControl1.TabCount;
+                while (i != tabControl1.SelectedIndex){
+                    tabControl1.SelectedIndex = (tabControl1.SelectedIndex + 1) % tabControl1.TabCount;
+                }
             }
             Export exportDialog = new Export(shapes, tessellations, tabControl1.SelectedIndex);
-            exportDialog.Show();
+            exportDialog.ShowDialog();
         }
     }
 }

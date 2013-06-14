@@ -191,15 +191,16 @@
             this.ClientSize = new System.Drawing.Size(426, 508);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.OptionsGroupBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(442, 546);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Export";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Export As";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Export_FormClosed);
             this.OptionsGroupBox.ResumeLayout(false);
             this.OptionsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
