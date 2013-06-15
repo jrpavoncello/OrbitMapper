@@ -98,36 +98,83 @@ namespace OrbitMapper.Forms
                 // If FilterIndex is 1 BMP, 2 JPEG, 3 PNG, 4 TIFF. All must be converted to image format (BMP) in order to convert to other formats.
                 switch(saveFileDialog1.FilterIndex)
                 {
-                    case 1:
-                        using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                    case 1: // BMP
+                        if(this.SaveShapeChk.Checked){
+                            using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
+                                scaledBMP.Save(saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Shape"));
+                            }
+                        }
+                        if (this.SaveTessChk.Checked)
                         {
-                            selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                            Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
-                            scaledBMP.Save(saveFileDialog1.FileName);
+                            using (var bmp = ImageUtilities.createTessellation(selectedTess))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
+                                scaledBMP.Save(saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"));
+                            }
                         }
                         break;
-                    case 2:
-                        using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                    case 2: // JPG
+                        if (this.SaveShapeChk.Checked)
                         {
-                            selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                            Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
-                            ImageUtilities.SaveJpeg(scaledBMP, saveFileDialog1.FileName, long.MaxValue);
+                            using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
+                                ImageUtilities.SaveJpeg(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Shape"), long.MaxValue);
+                            }
+                        }
+                        if (this.SaveTessChk.Checked)
+                        {
+                            using (var bmp = ImageUtilities.createTessellation(selectedTess))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
+                                ImageUtilities.SaveJpeg(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
+                            }
                         }
                         break;
-                    case 3:
-                        using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                    case 3: // PNG
+                        if (this.SaveShapeChk.Checked)
                         {
-                            selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                            Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
-                            ImageUtilities.SavePng(scaledBMP, saveFileDialog1.FileName, long.MaxValue);
+                            using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
+                                ImageUtilities.SavePng(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Shape"), long.MaxValue);
+                            }
+                        }
+                        if (this.SaveTessChk.Checked)
+                        {
+                            using (var bmp = ImageUtilities.createTessellation(selectedTess))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
+                                ImageUtilities.SavePng(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
+                            }
                         }
                         break;
-                    case 4:
-                        using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                    case 4: // TIFF
+                        if (this.SaveShapeChk.Checked)
                         {
-                            selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                            Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
-                            ImageUtilities.SaveTiff(scaledBMP, saveFileDialog1.FileName, long.MaxValue);
+                        using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
+                                ImageUtilities.SaveTiff(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Shape"), long.MaxValue);
+                            }
+                        }
+                        if (this.SaveTessChk.Checked)
+                        {
+                            using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
+                            {
+                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                                Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
+                                ImageUtilities.SaveTiff(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
+                            }
                         }
                         break;
                     default:

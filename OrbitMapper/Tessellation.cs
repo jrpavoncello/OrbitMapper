@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OrbitMapper;
+using OrbitMapper.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using OrbitMapper;
 
 namespace OrbitMapper.Tessellations
 {
@@ -91,6 +92,21 @@ namespace OrbitMapper.Tessellations
         public PictureBox getPictureBox()
         {
             return pictureBox1;
+        }
+
+        public Point getBaseClick()
+        {
+            return this.baseClick;
+        }
+
+        public Point getEndClick()
+        {
+            return this.endClick;
+        }
+
+        public Point getOffset()
+        {
+            return this.offset;
         }
 
         /// <summary>
@@ -334,7 +350,7 @@ namespace OrbitMapper.Tessellations
                                 startingPoint = (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - (baseClick.X - iMultGetPatWidth))/*The X position of the point along the zones width*/ / (double)(reflectedStartZones.ElementAt<Point[]>(zone)[1].X - reflectedStartZones.ElementAt<Point[]>(zone)[0].X)/*The zones entire width*/;
                                 // Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
                                 startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
-                                startingAngle = mod(startingAngle, 180);
+                                startingAngle = MathUtilities.mod(startingAngle, 180);
                                 distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                                 inRegularZone = false;
                             }
@@ -379,7 +395,7 @@ namespace OrbitMapper.Tessellations
                     {
                         // Use ArcTan to find the and using the baseclick's x and y and the endclick's x and y, then mod with 180 degrees because it is a reflected area
                         startingAngle = Math.Atan((double)(endClick.Y - baseClick.Y) / (double)(endClick.X - baseClick.X)) * 180d / Math.PI;
-                        startingAngle = mod(startingAngle, 180);
+                        startingAngle = MathUtilities.mod(startingAngle, 180);
                         distance = Math.Sqrt(Math.Pow(endClick.Y - baseClick.Y, 2) + Math.Pow(endClick.X - baseClick.X, 2));
                     }
                 }
@@ -408,18 +424,6 @@ namespace OrbitMapper.Tessellations
             ret += "<endclick_y>" + (this.Height - endClick.Y) + "</endclick_y>";
             ret += "<populateByTess>" + populateByTess.ToString() + "</populateByTess>";
             return ret;
-        }
-
-        /// <summary>
-        /// Custom mod formula for double because the regular modulo truncates double precision numbers to integers before performing the operation.
-        /// This is much more expensive to perform than regualar Math.mod.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        private double mod(double x, double m)
-        {
-            return (x % m + m) % m;
         }
 
         /// <summary>

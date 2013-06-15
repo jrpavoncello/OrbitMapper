@@ -188,7 +188,8 @@
     <Compile Include="Tessellations\EquilateralTess.Designer.cs">
       <DependentUpon>EquilateralTess.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Utilities\ImageUtilities.cs" />
+    <Compile Include="Utilities\MathUtilities.cs" />
     <Compile Include="Vertices.cs" />
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
