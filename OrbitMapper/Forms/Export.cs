@@ -87,7 +87,7 @@ namespace OrbitMapper.Forms
             }
 
             // Get the save location
-            this.saveFileDialog1.ShowDialog(this);
+            this.saveFileDialog1.ShowDialog();
             
             // If the file name is not an empty string open it for saving.
             if (saveFileDialog1.FileName != "")

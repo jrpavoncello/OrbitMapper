@@ -30,49 +30,49 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d + lengthShort, lengthLong, 0d);
-            List<DoublePoint> tri1 = new List<DoublePoint>();
-            List<DoublePoint> tri2 = new List<DoublePoint>();
-            List<DoublePoint> tri3 = new List<DoublePoint>();
-            List<DoublePoint> tri4 = new List<DoublePoint>();
-            List<DoublePoint> tri5 = new List<DoublePoint>();
-            List<DoublePoint> tri6 = new List<DoublePoint>();
+            List<DoublePoint> shape1 = new List<DoublePoint>();
+            List<DoublePoint> shape2 = new List<DoublePoint>();
+            List<DoublePoint> shape3 = new List<DoublePoint>();
+            List<DoublePoint> shape4 = new List<DoublePoint>();
+            List<DoublePoint> shape5 = new List<DoublePoint>();
+            List<DoublePoint> shape6 = new List<DoublePoint>();
 
-            tri1.Add(new DoublePoint(smallSegment, 0));
-            tri1.Add(new DoublePoint(0, height));
-            tri1.Add(new DoublePoint(30, height));
-            tri1.Add(new DoublePoint(30 + smallSegment, 0));
+            shape1.Add(new DoublePoint(smallSegment, 0));
+            shape1.Add(new DoublePoint(0, height));
+            shape1.Add(new DoublePoint(30, height));
+            shape1.Add(new DoublePoint(30 + smallSegment, 0));
 
-            tri2.Add(new DoublePoint(0, height));
-            tri2.Add(new DoublePoint(smallSegment, lengthLong));
-            tri2.Add(new DoublePoint(30 + smallSegment, lengthLong));
-            tri2.Add(new DoublePoint(30, height));
+            shape2.Add(new DoublePoint(0, height));
+            shape2.Add(new DoublePoint(smallSegment, lengthLong));
+            shape2.Add(new DoublePoint(30 + smallSegment, lengthLong));
+            shape2.Add(new DoublePoint(30, height));
 
-            tri3.Add(new DoublePoint(30 + smallSegment, 0));
-            tri3.Add(new DoublePoint(30, height));
-            tri3.Add(new DoublePoint(30 + smallSegment, lengthLong));
-            tri3.Add(new DoublePoint(30 + lengthShort, height));
+            shape3.Add(new DoublePoint(30 + smallSegment, 0));
+            shape3.Add(new DoublePoint(30, height));
+            shape3.Add(new DoublePoint(30 + smallSegment, lengthLong));
+            shape3.Add(new DoublePoint(30 + lengthShort, height));
 
-            tri4.Add(new DoublePoint(30 + smallSegment, 0));
-            tri4.Add(new DoublePoint(30 + lengthShort, height));
-            tri4.Add(new DoublePoint(60 + lengthShort, height));
-            tri4.Add(new DoublePoint(60 + smallSegment, 0));
+            shape4.Add(new DoublePoint(30 + smallSegment, 0));
+            shape4.Add(new DoublePoint(30 + lengthShort, height));
+            shape4.Add(new DoublePoint(60 + lengthShort, height));
+            shape4.Add(new DoublePoint(60 + smallSegment, 0));
 
-            tri5.Add(new DoublePoint(30 + lengthShort, height));
-            tri5.Add(new DoublePoint(30 + smallSegment, lengthLong));
-            tri5.Add(new DoublePoint(60 + smallSegment, lengthLong));
-            tri5.Add(new DoublePoint(60 + lengthShort, height));
+            shape5.Add(new DoublePoint(30 + lengthShort, height));
+            shape5.Add(new DoublePoint(30 + smallSegment, lengthLong));
+            shape5.Add(new DoublePoint(60 + smallSegment, lengthLong));
+            shape5.Add(new DoublePoint(60 + lengthShort, height));
 
-            tri6.Add(new DoublePoint(60 + lengthShort, height));
-            tri6.Add(new DoublePoint(60 + smallSegment, lengthLong));
-            tri6.Add(new DoublePoint(60 + lengthShort, lengthLong * 1.5));
-            tri6.Add(new DoublePoint(60 + smallSegment + lengthShort, lengthLong));
+            shape6.Add(new DoublePoint(60 + lengthShort, height));
+            shape6.Add(new DoublePoint(60 + smallSegment, lengthLong));
+            shape6.Add(new DoublePoint(60 + lengthShort, lengthLong * 1.5));
+            shape6.Add(new DoublePoint(60 + smallSegment + lengthShort, lengthLong));
 
-            pat.addPattern(tri1);
-            pat.addPattern(tri2);
-            pat.addPattern(tri3);
-            pat.addPattern(tri4);
-            pat.addPattern(tri5);
-            pat.addPattern(tri6);
+            pat.addPattern(shape1);
+            pat.addPattern(shape2);
+            pat.addPattern(shape3);
+            pat.addPattern(shape4);
+            pat.addPattern(shape5);
+            pat.addPattern(shape6);
             setPattern(pat);
         }
     }

@@ -71,17 +71,23 @@ namespace OrbitMapper.Utilities
             return codecs.Single(codec => codec.FormatID == format.Guid);
         }
 
-        
+
+        /// <summary>
+        /// Creates the tessellation.
+        /// </summary>
+        /// <param name="tess">The tess.</param>
+        /// <returns></returns>
         public static Bitmap createTessellation(Tessellation tess)
         {
             int tessWidth = Math.Abs(tess.getBaseClick().X - tess.getEndClick().X);
             int tessHeight = Math.Abs(tess.getBaseClick().Y - tess.getEndClick().Y);
 
-            Control surface = new Control("", 0, 0, tessWidth, tessHeight);
+            Control surface = new Control();
 
             Graphics g = surface.CreateGraphics();
+            g.Flush(FlushIntention.Flush);
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(SystemColors.Control);
+            g.Clear(Color.White);
 
             // Get the patterns to tile and draw
             Point[][] patterns = tess.getPattern().getPatterns();
@@ -105,7 +111,9 @@ namespace OrbitMapper.Utilities
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
+                            int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
                             Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, tess.getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
+                            int lastElement = patterns.ElementAt<Point[]>(k).Count() - 1;
                             // This is applied every other row because some patterns do not populate the map perfectly straight up.
                             // For example, the equilateral pattern must be applied at a slight horizontal offset otherwise the pattern would not match up as we draw
                             if (j % 2 == 1)
@@ -113,15 +121,15 @@ namespace OrbitMapper.Utilities
                             // This is applied at every iteration, we will subtract 3 times the width to not mess up the iOffset and give it some overlap to the left
                             temp.X -= tess.getPattern().iWidth * 3 - tess.getOffset().X;
                             temp.Y -= tess.getOffset().Y;
-                            if(l != 0)
+                            DoublePoint intersect = MathUtilities.getIntersect(poly[tempMod].X, poly[tempMod].Y, temp.X, temp.Y, tess.getBaseClick().X, tess.getBaseClick().Y, tess.getEndClick().X, tess.getEndClick().Y);
+                            if (intersect != null)
                             {
-                                DoublePoint intersect = MathUtilities.getIntersect(poly[l - 1].X, poly[l - 1].Y, temp.X, temp.Y, tess.getBaseClick().X, tess.getBaseClick().Y, tess.getEndClick().X, tess.getEndClick().Y);
                                 Intersect tempIntersect = new Intersect();
                                 tempIntersect.x1 = intersect.x1;
                                 tempIntersect.x2 = intersect.x2;
-                                tempIntersect.wall = l;
-                                if(MathUtilities.isValidIntersect(new List<DoublePoint> { new DoublePoint(poly[l - 1].X, poly[l - 1].Y), new DoublePoint(temp.X, temp.Y) }, l, tempIntersect)){
-                                    poly[l] = temp;
+                                if (MathUtilities.isValidIntersect(new List<DoublePoint> { new DoublePoint(poly[tempMod].X, poly[tempMod].Y), new DoublePoint(temp.X, temp.Y) }, tempIntersect))
+                                {
+                                    poly[lastElement] = temp;
                                 }
                             }
                         }
@@ -129,7 +137,12 @@ namespace OrbitMapper.Utilities
                     }
                 }
             }
-            return createBitmapPreview(surface);
+            g.Flush(FlushIntention.Flush);
+            using (Bitmap tempBMP = new Bitmap(tessWidth + tess.getPattern().iWidth, tessHeight + tess.getPattern().iHeight))
+            {
+                surface.DrawToBitmap(tempBMP, new Rectangle(0, 0, tempBMP.Width, tempBMP.Height));
+                return tempBMP;
+            }
         }
 
         /// <summary>
@@ -173,12 +186,10 @@ namespace OrbitMapper.Utilities
             try
             {
                 Bitmap b = new Bitmap(size.Width, size.Height);
-                using (Graphics g = Graphics.FromImage((System.Drawing.Image)b))
-                {
-                    // High quality BMP
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
-                }
+                Graphics g = Graphics.FromImage((System.Drawing.Image)b);
+                // High quality BMP
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
                 return b;
             }
             catch

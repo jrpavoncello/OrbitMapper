@@ -220,6 +220,9 @@
     <EmbeddedResource Include="Tessellation.resx">
       <DependentUpon>Tessellation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tessellations\IsosTri120Tess.resx">
+      <DependentUpon>IsosTri120Tess.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

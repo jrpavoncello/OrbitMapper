@@ -31,22 +31,25 @@ namespace OrbitMapper.Tessellations
             setShapeHeight(height);
 
             Pattern pat = new Pattern(60d, height, 0d);
-            List<DoublePoint> tri1 = new List<DoublePoint>();
+            List<DoublePoint> shape1 = new List<DoublePoint>();
+            List<DoublePoint> shape2 = new List<DoublePoint>();
 
-            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, 0));
-            tri1.Add(new DoublePoint(xSmallSegment, 0));
-            tri1.Add(new DoublePoint(0, ySegment));
-            tri1.Add(new DoublePoint(xSmallSegment, height));
-            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, height));
-            tri1.Add(new DoublePoint(width, ySegment));
-            tri1.Add(new DoublePoint(xLargeSegment + width, ySegment));
-            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment + width, height));
-            tri1.Add(new DoublePoint(xLargeSegment + width, ySegment + height));
-            tri1.Add(new DoublePoint(width, ySegment + height));
-            tri1.Add(new DoublePoint(xSmallSegment + xLargeSegment, height));
-            tri1.Add(new DoublePoint(width, ySegment));
+            shape1.Add(new DoublePoint(xSmallSegment + xLargeSegment, 0));
+            shape1.Add(new DoublePoint(xSmallSegment, 0));
+            shape1.Add(new DoublePoint(0, ySegment));
+            shape1.Add(new DoublePoint(xSmallSegment, height));
+            shape1.Add(new DoublePoint(xSmallSegment + xLargeSegment, height));
+            shape1.Add(new DoublePoint(width, ySegment));
 
-            pat.addPattern(tri1);
+            shape2.Add(new DoublePoint(xLargeSegment + xLargeSegment + xSmallSegment + xSmallSegment, ySegment));
+            shape2.Add(new DoublePoint(xLargeSegment + xSmallSegment + xSmallSegment, ySegment));
+            shape2.Add(new DoublePoint(xLargeSegment + xSmallSegment + 0, ySegment + ySegment));
+            shape2.Add(new DoublePoint(xLargeSegment + xSmallSegment + xSmallSegment, ySegment + height));
+            shape2.Add(new DoublePoint(xLargeSegment + xSmallSegment + xSmallSegment + xLargeSegment, ySegment + height));
+            shape2.Add(new DoublePoint(xLargeSegment + xSmallSegment + width, ySegment + ySegment));
+
+            pat.addPattern(shape1);
+            pat.addPattern(shape2);
             setPattern(pat);
         }
     }

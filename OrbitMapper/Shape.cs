@@ -330,7 +330,7 @@ namespace OrbitMapper.Shapes
                         tempIntersects[j].wall = j;
                         tempIntersects[j].distance = Math.Sqrt(Math.Pow(curIntersect.x1 - tempIntersects[j].x1, 2) + Math.Pow(curIntersect.x2 - tempIntersects[j].x2, 2));
 
-                        if(MathUtilities.isValidIntersect(vertices, j, tempIntersects[j]))
+                        if(MathUtilities.isValidIntersect(vertices, tempIntersects[j], j))
                         {   // If it is valid and leastDistance has not yet been set, set it to this index
                             if (leastDistance == -1)
                             {

@@ -60,7 +60,7 @@ namespace OrbitMapper.Utilities
             }
         }
 
-        public static bool isValidIntersect(List<DoublePoint> wallVertices, int iVertexCollided, Intersect intersect)
+        public static bool isValidIntersect(List<DoublePoint> wallVertices, Intersect intersect, int iVertexCollided = 0)
         {
             int tempMod = (int)MathUtilities.mod(iVertexCollided - 1, wallVertices.Count); // Use tempMod to find the correct vertex to determine a line for the current wall
 

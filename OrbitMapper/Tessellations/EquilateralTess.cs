@@ -30,9 +30,11 @@ namespace OrbitMapper.Tessellations
             tri1.Add(new DoublePoint(0, 0));
             tri1.Add(new DoublePoint(20, temp));
             tri1.Add(new DoublePoint(40, 0));
+
             tri2.Add(new DoublePoint(40, 0));
             tri2.Add(new DoublePoint(20, temp));
             tri2.Add(new DoublePoint(60, temp));
+
             pat.addPattern(tri1);
             pat.addPattern(tri2);
             setPattern(pat);

@@ -13,7 +13,7 @@ namespace OrbitMapper
     /// </summary>
     public class Pattern
     {
-        private List<List<DoublePoint>> vertices;
+        private List<List<DoublePoint>> shapes;
         private double width = 0;
         private double height = 0;
         private double offset = 0;
@@ -38,7 +38,7 @@ namespace OrbitMapper
         /// <param name="offset">The horizontal offset needed to keep drawing this shape vertically (see the equilateral case)</param>
         public Pattern(double width, double height, double offset)
         {
-            vertices = new List<List<DoublePoint>>();
+            shapes = new List<List<DoublePoint>>();
             this.width = width;
             this.height = height;
             this.offset = offset;
@@ -48,22 +48,12 @@ namespace OrbitMapper
         }
 
         /// <summary>
-        /// Add a vertex for a specified pattern individually.
-        /// </summary>
-        /// <param name="x1"></param>
-        /// <param name="x2"></param>
-        /// <param name="patternNum"></param>
-        public void addVertex(double x1, double x2, int patternNum){
-            vertices.ElementAt<List<DoublePoint>>(patternNum).Add(new DoublePoint(x1, x2));
-        }
-
-        /// <summary>
         /// Add pattern assumes that the List pattern is in the correct order to be able to be directly fed to a Graphics.DrawPoly() method for drawing.
         /// I try to keep the number of patterns down and reduce the amount of pathing that requires a double-back to draw shapes, but is not necessary
         /// </summary>
         /// <param name="pattern"></param>
         public void addPattern(List<DoublePoint> pattern){
-            vertices.Add(pattern);
+            shapes.Add(pattern);
         }
 
         /// <summary>
@@ -73,13 +63,13 @@ namespace OrbitMapper
         /// </summary>
         /// <returns></returns>
         public Point[][] getPatterns(){
-            int len1 = vertices.Count; //Get the number of patterns added
+            int len1 = shapes.Count; //Get the number of patterns added
             Point[][] temp = new Point[len1][]; //Tell the Point[][] jagged array instance how many pointer to expect in the first index
             for(int i = 0; i < len1; i++){
-                int len2 = vertices.ElementAt<List<DoublePoint>>(i).Count(); //Get how many vertices are at the current pattern
+                int len2 = shapes.ElementAt<List<DoublePoint>>(i).Count(); //Get how many vertices are at the current pattern
                 temp[i] = new Point[len2]; //Instantiate the Point array to fill it
-                for(int j = 0; j < vertices.ElementAt<List<DoublePoint>>(i).Count(); j++){ // Iterate over each vertex
-                    temp[i][j] = new Point((int)vertices.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x1, (int)vertices.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x2); // Add each vertex of that pattern to that Poitn array
+                for(int j = 0; j < shapes.ElementAt<List<DoublePoint>>(i).Count(); j++){ // Iterate over each vertex
+                    temp[i][j] = new Point((int)shapes.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x1, (int)shapes.ElementAt<List<DoublePoint>>(i).ElementAt<DoublePoint>(j).x2); // Add each vertex of that pattern to that Poitn array
                 }
             }
             return temp;
