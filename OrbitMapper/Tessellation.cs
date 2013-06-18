@@ -261,8 +261,9 @@ namespace OrbitMapper.Tessellations
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(SystemColors.Control);
 
+            bool isReadyForTest = (baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0);
             // If the baseClick or endClick has been specified...
-            if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
+            if (isReadyForTest)
             {
                 // If the last state has not yet been specified, specify it
                 if (lastPictureBoxState.Y == 0)
@@ -305,7 +306,7 @@ namespace OrbitMapper.Tessellations
                     {
                         // Draw each pattern
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
-                        List<Point> redPoly = new List<Point>();
+                        bool isShapeCollided = false;
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
                             Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
@@ -320,30 +321,25 @@ namespace OrbitMapper.Tessellations
 
                             // Algorithm for highlighting the shapes that have a collision
                             int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
-                            Point tempPoint = new Point(iMultGetPatWidth + patterns[k][l].X, this.getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
-                            int lastElement = patterns.ElementAt<Point[]>(k).Count() - 1;
-                            // This is applied every other row because some patterns do not populate the map perfectly straight up.
-                            // For example, the equilateral pattern must be applied at a slight horizontal offset otherwise the pattern would not match up as we draw
-                            if (j % 2 == 1)
-                                tempPoint.X -= this.getPattern().iOffset;
-                            // This is applied at every iteration, we will subtract 3 times the width to not mess up the iOffset and give it some overlap to the left
-                            tempPoint.X -= this.getPattern().iWidth * 3 - this.getOffset().X;
-                            tempPoint.Y -= this.getOffset().Y;
-                            DoublePoint intersect = MathUtilities.getIntersect(poly[tempMod].X, poly[tempMod].Y, tempPoint.X, tempPoint.Y, this.getBaseClick().X, this.getBaseClick().Y, this.getEndClick().X, this.getEndClick().Y);
-                            if (intersect != null)
+
+                            Intersect tempIntersect = new Intersect();
+                            if (!isShapeCollided)
                             {
-                                Intersect tempIntersect = new Intersect();
-                                tempIntersect.x1 = intersect.x1;
-                                tempIntersect.x2 = intersect.x2;
-                                if (MathUtilities.isValidIntersect(new List<DoublePoint> { new DoublePoint(poly[tempMod].X, poly[tempMod].Y), new DoublePoint(tempPoint.X, tempPoint.Y) }, tempIntersect))
+                                if (l > 0)
                                 {
-                                    redPoly.Add(tempPoint);
+                                    if (MathUtilities.isValidIntersect((double)poly[tempMod].X, (double)poly[tempMod].Y, (double)poly[l].X, (double)poly[l].Y, (double)baseClick.X + offset.X, (double)baseClick.Y - offset.Y, (double)endClick.X + offset.X, (double)endClick.Y - offset.Y))
+                                    {
+                                        isShapeCollided = true;
+                                    }
                                 }
                             }
                         }
-                        g.DrawPolygon(System.Drawing.Pens.Black, poly);
-                        if(redPoly.Count > 0)
-                            g.DrawPolygon(System.Drawing.Pens.Red, redPoly.ToArray());
+                        if (!isShapeCollided || !isReadyForTest)
+                            g.DrawPolygon(System.Drawing.Pens.Black, poly);
+                        else if(isReadyForTest)
+                        {
+                            g.DrawPolygon(new System.Drawing.Pen(System.Drawing.Brushes.Red, 3), poly);
+                        }
                     }
                     #region Logic for getting data from mouse click
                     // I preface this logic by saying that I am now looking back at it 6+ months later to document it, I'll try my best.
@@ -428,7 +424,7 @@ namespace OrbitMapper.Tessellations
             }
 
             // If the baseClick or endClick has been specified...
-            if ((baseClick.X != 0 || baseClick.Y != 0) && (endClick.X != 0 || endClick.Y != 0))
+            if (isReadyForTest)
             {
                 System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
                 //In order to draw the base click and end click in their correct positions, we must add the offset when drawing them

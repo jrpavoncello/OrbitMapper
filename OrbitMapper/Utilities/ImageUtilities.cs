@@ -82,12 +82,11 @@ namespace OrbitMapper.Utilities
             int tessWidth = Math.Abs(tess.getBaseClick().X - tess.getEndClick().X);
             int tessHeight = Math.Abs(tess.getBaseClick().Y - tess.getEndClick().Y);
 
-            Control surface = new Control();
-
-            Graphics g = surface.CreateGraphics();
+            Bitmap myBitmap = new Bitmap(tessWidth + tess.getPattern().iWidth, tessHeight + tess.getPattern().iHeight);
+            Graphics g = Graphics.FromImage(myBitmap);
             g.Flush(FlushIntention.Flush);
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Color.White);
+            g.Clear(Color.White); 
 
             // Get the patterns to tile and draw
             Point[][] patterns = tess.getPattern().getPatterns();
@@ -109,11 +108,12 @@ namespace OrbitMapper.Utilities
                     {
                         // Draw each pattern
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
+                        int lastElement = patterns.ElementAt<Point[]>(k).Count() - 1;
+                        bool shouldDraw = false;
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
                             int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
                             Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, tess.getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
-                            int lastElement = patterns.ElementAt<Point[]>(k).Count() - 1;
                             // This is applied every other row because some patterns do not populate the map perfectly straight up.
                             // For example, the equilateral pattern must be applied at a slight horizontal offset otherwise the pattern would not match up as we draw
                             if (j % 2 == 1)
@@ -121,28 +121,28 @@ namespace OrbitMapper.Utilities
                             // This is applied at every iteration, we will subtract 3 times the width to not mess up the iOffset and give it some overlap to the left
                             temp.X -= tess.getPattern().iWidth * 3 - tess.getOffset().X;
                             temp.Y -= tess.getOffset().Y;
-                            DoublePoint intersect = MathUtilities.getIntersect(poly[tempMod].X, poly[tempMod].Y, temp.X, temp.Y, tess.getBaseClick().X, tess.getBaseClick().Y, tess.getEndClick().X, tess.getEndClick().Y);
-                            if (intersect != null)
+                            DoublePoint intersect = new DoublePoint();
+                            poly[l] = temp;
+                            if (MathUtilities.isValidIntersect(poly[tempMod].X, poly[tempMod].Y, temp.X, temp.Y, tess.getBaseClick().X, tess.getBaseClick().Y, tess.getEndClick().X, tess.getEndClick().Y, out intersect.x1, out intersect.x2))
                             {
-                                Intersect tempIntersect = new Intersect();
-                                tempIntersect.x1 = intersect.x1;
-                                tempIntersect.x2 = intersect.x2;
-                                if (MathUtilities.isValidIntersect(new List<DoublePoint> { new DoublePoint(poly[tempMod].X, poly[tempMod].Y), new DoublePoint(temp.X, temp.Y) }, tempIntersect))
-                                {
-                                    poly[lastElement] = temp;
-                                }
+                                shouldDraw = true;
                             }
                         }
-                        g.DrawPolygon(System.Drawing.Pens.Black, poly);
+                        if (shouldDraw)
+                        {
+                            for(int r = 0; r < poly.Length; r++)
+                            {
+                                poly[r].X -= tess.getBaseClick().X;
+                                poly[r].Y -= tess.getBaseClick().Y;
+                            }
+                            g.DrawPolygon(System.Drawing.Pens.Black, poly);
+                        }
                     }
                 }
             }
             g.Flush(FlushIntention.Flush);
-            using (Bitmap tempBMP = new Bitmap(tessWidth + tess.getPattern().iWidth, tessHeight + tess.getPattern().iHeight))
-            {
-                surface.DrawToBitmap(tempBMP, new Rectangle(0, 0, tempBMP.Width, tempBMP.Height));
-                return tempBMP;
-            }
+            g.Save();
+            return myBitmap;
         }
 
         /// <summary>

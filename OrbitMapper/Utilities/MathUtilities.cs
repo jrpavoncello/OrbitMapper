@@ -104,6 +104,197 @@ namespace OrbitMapper.Utilities
         }
 
         /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="Ax"></param>
+        /// <param name="Ay"></param>
+        /// <param name="Bx"></param>
+        /// <param name="By"></param>
+        /// <param name="Cx"></param>
+        /// <param name="Cy"></param>
+        /// <param name="Dx"></param>
+        /// <param name="Dy"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static bool isValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy)
+        {
+            double intersectX;
+            double intersectY;
+
+            double distAB, theCos, theSin, newX, ABpos;
+
+            //  Fail if either line segment is zero-length.
+            if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+                return false;
+
+            //  Fail if the segments share an end-point.
+            if (Ax == Cx && Ay == Cy || Bx == Cx && By == Cy
+            || Ax == Dx && Ay == Dy || Bx == Dx && By == Dy)
+                return false;
+
+            //  (1) Translate the system so that point A is on the origin.
+            Bx -= Ax; By -= Ay;
+            Cx -= Ax; Cy -= Ay;
+            Dx -= Ax; Dy -= Ay;
+
+            //  Discover the length of segment A-B.
+            distAB = Math.Sqrt(Bx * Bx + By * By);
+
+            //  (2) Rotate the system so that point B is on the positive X axis.
+            theCos = Bx / distAB;
+            theSin = By / distAB;
+            newX = Cx * theCos + Cy * theSin;
+            Cy = Cy * theCos - Cx * theSin; Cx = newX;
+            newX = Dx * theCos + Dy * theSin;
+            Dy = Dy * theCos - Dx * theSin; Dx = newX;
+
+            //  Fail if segment C-D doesn't cross line A-B.
+            if (Cy < 0 && Dy < 0 || Cy >= 0 && Dy >= 0)
+                return false;
+
+            //  (3) Discover the position of the intersection point along line A-B.
+            ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
+
+            //  Fail if segment C-D crosses line A-B outside of segment A-B.
+            if (ABpos < 0 || ABpos > distAB) return false;
+
+            //  (4) Apply the discovered position to line A-B in the original coordinate system.
+            intersectX = Ax + ABpos * theCos;
+            intersectY = Ay + ABpos * theSin;
+
+            //  Success.
+            return true;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="Ax"></param>
+        /// <param name="Ay"></param>
+        /// <param name="Bx"></param>
+        /// <param name="By"></param>
+        /// <param name="Cx"></param>
+        /// <param name="Cy"></param>
+        /// <param name="Dx"></param>
+        /// <param name="Dy"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static bool isValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, out double x, out double y)
+        {
+            double distAB, theCos, theSin, newX, ABpos;
+            x = 0;
+            y = 0;
+
+            //  Fail if either line segment is zero-length.
+            if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+                return false;
+
+            //  Fail if the segments share an end-point.
+            if (Ax == Cx && Ay == Cy || Bx == Cx && By == Cy
+            || Ax == Dx && Ay == Dy || Bx == Dx && By == Dy)
+                return false;
+
+            //  (1) Translate the system so that point A is on the origin.
+            Bx -= Ax; By -= Ay;
+            Cx -= Ax; Cy -= Ay;
+            Dx -= Ax; Dy -= Ay;
+
+            //  Discover the length of segment A-B.
+            distAB = Math.Sqrt(Bx * Bx + By * By);
+
+            //  (2) Rotate the system so that point B is on the positive X axis.
+            theCos = Bx / distAB;
+            theSin = By / distAB;
+            newX = Cx * theCos + Cy * theSin;
+            Cy = Cy * theCos - Cx * theSin; Cx = newX;
+            newX = Dx * theCos + Dy * theSin;
+            Dy = Dy * theCos - Dx * theSin; Dx = newX;
+
+            //  Fail if segment C-D doesn't cross line A-B.
+            if (Cy < 0 && Dy < 0 || Cy >= 0 && Dy >= 0)
+                return false;
+
+            //  (3) Discover the position of the intersection point along line A-B.
+            ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
+
+            //  Fail if segment C-D crosses line A-B outside of segment A-B.
+            if (ABpos < 0 || ABpos > distAB) return false;
+
+            //  (4) Apply the discovered position to line A-B in the original coordinate system.
+            x = Ax + ABpos * theCos;
+            y = Ay + ABpos * theSin;
+
+            //  Success.
+            return true;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="Ax"></param>
+        /// <param name="Ay"></param>
+        /// <param name="Bx"></param>
+        /// <param name="By"></param>
+        /// <param name="Cx"></param>
+        /// <param name="Cy"></param>
+        /// <param name="Dx"></param>
+        /// <param name="Dy"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static DoublePoint getValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy)
+        {
+
+            DoublePoint intersect = new DoublePoint();
+
+            double  distAB, theCos, theSin, newX, ABpos ;
+
+            //  Fail if either line segment is zero-length.
+            if (Ax==Bx && Ay==By || Cx==Dx && Cy==Dy) 
+                return null;
+
+            //  Fail if the segments share an end-point.
+            if (Ax==Cx && Ay==Cy || Bx==Cx && By==Cy
+            ||  Ax==Dx && Ay==Dy || Bx==Dx && By==Dy)
+                return null;
+
+            //  (1) Translate the system so that point A is on the origin.
+            Bx-=Ax; By-=Ay;
+            Cx-=Ax; Cy-=Ay;
+            Dx-=Ax; Dy-=Ay;
+
+            //  Discover the length of segment A-B.
+            distAB=Math.Sqrt(Bx*Bx+By*By);
+
+            //  (2) Rotate the system so that point B is on the positive X axis.
+            theCos=Bx/distAB;
+            theSin=By/distAB;
+            newX=Cx*theCos+Cy*theSin;
+            Cy  =Cy*theCos-Cx*theSin; Cx=newX;
+            newX=Dx*theCos+Dy*theSin;
+            Dy  =Dy*theCos-Dx*theSin; Dx=newX;
+
+            //  Fail if segment C-D doesn't cross line A-B.
+            if (Cy<0 && Dy<0 || Cy>=0 && Dy>=0) 
+                return null;
+
+            //  (3) Discover the position of the intersection point along line A-B.
+            ABpos=Dx+(Cx-Dx)*Dy/(Dy-Cy);
+
+            //  Fail if segment C-D crosses line A-B outside of segment A-B.
+            if (ABpos<0 || ABpos>distAB) return null;
+
+            //  (4) Apply the discovered position to line A-B in the original coordinate system.
+            intersect.x1 = Ax + ABpos * theCos;
+            intersect.x2 = Ay + ABpos * theSin;
+
+            //  Success.
+            return intersect; 
+        }
+
+        /// <summary>
         /// Given a point, a distance for the project, and an angle, find (x3, x4) from the projection.
         /// </summary>
         /// <param name="x1"></param>
