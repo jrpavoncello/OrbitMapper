@@ -26,6 +26,7 @@ namespace OrbitMapper.Tessellations
         private List<Point[]> unfoldingPath = new List<Point[]>();
         private List<Point[]> startZones = new List<Point[]>();
         private List<Point[]> reflectedStartZones = new List<Point[]>();
+        private MouseButtons lastButton = MouseButtons.Left;
         /// <summary>
         /// Field used to determine whether the last valid algorithm determined that the base was valid.
         /// </summary>
@@ -500,6 +501,7 @@ namespace OrbitMapper.Tessellations
         {
             if (e.Button == MouseButtons.Left)
             {
+                lastButton = MouseButtons.Left;
                 // If the user clicked near the bottom, it was a baseclick
                 if (e.Y >= pictureBox1.Height - 10)
                 {
@@ -521,6 +523,8 @@ namespace OrbitMapper.Tessellations
                 populateByTess = true;
                 pictureBox1.Invalidate();
             }
+            else if(e.Button == MouseButtons.Right)
+                lastButton = MouseButtons.Right;
         }
 
         /// <summary>
@@ -533,6 +537,7 @@ namespace OrbitMapper.Tessellations
             //This is called once per mouse click, set lastclick to the current location so that it is know before we start triggering the mousemove event from old data.
             if (e.Button == MouseButtons.Right)
             {
+                lastButton = MouseButtons.Right;
                 lastClick = e.Location;
             }
         }
@@ -541,6 +546,7 @@ namespace OrbitMapper.Tessellations
         {
             if (e.Button == MouseButtons.Right)
             {
+                lastButton = MouseButtons.Right;
                 //Calculate the offset from the mouse's current position and the mouse's last known position
                 offset.X += e.Location.X - lastClick.X;
                 offset.Y -= e.Location.Y - lastClick.Y;
@@ -560,10 +566,13 @@ namespace OrbitMapper.Tessellations
         /// <param name="e"></param>
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            //Return the offsets back to the origin and redraw
-            offset.X = 0;
-            offset.Y = 0;
-            pictureBox1.Invalidate();
+            if (lastButton == MouseButtons.Right)
+            {
+                //Return the offsets back to the origin and redraw
+                offset.X = 0;
+                offset.Y = 0;
+                pictureBox1.Invalidate();
+            }
         }
 
         /// <summary>
