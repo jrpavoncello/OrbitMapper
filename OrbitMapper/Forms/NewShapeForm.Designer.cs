@@ -172,8 +172,10 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(110, 20);
             this.textBox1.TabIndex = 13;
+            this.textBox1.TabStop = false;
             this.textBox1.Text = "0.000000000000000";
             this.textBox1.Click += new System.EventHandler(this.Rectangle_Click);
+            this.textBox1.Enter += new System.EventHandler(this.Rectangle_Click);
             // 
             // RectangleLabel
             // 
@@ -525,12 +527,12 @@
             this.Controls.Add(this.tableLayoutPanel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1200, 800);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(500, 280);
             this.Name = "NewShapeForm";
-            this.Text = "New Shape";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "New Shape";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Shown += new System.EventHandler(this.Form2_Shown);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseWheel);

@@ -47,10 +47,10 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(13, 56);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(260, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(144, 13);
             this.linkLabel1.TabIndex = 25;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://www.pragmaticparadigm.com/OrbitMapper.exe";
+            this.linkLabel1.Text = "Download New Orbit Mapper";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label1
@@ -58,9 +58,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(212, 13);
+            this.label1.Size = new System.Drawing.Size(200, 13);
             this.label1.TabIndex = 26;
-            this.label1.Text = "New version of Orbit Mapper is available at:";
+            this.label1.Text = "New version of Orbit Mapper is available!";
             // 
             // Version
             // 

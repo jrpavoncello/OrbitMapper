@@ -23,6 +23,7 @@ namespace OrbitMapper.Tessellations
         private Point baseClick = new Point(0, 0);
         private Point endClick = new Point(0, 0);
         private Point lastPictureBoxState = new Point();
+        private List<Point[]> unfoldingPath = new List<Point[]>();
         private List<Point[]> startZones = new List<Point[]>();
         private List<Point[]> reflectedStartZones = new List<Point[]>();
         /// <summary>
@@ -48,7 +49,7 @@ namespace OrbitMapper.Tessellations
         private bool inRegularZone = true;
 
         /// <summary>
-        /// TODO
+        /// Initialize the form components and some fields.
         /// </summary>
         public Tessellation()
         {
@@ -59,7 +60,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Gets the starting point determined from the base click.
         /// </summary>
         /// <returns></returns>
         public double getStartingPoint()
@@ -68,7 +69,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Get the starting angle determined from the base to end clicks.
         /// </summary>
         /// <returns></returns>
         public double getStartingAngle()
@@ -77,7 +78,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Gets the distance of the current base to end clicks.
         /// </summary>
         /// <returns></returns>
         public double getDistance()
@@ -86,7 +87,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Gets the picture box directly.
         /// </summary>
         /// <returns></returns>
         public PictureBox getPictureBox()
@@ -94,23 +95,35 @@ namespace OrbitMapper.Tessellations
             return pictureBox1;
         }
 
+        /// <summary>
+        /// Gets the base click.
+        /// </summary>
+        /// <returns></returns>
         public Point getBaseClick()
         {
             return this.baseClick;
         }
 
+        /// <summary>
+        /// Gets the end click.
+        /// </summary>
+        /// <returns></returns>
         public Point getEndClick()
         {
             return this.endClick;
         }
 
+        /// <summary>
+        /// Gets the offset.
+        /// </summary>
+        /// <returns></returns>
         public Point getOffset()
         {
             return this.offset;
         }
 
         /// <summary>
-        /// TODO
+        /// Adds a new start zone to the tessellation.
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
@@ -120,7 +133,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Sets the base click coordinates.
         /// </summary>
         /// <param name="pos"></param>
         public void setBasePos(Point pos)
@@ -130,7 +143,7 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
-        /// TODO
+        /// Set the end click coordinates.
         /// </summary>
         /// <param name="pos"></param>
         public void setEndPos(Point pos)
@@ -251,6 +264,15 @@ namespace OrbitMapper.Tessellations
         }
 
         /// <summary>
+        /// Gets the unfolding path for the tessellation.
+        /// </summary>
+        /// <returns></returns>
+        public List<Point[]> getUnfoldingPath()
+        {
+            return unfoldingPath;
+        }
+
+        /// <summary>
         /// Draws the pattern in a tile-like fashion.
         /// </summary>
         /// <param name="sender"></param>
@@ -295,6 +317,7 @@ namespace OrbitMapper.Tessellations
             int divPatWidth = (-offset.X)/getPattern().iWidth;
             int divPatHeight = (-offset.Y)/getPattern().iHeight;
             bool baseIsCorrect = false;
+            unfoldingPath.Clear();
             // Run through the iterations in both directions (it draws the Y direction for each X first).
             for (int i = divPatWidth; i < iterX + divPatWidth; i++)
             {
@@ -321,28 +344,37 @@ namespace OrbitMapper.Tessellations
 
                             // Algorithm for highlighting the shapes that have a collision
                             int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
-
-                            Intersect tempIntersect = new Intersect();
-                            if (!isShapeCollided)
+                            if (!isShapeCollided) // Check if this polygon has been determined as part of the unfolding
                             {
+                                // This prevents any vertices that have not yet been translated to the offsetted position to be examined
                                 if (l > 0)
                                 {
+                                    // Check the collisions between the vertices of the wall we're examining currently and the vertices of the base and end clicks
                                     if (MathUtilities.isValidIntersect((double)poly[tempMod].X, (double)poly[tempMod].Y, (double)poly[l].X, (double)poly[l].Y, (double)baseClick.X + offset.X, (double)baseClick.Y - offset.Y, (double)endClick.X + offset.X, (double)endClick.Y - offset.Y))
                                     {
                                         isShapeCollided = true;
                                     }
+                                    // Because we didn't check when l is 0, we must come back around after it has been set (on the last iteration) to check that wall we skipped
+                                    if (l == patterns.ElementAt<Point[]>(k).Count() - 1)
+                                    {
+                                        if (MathUtilities.isValidIntersect((double)poly[l].X, (double)poly[l].Y, (double)poly[0].X, (double)poly[0].Y, (double)baseClick.X + offset.X, (double)baseClick.Y - offset.Y, (double)endClick.X + offset.X, (double)endClick.Y - offset.Y))
+                                        {
+                                            isShapeCollided = true;
+                                        }
+                                    }
                                 }
                             }
                         }
+                        // Draw the polygons as black if the user has not specified a base and end click or if this polygon is not part of the unfolding path
                         if (!isShapeCollided || !isReadyForTest)
                             g.DrawPolygon(System.Drawing.Pens.Black, poly);
-                        else if(isReadyForTest)
+                        else if(isReadyForTest) // Otherwise it is part of the unfolding path and should be drawn red
                         {
                             g.DrawPolygon(new System.Drawing.Pen(System.Drawing.Brushes.Red, 3), poly);
+                            unfoldingPath.Add(poly);
                         }
                     }
                     #region Logic for getting data from mouse click
-                    // I preface this logic by saying that I am now looking back at it 6+ months later to document it, I'll try my best.
                     // Make sure both the base and end clicks are set by the user
                     // If so, then check to see if it is between a small offset of +- 5 pixels in order to anchor it to a baseline.
                     // The pitfall with this is that if the pattern has multiple shapes draw vertically, it can only anchor it to the top of the entire pattern itself.

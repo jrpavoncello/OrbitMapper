@@ -100,8 +100,8 @@ namespace OrbitMapper
             // Specify that the link was visited. 
             this.linkLabel1.LinkVisited = true;
 
-            // Navigate to a URL.
-            System.Diagnostics.Process.Start(linkLabel1.Text);
+            // Navigate to URL.
+            System.Diagnostics.Process.Start("http://www.pragmaticparadigm.com/OrbitMapper.zip");
         }
     }
 }

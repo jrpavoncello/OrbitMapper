@@ -20,30 +20,31 @@ namespace OrbitMapper.Tessellations
         public IsosTri90Tess()
         {
             InitializeComponent();
-            double temp = Math.Tan(Math.PI / 4d) * 20;
-            Pattern pat = new Pattern(40, temp * 2d, 0);
+            double size = 40d;
+            double temp = Math.Tan(Math.PI / 4d) * (size / 2);
+            Pattern pat = new Pattern(size, temp * 2d, 0);
             List<DoublePoint> tri1 = new List<DoublePoint>();
             List<DoublePoint> tri2 = new List<DoublePoint>();
             List<DoublePoint> tri3 = new List<DoublePoint>();
             List<DoublePoint> tri4 = new List<DoublePoint>();
-            addStartZone(new Point(0, 0), new Point(40, 0));
+            addStartZone(new Point(0, 0), new Point((int)size, 0));
             setShapeHeight(temp);
 
             tri1.Add(new DoublePoint(0, 0));
-            tri1.Add(new DoublePoint(20, temp));
+            tri1.Add(new DoublePoint(size / 2, temp));
             tri1.Add(new DoublePoint(0, temp*2));
 
             tri2.Add(new DoublePoint(0, 0));
-            tri2.Add(new DoublePoint(40, 0));
-            tri2.Add(new DoublePoint(20, temp));
+            tri2.Add(new DoublePoint(size, 0));
+            tri2.Add(new DoublePoint(size / 2, temp));
 
-            tri3.Add(new DoublePoint(40, temp*2));
+            tri3.Add(new DoublePoint(size, temp * 2));
             tri3.Add(new DoublePoint(0, temp * 2));
-            tri3.Add(new DoublePoint(20, temp));
+            tri3.Add(new DoublePoint(size / 2, temp));
 
-            tri4.Add(new DoublePoint(40, temp*2));
-            tri4.Add(new DoublePoint(40, 0));
-            tri4.Add(new DoublePoint(20, temp));
+            tri4.Add(new DoublePoint(size, temp * 2));
+            tri4.Add(new DoublePoint(size, 0));
+            tri4.Add(new DoublePoint(size / 2, temp));
 
             pat.addPattern(tri1);
             pat.addPattern(tri2);

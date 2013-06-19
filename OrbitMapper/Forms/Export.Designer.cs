@@ -163,6 +163,10 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Choose Shape";
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.OverwritePrompt = false;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;

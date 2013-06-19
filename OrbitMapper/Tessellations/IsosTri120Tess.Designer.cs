@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "IsosTri120Tess";
-            this.Size = new System.Drawing.Size(1384, 880);
+            this.Size = new System.Drawing.Size(1082, 568);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -12,16 +12,16 @@ namespace OrbitMapper.Utilities
     public static class MathUtilities
     {
         /// <summary>
-        /// Gets the intersection between the lines (x1, y1), (x2, y2) and (x3, y3), (x4, y4)
+        /// Gets the intersection between the lines (x1, y1), (x2, y1) and (x3, y3), (x4, y4)
         /// </summary>
-        /// <param name="x1"></param>
-        /// <param name="y1"></param>
-        /// <param name="x2"></param>
-        /// <param name="y2"></param>
-        /// <param name="x3"></param>
-        /// <param name="y3"></param>
-        /// <param name="x4"></param>
-        /// <param name="y4"></param>
+        /// <param name="x1">Line 1</param>
+        /// <param name="y1">Line 1</param>
+        /// <param name="x2">Line 1</param>
+        /// <param name="y2">Line 1</param>
+        /// <param name="x3">Line 2</param>
+        /// <param name="y3">Line 2</param>
+        /// <param name="x4">Line 2</param>
+        /// <param name="y4">Line 2</param>
         /// <returns></returns>
         public static DoublePoint getIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
         {
@@ -60,19 +60,28 @@ namespace OrbitMapper.Utilities
             }
         }
 
-        public static bool isValidIntersect(List<DoublePoint> wallVertices, Intersect intersect, int iVertexCollided = 0)
+        /// <summary>
+        /// Determines whether it is valid intersect with the specified wall vertices.
+        /// </summary>
+        /// <param name="wallVertices">The wall vertices</param>
+        /// <param name="intersect">The intersect</param>
+        /// <param name="iWallCollided">The index of the wall collided</param>
+        /// <returns>
+        ///   <c>true</c> if it is valid intersect with the specified wall vertices. Otherwise, <c>false</c>.
+        /// </returns>
+        public static bool isValidIntersect(List<DoublePoint> wallVertices, Intersect intersect, int iWallCollided = 0)
         {
-            int tempMod = (int)MathUtilities.mod(iVertexCollided - 1, wallVertices.Count); // Use tempMod to find the correct vertex to determine a line for the current wall
+            int tempMod = (int)MathUtilities.mod(iWallCollided - 1, wallVertices.Count); // Use tempMod to find the correct vertex to determine a line for the current wall
 
             // Run through the current walls' vertices and determine the min and max for the x position and min and max for the y position
             DoublePoint minXPoint = new DoublePoint();
             DoublePoint maxXPoint = new DoublePoint();
             DoublePoint minYPoint = new DoublePoint();
             DoublePoint maxYPoint = new DoublePoint();
-            if (wallVertices[tempMod].x1 > wallVertices[iVertexCollided].x1)
+            if (wallVertices[tempMod].x1 > wallVertices[iWallCollided].x1)
             {
-                minXPoint.x1 = wallVertices[iVertexCollided].x1;
-                minXPoint.x2 = wallVertices[iVertexCollided].x2;
+                minXPoint.x1 = wallVertices[iWallCollided].x1;
+                minXPoint.x2 = wallVertices[iWallCollided].x2;
                 maxXPoint.x1 = wallVertices[tempMod].x1;
                 maxXPoint.x2 = wallVertices[tempMod].x2;
             }
@@ -80,14 +89,14 @@ namespace OrbitMapper.Utilities
             {
                 minXPoint.x1 = wallVertices[tempMod].x1;
                 minXPoint.x2 = wallVertices[tempMod].x2;
-                maxXPoint.x1 = wallVertices[iVertexCollided].x1;
-                maxXPoint.x2 = wallVertices[iVertexCollided].x2;
+                maxXPoint.x1 = wallVertices[iWallCollided].x1;
+                maxXPoint.x2 = wallVertices[iWallCollided].x2;
             }
 
-            if (wallVertices[tempMod].x2 > wallVertices[iVertexCollided].x2)
+            if (wallVertices[tempMod].x2 > wallVertices[iWallCollided].x2)
             {
-                minYPoint.x1 = wallVertices[iVertexCollided].x1;
-                minYPoint.x2 = wallVertices[iVertexCollided].x2;
+                minYPoint.x1 = wallVertices[iWallCollided].x1;
+                minYPoint.x2 = wallVertices[iWallCollided].x2;
                 maxYPoint.x1 = wallVertices[tempMod].x1;
                 maxYPoint.x2 = wallVertices[tempMod].x2;
             }
@@ -95,8 +104,8 @@ namespace OrbitMapper.Utilities
             {
                 minYPoint.x1 = wallVertices[tempMod].x1;
                 minYPoint.x2 = wallVertices[tempMod].x2;
-                maxYPoint.x1 = wallVertices[iVertexCollided].x1;
-                maxYPoint.x2 = wallVertices[iVertexCollided].x2;
+                maxYPoint.x1 = wallVertices[iWallCollided].x1;
+                maxYPoint.x2 = wallVertices[iWallCollided].x2;
             }
             // Use this data to determine whether the collision we found is actually a valid collision (inside the shape)
             return (intersect.x1 >= minXPoint.x1 && intersect.x1 <= maxXPoint.x1 &&
@@ -104,147 +113,134 @@ namespace OrbitMapper.Utilities
         }
 
         /// <summary>
-        /// TODO
+        /// Determines whether the specified lines intersect eachother
         /// </summary>
-        /// <param name="Ax"></param>
-        /// <param name="Ay"></param>
-        /// <param name="Bx"></param>
-        /// <param name="By"></param>
-        /// <param name="Cx"></param>
-        /// <param name="Cy"></param>
-        /// <param name="Dx"></param>
-        /// <param name="Dy"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x1">Line 1</param>
+        /// <param name="y1">Line 1</param>
+        /// <param name="x2">Line 1</param>
+        /// <param name="y2">Line 1</param>
+        /// <param name="x3">Line 2</param>
+        /// <param name="y3">Line 2</param>
+        /// <param name="x4">Line 2</param>
+        /// <param name="y4">Line 2</param>
         /// <returns></returns>
-        public static bool isValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy)
+        public static bool isValidIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
         {
-            double intersectX;
-            double intersectY;
+            double distAB, cos, sin, newX, ABpos;
 
-            double distAB, theCos, theSin, newX, ABpos;
-
-            //  Fail if either line segment is zero-length.
-            if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+            // Fail if either line segment is zero-length
+            if (x1 == x2 && y1 == y2 || x3 == x4 && y3 == y4)
                 return false;
 
-            //  Fail if the segments share an end-point.
-            if (Ax == Cx && Ay == Cy || Bx == Cx && By == Cy
-            || Ax == Dx && Ay == Dy || Bx == Dx && By == Dy)
+            // Fail if the segments share an end-point
+            if (x1 == x3 && y1 == y3 || x2 == x3 && y2 == y3
+            || x1 == x4 && y1 == y4 || x2 == x4 && y2 == y4)
                 return false;
 
-            //  (1) Translate the system so that point A is on the origin.
-            Bx -= Ax; By -= Ay;
-            Cx -= Ax; Cy -= Ay;
-            Dx -= Ax; Dy -= Ay;
+            // Translate the system so that point A is on the origin
+            x2 -= x1; y2 -= y1;
+            x3 -= x1; y3 -= y1;
+            x4 -= x1; y4 -= y1;
 
-            //  Discover the length of segment A-B.
-            distAB = Math.Sqrt(Bx * Bx + By * By);
+            distAB = Math.Sqrt(x2 * x2 + y2 * y2);
 
-            //  (2) Rotate the system so that point B is on the positive X axis.
-            theCos = Bx / distAB;
-            theSin = By / distAB;
-            newX = Cx * theCos + Cy * theSin;
-            Cy = Cy * theCos - Cx * theSin; Cx = newX;
-            newX = Dx * theCos + Dy * theSin;
-            Dy = Dy * theCos - Dx * theSin; Dx = newX;
+            // Rotate the system so that point B is on the positive X axis
+            cos = x2 / distAB;
+            sin = y2 / distAB;
+            newX = x3 * cos + y3 * sin;
+            y3 = y3 * cos - x3 * sin; x3 = newX;
+            newX = x4 * cos + y4 * sin;
+            y4 = y4 * cos - x4 * sin; x4 = newX;
 
-            //  Fail if segment C-D doesn't cross line A-B.
-            if (Cy < 0 && Dy < 0 || Cy >= 0 && Dy >= 0)
+            // Fail if segment C-D doesn't cross line A-B
+            if (y3 < 0 && y4 < 0 || y3 >= 0 && y4 >= 0)
                 return false;
 
-            //  (3) Discover the position of the intersection point along line A-B.
-            ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
+            // The position of the intersection on AB
+            ABpos = x4 + (x3 - x4) * y4 / (y4 - y3);
 
-            //  Fail if segment C-D crosses line A-B outside of segment A-B.
-            if (ABpos < 0 || ABpos > distAB) return false;
+            // Fail if segment C-D crosses line A-B outside of segment A-B
+            if (ABpos < 0 || ABpos > distAB)
+                return false;
 
-            //  (4) Apply the discovered position to line A-B in the original coordinate system.
-            intersectX = Ax + ABpos * theCos;
-            intersectY = Ay + ABpos * theSin;
-
-            //  Success.
             return true;
         }
 
         /// <summary>
-        /// TODO
+        /// Finds the intersection, places the coordinates in memory at param X and param Y, and returns true or false depending on whether an intersection could be found.
         /// </summary>
-        /// <param name="Ax"></param>
-        /// <param name="Ay"></param>
-        /// <param name="Bx"></param>
-        /// <param name="By"></param>
-        /// <param name="Cx"></param>
-        /// <param name="Cy"></param>
-        /// <param name="Dx"></param>
-        /// <param name="Dy"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x1">Line 1</param>
+        /// <param name="y1">Line 1</param>
+        /// <param name="x2">Line 1</param>
+        /// <param name="y2">Line 1</param>
+        /// <param name="x3">Line 2</param>
+        /// <param name="y3">Line 2</param>
+        /// <param name="x4">Line 2</param>
+        /// <param name="y4">Line 2</param>
+        /// <param name="x">X coordinate will be supplied to this parameter before we return. Will return 0 if this fails.</param>
+        /// <param name="y">Y coordinate will be supplied to this parameter before we return. Will return 0 if this fails.</param>
         /// <returns></returns>
-        public static bool isValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy, out double x, out double y)
+        public static bool isValidIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, out double x, out double y)
         {
-            double distAB, theCos, theSin, newX, ABpos;
+            double distAB, cos, sin, newX, ABpos;
             x = 0;
             y = 0;
 
-            //  Fail if either line segment is zero-length.
-            if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+            // Fail if either line segment is zero-length
+            if (x1 == x2 && y1 == y2 || x3 == x4 && y3 == y4)
                 return false;
 
-            //  Fail if the segments share an end-point.
-            if (Ax == Cx && Ay == Cy || Bx == Cx && By == Cy
-            || Ax == Dx && Ay == Dy || Bx == Dx && By == Dy)
+            // Fail if the segments share an end-point
+            if (x1 == x3 && y1 == y3 || x2 == x3 && y2 == y3
+            || x1 == x4 && y1 == y4 || x2 == x4 && y2 == y4)
                 return false;
 
-            //  (1) Translate the system so that point A is on the origin.
-            Bx -= Ax; By -= Ay;
-            Cx -= Ax; Cy -= Ay;
-            Dx -= Ax; Dy -= Ay;
+            // Translate the system so that point A is on the origin
+            x2 -= x1; y2 -= y1;
+            x3 -= x1; y3 -= y1;
+            x4 -= x1; y4 -= y1;
 
-            //  Discover the length of segment A-B.
-            distAB = Math.Sqrt(Bx * Bx + By * By);
+            distAB = Math.Sqrt(x2 * x2 + y2 * y2);
 
-            //  (2) Rotate the system so that point B is on the positive X axis.
-            theCos = Bx / distAB;
-            theSin = By / distAB;
-            newX = Cx * theCos + Cy * theSin;
-            Cy = Cy * theCos - Cx * theSin; Cx = newX;
-            newX = Dx * theCos + Dy * theSin;
-            Dy = Dy * theCos - Dx * theSin; Dx = newX;
+            // Rotate the system so that point B is on the positive X axis
+            cos = x2 / distAB;
+            sin = y2 / distAB;
+            newX = x3 * cos + y3 * sin;
+            y3 = y3 * cos - x3 * sin; x3 = newX;
+            newX = x4 * cos + y4 * sin;
+            y4 = y4 * cos - x4 * sin; x4 = newX;
 
-            //  Fail if segment C-D doesn't cross line A-B.
-            if (Cy < 0 && Dy < 0 || Cy >= 0 && Dy >= 0)
+            // Fail if segment C-D doesn't cross line A-B.
+            if (y3 < 0 && y4 < 0 || y3 >= 0 && y4 >= 0)
                 return false;
 
-            //  (3) Discover the position of the intersection point along line A-B.
-            ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
+            // The position of the intersection point along line A-B
+            ABpos = x4 + (x3 - x4) * y4 / (y4 - y3);
 
-            //  Fail if segment C-D crosses line A-B outside of segment A-B.
-            if (ABpos < 0 || ABpos > distAB) return false;
+            // Fail if segment C-D crosses line A-B outside of segment A-B
+            if (ABpos < 0 || ABpos > distAB) 
+                return false;
 
-            //  (4) Apply the discovered position to line A-B in the original coordinate system.
-            x = Ax + ABpos * theCos;
-            y = Ay + ABpos * theSin;
+            // Apply the position to line A-B in the original coordinate system
+            x = x1 + ABpos * cos;
+            y = y1 + ABpos * sin;
 
-            //  Success.
             return true;
         }
 
         /// <summary>
-        /// TODO
+        /// Returns an intersection between the first two point-lines and the second two point-lines.
         /// </summary>
-        /// <param name="Ax"></param>
-        /// <param name="Ay"></param>
-        /// <param name="Bx"></param>
-        /// <param name="By"></param>
-        /// <param name="Cx"></param>
-        /// <param name="Cy"></param>
-        /// <param name="Dx"></param>
-        /// <param name="Dy"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x1">Line 1</param>
+        /// <param name="y1">Line 1</param>
+        /// <param name="x2">Line 1</param>
+        /// <param name="y2">Line 1</param>
+        /// <param name="x3">Line 2</param>
+        /// <param name="y3">Line 2</param>
+        /// <param name="x4">Line 2</param>
+        /// <param name="y4">Line 2</param>
         /// <returns></returns>
-        public static DoublePoint getValidIntersect(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Dx, double Dy)
+        public static DoublePoint getValidIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
         {
 
             DoublePoint intersect = new DoublePoint();
@@ -252,43 +248,43 @@ namespace OrbitMapper.Utilities
             double  distAB, theCos, theSin, newX, ABpos ;
 
             //  Fail if either line segment is zero-length.
-            if (Ax==Bx && Ay==By || Cx==Dx && Cy==Dy) 
+            if (x1==x2 && y1==y2 || x3==x4 && y3==y4) 
                 return null;
 
             //  Fail if the segments share an end-point.
-            if (Ax==Cx && Ay==Cy || Bx==Cx && By==Cy
-            ||  Ax==Dx && Ay==Dy || Bx==Dx && By==Dy)
+            if (x1==x3 && y1==y3 || x2==x3 && y2==y3
+            ||  x1==x4 && y1==y4 || x2==x4 && y2==y4)
                 return null;
 
             //  (1) Translate the system so that point A is on the origin.
-            Bx-=Ax; By-=Ay;
-            Cx-=Ax; Cy-=Ay;
-            Dx-=Ax; Dy-=Ay;
+            x2-=x1; y2-=y1;
+            x3-=x1; y3-=y1;
+            x4-=x1; y4-=y1;
 
             //  Discover the length of segment A-B.
-            distAB=Math.Sqrt(Bx*Bx+By*By);
+            distAB=Math.Sqrt(x2*x2+y2*y2);
 
             //  (2) Rotate the system so that point B is on the positive X axis.
-            theCos=Bx/distAB;
-            theSin=By/distAB;
-            newX=Cx*theCos+Cy*theSin;
-            Cy  =Cy*theCos-Cx*theSin; Cx=newX;
-            newX=Dx*theCos+Dy*theSin;
-            Dy  =Dy*theCos-Dx*theSin; Dx=newX;
+            theCos=x2/distAB;
+            theSin=y2/distAB;
+            newX=x3*theCos+y3*theSin;
+            y3  =y3*theCos-x3*theSin; x3=newX;
+            newX=x4*theCos+y4*theSin;
+            y4  =y4*theCos-x4*theSin; x4=newX;
 
             //  Fail if segment C-D doesn't cross line A-B.
-            if (Cy<0 && Dy<0 || Cy>=0 && Dy>=0) 
+            if (y3<0 && y4<0 || y3>=0 && y4>=0) 
                 return null;
 
             //  (3) Discover the position of the intersection point along line A-B.
-            ABpos=Dx+(Cx-Dx)*Dy/(Dy-Cy);
+            ABpos=x4+(x3-x4)*y4/(y4-y3);
 
             //  Fail if segment C-D crosses line A-B outside of segment A-B.
             if (ABpos<0 || ABpos>distAB) return null;
 
             //  (4) Apply the discovered position to line A-B in the original coordinate system.
-            intersect.x1 = Ax + ABpos * theCos;
-            intersect.x2 = Ay + ABpos * theSin;
+            intersect.x1 = x1 + ABpos * theCos;
+            intersect.x2 = y1 + ABpos * theSin;
 
             //  Success.
             return intersect; 

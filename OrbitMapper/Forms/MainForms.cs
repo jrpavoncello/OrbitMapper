@@ -16,6 +16,7 @@ using System.Drawing.Drawing2D;
 using OrbitMapper;
 using OrbitMapper.Tessellations;
 using OrbitMapper.Shapes;
+using System.Reflection;
 
 namespace OrbitMapper.Forms
 {
@@ -25,8 +26,8 @@ namespace OrbitMapper.Forms
     public partial class MainForms : Form
     {
         
-        // Used to determine whether a new version is available and used in the About.cs and Version.cs form.
-        private const string OMVersion = "1.1.5";
+        // Used to determine whether a new version is available and used in the About.cs and Version.cs form, this is set within Properties/AssemblyInfo.cs
+        private string OMVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         // newShape is used as a member field to hold the state of the NewShapeForm when a user chooses a new shape to create.
         // shapes holds all of the instances of shapes that users creates, and tessellations holds all of the instances of tessellations.
@@ -203,7 +204,7 @@ namespace OrbitMapper.Forms
         /// This is the handler for a tabRemove event.
         /// </summary>
         /// <param name="source">The name of the tab that was selected via the right click after Remove was selected from the menu.</param>
-        /// <param name="e">The e.</param>
+        /// <param name="e"></param>
         private void removeThisTab(object source, Events e)
         {
             // If the source was from the default tab, ignore.
@@ -248,8 +249,8 @@ namespace OrbitMapper.Forms
         /// <summary>
         /// Used to handle the FinishedDrawTessellation event when a Shape collision has been finished using the Tessellation.
         /// </summary>
-        /// <param name="source">The source.</param>
-        /// <param name="e">The e.</param>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void updateBounces(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;
@@ -261,8 +262,8 @@ namespace OrbitMapper.Forms
         /// Used to handle the Tessellate event when a Shape collision has been simulated and the resulting data is ready to be inserted into the
         /// textboxes and used to set the scroll bars.
         /// </summary>
-        /// <param name="source">The source.</param>
-        /// <param name="e">The e.</param>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void updateFields(object source, Events e)
         {
             Shape tempShape = (Shape)this.tabControl1.SelectedTab;

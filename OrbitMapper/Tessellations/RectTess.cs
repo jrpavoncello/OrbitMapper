@@ -22,6 +22,15 @@ namespace OrbitMapper.Tessellations
             InitializeComponent();
 
             double patBase = 30;
+            // ratioOver1 is used to scale down the rectangle
+            double ratioOver1 = ratio - 1;
+            if (ratioOver1 > 0)
+            {
+                // If the ratioOver1 is over 2, the scale down will be much to small, so we will make 2 the max.
+                if (ratioOver1 > 2)
+                    ratioOver1 = 2;
+                patBase /= ratioOver1 + 1;
+            }
             double heightRatio = ratio;
             double patHeight = patBase * heightRatio;
             double patWidth = patBase;

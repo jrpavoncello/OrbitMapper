@@ -71,6 +71,7 @@ namespace OrbitMapper.Forms
             }
             // Draw the preview and resize if necessary (in the paint method)
             pictureBox1.Invalidate();
+            this.Visible = false;
         }
 
         /// <summary>
@@ -88,7 +89,6 @@ namespace OrbitMapper.Forms
 
             // Get the save location
             this.saveFileDialog1.ShowDialog();
-            
             // If the file name is not an empty string open it for saving.
             if (saveFileDialog1.FileName != "")
             {
@@ -111,7 +111,6 @@ namespace OrbitMapper.Forms
                         {
                             using (var bmp = ImageUtilities.createTessellation(selectedTess))
                             {
-                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
                                 Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
                                 scaledBMP.Save(saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"));
                             }
@@ -131,7 +130,6 @@ namespace OrbitMapper.Forms
                         {
                             using (var bmp = ImageUtilities.createTessellation(selectedTess))
                             {
-                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
                                 Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
                                 ImageUtilities.SaveJpeg(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
                             }
@@ -151,7 +149,6 @@ namespace OrbitMapper.Forms
                         {
                             using (var bmp = ImageUtilities.createTessellation(selectedTess))
                             {
-                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
                                 Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(bmp.Width, bmp.Height));
                                 ImageUtilities.SavePng(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
                             }
@@ -171,7 +168,6 @@ namespace OrbitMapper.Forms
                         {
                             using (var bmp = new Bitmap(selectedShape.Width, selectedShape.Height))
                             {
-                                selectedShape.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
                                 Bitmap scaledBMP = ImageUtilities.ResizeImage(bmp, new Size(this.lastWidths[this.comboBox1.SelectedIndex], this.lastHeights[this.comboBox1.SelectedIndex]));
                                 ImageUtilities.SaveTiff(scaledBMP, saveFileDialog1.FileName.Insert(saveFileDialog1.FileName.Length - 4, "_Tess"), long.MaxValue);
                             }

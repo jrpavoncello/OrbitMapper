@@ -82,37 +82,39 @@ namespace OrbitMapper.Utilities
             int tessWidth = Math.Abs(tess.getBaseClick().X - tess.getEndClick().X);
             int tessHeight = Math.Abs(tess.getBaseClick().Y - tess.getEndClick().Y);
 
-            Bitmap myBitmap = new Bitmap(tessWidth + tess.getPattern().iWidth, tessHeight + tess.getPattern().iHeight);
-            Graphics g = Graphics.FromImage(myBitmap);
-            g.Flush(FlushIntention.Flush);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Color.White); 
-
             // Get the patterns to tile and draw
             Point[][] patterns = tess.getPattern().getPatterns();
             // Determine the number of iterations in the x direction and the number of iterations in the y direction
             // that need to be used in order to cover the entire tessellation area.
             // 2 was added so that I can draw it overlapping the User Controls draw area so that there is no whitespace near edges.
 
-            int iterX = tess.Width / tess.getPattern().iWidth + 1;
-            int iterY = tess.Height / tess.getPattern().iHeight + 1;
-
+            int iterX = (tess.getBaseClick().Y - tess.getEndClick().Y) / tess.getPattern().iWidth + 6;
+            int iterY = (tess.getBaseClick().Y - tess.getEndClick().Y) / tess.getPattern().iHeight + 6;
+            tess.getUnfoldingPath().Clear();
+            // What divPatWidth and divPatHeight are used for is to determine the area of iterations that this pattern should run through while drawing in order
+            // for the pattern to not end while using your mouse to scroll the map beyond the bounds of the picturebox.
+            // This method to create a dynamic maps such as this is a necessary so that you are not trying to draw things that are not even visible to the container.
+            // Although, there is a bit of an overlap purposely on the left, right and top because many patterns would simply end while scrolling because they are so large jagged.
+            int divPatWidth = (-tess.getOffset().X) / tess.getPattern().iWidth;
+            int divPatHeight = (-tess.getOffset().Y) / tess.getPattern().iHeight;
+            if (divPatWidth > 0)
+                divPatWidth = 0;
+            if (divPatHeight > 0)
+                divPatHeight = 0;
             // Run through the iterations in both directions (it draws the Y direction for each X first).
-            for (int i = 0; i < iterX; i++)
+            for (int i = divPatWidth; i < iterX + divPatWidth; i++)
             {
                 int iMultGetPatWidth = i * tess.getPattern().iWidth;
-                for (int j = 0; j < iterY; j++)
+                for (int j = divPatHeight; j < iterY + divPatHeight; j++)
                 {
                     int jMultGetPatHeight = j * tess.getPattern().iHeight;
                     for (int k = 0; k < patterns.Count(); k++)
                     {
                         // Draw each pattern
                         Point[] poly = new Point[patterns.ElementAt<Point[]>(k).Count()];
-                        int lastElement = patterns.ElementAt<Point[]>(k).Count() - 1;
-                        bool shouldDraw = false;
+                        bool isShapeCollided = false;
                         for (int l = 0; l < patterns.ElementAt<Point[]>(k).Count(); l++)
                         {
-                            int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
                             Point temp = new Point(iMultGetPatWidth + patterns[k][l].X, tess.getPictureBox().Height - 5 - jMultGetPatHeight - patterns[k][l].Y);
                             // This is applied every other row because some patterns do not populate the map perfectly straight up.
                             // For example, the equilateral pattern must be applied at a slight horizontal offset otherwise the pattern would not match up as we draw
@@ -121,34 +123,76 @@ namespace OrbitMapper.Utilities
                             // This is applied at every iteration, we will subtract 3 times the width to not mess up the iOffset and give it some overlap to the left
                             temp.X -= tess.getPattern().iWidth * 3 - tess.getOffset().X;
                             temp.Y -= tess.getOffset().Y;
-                            DoublePoint intersect = new DoublePoint();
                             poly[l] = temp;
-                            if (MathUtilities.isValidIntersect(poly[tempMod].X, poly[tempMod].Y, temp.X, temp.Y, tess.getBaseClick().X, tess.getBaseClick().Y, tess.getEndClick().X, tess.getEndClick().Y, out intersect.x1, out intersect.x2))
+
+                            // Algorithm for highlighting the shapes that have a collision
+                            int tempMod = (int)MathUtilities.mod(l - 1, patterns.ElementAt<Point[]>(k).Count()); // Use tempMod to find the correct vertex to determine a line for the current wall
+                            if (!isShapeCollided) // Check if this polygon has been determined as part of the unfolding
                             {
-                                shouldDraw = true;
+                                if (l > 0)
+                                {
+                                    // Check the collisions between the vertices of the wall we're examining currently and the vertices of the base and end clicks
+                                    if (MathUtilities.isValidIntersect((double)poly[tempMod].X, (double)poly[tempMod].Y, (double)poly[l].X, (double)poly[l].Y, (double)tess.getBaseClick().X + tess.getOffset().X, (double)tess.getBaseClick().Y - tess.getOffset().Y, (double)tess.getEndClick().X + tess.getOffset().X, (double)tess.getEndClick().Y - tess.getOffset().Y))
+                                    {
+                                        isShapeCollided = true;
+                                    }
+                                }
+                                // Because we didn't check when l is 0, we must come back around after it has been set (on the last iteration) to check that wall we skipped
+                                if (l == patterns.ElementAt<Point[]>(k).Count() - 1)
+                                {
+                                    if (MathUtilities.isValidIntersect((double)poly[l].X, (double)poly[l].Y, (double)poly[0].X, (double)poly[0].Y, (double)tess.getBaseClick().X + tess.getOffset().X, (double)tess.getBaseClick().Y - tess.getOffset().Y, (double)tess.getEndClick().X + tess.getOffset().X, (double)tess.getEndClick().Y - tess.getOffset().Y))
+                                    {
+                                        isShapeCollided = true;
+                                    }
+                                }
                             }
                         }
-                        if (shouldDraw)
-                        {
-                            for(int r = 0; r < poly.Length; r++)
-                            {
-                                poly[r].X -= tess.getBaseClick().X;
-                                poly[r].Y -= tess.getBaseClick().Y;
-                            }
-                            g.DrawPolygon(System.Drawing.Pens.Black, poly);
-                        }
+                        if(isShapeCollided)
+                            tess.getUnfoldingPath().Add(poly);
                     }
                 }
             }
-            g.Flush(FlushIntention.Flush);
-            g.Save();
-            return myBitmap;
+
+            Bitmap myBitmap = new Bitmap(tessWidth + tess.getPattern().iWidth*2, tessHeight + tess.getPattern().iHeight*2);
+            using (Graphics g = Graphics.FromImage(myBitmap))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.Clear(Color.White);
+
+                for (int i = 0; i < tess.getUnfoldingPath().Count; i++)
+                {
+                    Point[] poly = tess.getUnfoldingPath()[i];
+                    for (int j = 0; j < poly.Length; j++)
+                    {
+                        poly[j].X -= tess.getBaseClick().X > tess.getEndClick().X ? tess.getEndClick().X : tess.getBaseClick().X;
+                        poly[j].Y -= tess.getBaseClick().Y > tess.getEndClick().Y ? tess.getEndClick().Y : tess.getBaseClick().Y;
+                        poly[j].X += tess.getPattern().iWidth - tess.getOffset().X;
+                        poly[j].Y += tess.getPattern().iHeight + tess.getOffset().Y;
+                    }
+                    g.DrawPolygon(System.Drawing.Pens.Black, poly);
+                }
+                Point newBaseClick = new Point();
+                Point newEndClick = new Point();
+                int xOffset = tess.getBaseClick().X > tess.getEndClick().X ? tess.getEndClick().X : tess.getBaseClick().X;
+                int yOffset = tess.getBaseClick().Y > tess.getEndClick().Y ? tess.getEndClick().Y : tess.getBaseClick().Y;
+                xOffset -= tess.getPattern().iWidth;
+                yOffset -= tess.getPattern().iHeight;
+                newBaseClick.X = tess.getBaseClick().X - xOffset;
+                newBaseClick.Y = tess.getBaseClick().Y - yOffset;
+                newEndClick.X = tess.getEndClick().X - xOffset;
+                newEndClick.Y = tess.getEndClick().Y - yOffset;
+                System.Drawing.Pen myPen = new Pen(System.Drawing.Brushes.DarkBlue, 2);
+                g.DrawLine(System.Drawing.Pens.Blue, newBaseClick, newEndClick);
+
+                g.Save();
+                return myBitmap;
+            }
         }
 
         /// <summary>
         /// Creates the bitmap preview.
         /// </summary>
-        /// <param name="shape">The shape to draw to a BMP.</param>
+        /// <param name="src">The source bitmap to resize for a preview.</param>
         /// <returns></returns>
         public static Bitmap createBitmapPreview(Control src)
         {
