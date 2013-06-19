@@ -455,7 +455,7 @@ namespace OrbitMapper.Forms
             Tessellation tessTemp = findTessellation(tempShape.Name);
             for (int i = 0; i < tessellations.Count; i++)
             {
-                if (tessellations.ElementAt<Tessellation>(i).Visible)
+                if (!splitContainer1.Panel2Collapsed)
                 {
                     // If there are no tessellations, then there is nothing to collapse.
                     if (i == 0)
