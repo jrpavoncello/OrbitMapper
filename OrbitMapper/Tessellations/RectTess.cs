@@ -26,9 +26,9 @@ namespace OrbitMapper.Tessellations
             double ratioOver1 = ratio - 1;
             if (ratioOver1 > 0)
             {
-                // If the ratioOver1 is over 2, the scale down will be much to small, so we will make 2 the max.
-                if (ratioOver1 > 2)
-                    ratioOver1 = 2;
+                // If the ratioOver1 is over 1, the scale down will be much to small, so we will make 1 the max.
+                if (ratioOver1 > 1d)
+                    ratioOver1 = 1d;
                 patBase /= ratioOver1 + 1;
             }
             double heightRatio = ratio;

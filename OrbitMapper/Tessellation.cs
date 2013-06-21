@@ -597,9 +597,6 @@ namespace OrbitMapper.Tessellations
                     endClick.X += trackBar1.Value - lastScrollValue;
                     lastScrollValue = trackBar1.Value;
                 }
-                //Return the offsets back to the origin and redraw
-                offset.X = 0;
-                offset.Y = 0;
                 pictureBox1.Invalidate();
             }
         }
