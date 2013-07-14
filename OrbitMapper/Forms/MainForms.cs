@@ -75,7 +75,7 @@ namespace OrbitMapper.Forms
         /// Returns a Control array of length 2, the first element being the instance of the Shape
         /// and the second being the instance of the Tessellation.
         /// </returns>
-        private Control[] instantiateShapes(int shape, double ratio = 0d)
+        private void instantiateShapes(out Shape instShape, out Tessellation instTess, int shape, double ratio = 0d)
         {
             // Checks for the default tabPage that is added as a placeholder, and removes it if a shape is being created.
             if (tabControl1.TabPages.Contains(tabPage1))
@@ -147,15 +147,13 @@ namespace OrbitMapper.Forms
             shapes.Add(tempShape);
             tessellations.Add(tempTess);
             tabControl1.TabPages.Add(tempShape);
-            Control[] controls = new Control[2];
-            controls[0] = tempShape;
-            controls[1] = tempTess;
-
-            return controls;
+            instShape = tempShape;
+            instTess = tempTess;
         }
 
         /// <summary>
         /// Used to handle the Click event raised by newToolStripMenuItem when a user clicks the New Shape item in the main menu.
+        /// We don't do anything with the returned references because they have already been added to the form.
         /// </summary>
         /// <param name="sender">The menu item that was selected.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -168,7 +166,9 @@ namespace OrbitMapper.Forms
             // If the dialog returns a '-1' it means that no shape was selected and the user hit Create.
             if (newShape.DialogResult != DialogResult.Cancel && newShape.getShape() != -1)
             {
-                Control[] controls = instantiateShapes(newShape.getShape(), newShape.getRectSize());
+                Shape shape = null;
+                Tessellation tess = null;
+                instantiateShapes(out shape, out tess, newShape.getShape(), newShape.getRectSize());
                 EventSource.output("New tab number: " + shapes.Count + " was added.");
             }
         }
@@ -764,7 +764,6 @@ namespace OrbitMapper.Forms
                         XmlNode attr = null;
                         if((attr = shapes[i].Attributes.GetNamedItem("type")) != null){
 
-                            Control[] controls = null;
                             string type = attr.Value;
                             if (tabControl1.TabPages.Contains(tabPage1))
                             {
@@ -773,40 +772,38 @@ namespace OrbitMapper.Forms
                             Shape shape = null;
                             Tessellation tess = null;
                             if(type == "Equilateral"){
-                                controls = instantiateShapes(0);
+                                instantiateShapes(out shape, out tess, 0);
                             }
                             else if (type == "IsosTri90")
                             {
-                                controls = instantiateShapes(1);
+                                instantiateShapes(out shape, out tess, 1);
                             }
                             else if (type == "IsosTri120")
                             {
-                                controls = instantiateShapes(2);
+                                instantiateShapes(out shape, out tess, 2);
                             }
                             else if (type == "Tri3060")
                             {
-                                controls = instantiateShapes(3);
+                                instantiateShapes(out shape, out tess, 3);
                             }
                             else if (type == "Hexagon")
                             {
-                                controls = instantiateShapes(4);
+                                instantiateShapes(out shape, out tess, 4);
                             }
                             else if (type == "Rhombus")
                             {
-                                controls = instantiateShapes(5);
+                                instantiateShapes(out shape, out tess, 5);
                             }
                             else if (type == "Kite")
                             {
-                                controls = instantiateShapes(6);
+                                instantiateShapes(out shape, out tess, 6);
                             }
                             else if (type == "Rectangle")
                             {
                                 // Remember that Rectangle shapes need the extra property for the ratio saved so that they can be instantiated again.
                                 XmlElement ratio = shapes[i]["ratio"];
-                                controls = instantiateShapes(7, double.Parse(ratio.InnerText));
+                                instantiateShapes(out shape, out tess, 7, double.Parse(ratio.InnerText));
                             }
-                            shape = (Shape)controls[0];
-                            tess = (Tessellation)controls[1];
                             double startingPoint = double.Parse(point.InnerText);
                             double startingAngle = double.Parse(angle.InnerText);
                             int startingBounces = int.Parse(bounces.InnerText);
